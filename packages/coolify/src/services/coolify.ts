@@ -26,6 +26,35 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The token may not perform this action (Coolify's policy check), e.g. creating a project with a project-scoped token. */
+export class ActionNotAuthorized
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ActionNotAuthorized>()("ActionNotAuthorized", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "not authorized to perform this action" } }],
+  )
+{
+  declare readonly body?:
+    | Error403Body
+    | Error403Body3
+    | Error403Body5
+    | Error403Body2
+    | Error403Body4
+    | string;
+}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -53,7 +82,7 @@ export class Conflict
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(10, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(1106, __c138, 2)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           S.String,
@@ -65,6 +94,40 @@ export class Conflict
   )
 {
   declare readonly body?: Error409Body | Error409Body2 | Error409Body3 | string;
+}
+
+/** Only a team admin may place applications, databases or services on the server that runs Coolify itself. */
+export class CoolifyHostRequiresAdmin
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CoolifyHostRequiresAdmin>()("CoolifyHostRequiresAdmin", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        message: { includes: "Only an admin can place resources on the server that runs Coolify" },
+      },
+    ],
+  )
+{
+  declare readonly body?:
+    | Error403Body
+    | Error403Body3
+    | Error403Body5
+    | Error403Body2
+    | Error403Body4
+    | string;
 }
 
 /** The environment still has resources and cannot be deleted. */
@@ -158,6 +221,35 @@ export class ProjectHasResources
   declare readonly body?: Error400Body | string;
 }
 
+/** The API token is limited to selected projects, environments or resources and cannot use this team-wide endpoint. */
+export class TokenScopeForbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TokenScopeForbidden>()("TokenScopeForbidden", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withAuthError),
+    [{ status: 403, message: { includes: "limited to selected projects" } }],
+  )
+{
+  declare readonly body?:
+    | Error403Body
+    | Error403Body3
+    | Error403Body5
+    | Error403Body2
+    | Error403Body4
+    | string;
+}
+
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
@@ -165,7 +257,7 @@ export class UnprocessableEntity
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(2449, __c306, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(17, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           S.String,
         ]),
@@ -5801,10 +5893,15 @@ export interface ValidateServerByUuidResponse {
 }
 export interface VersionRequest {}
 export interface VersionResponse {}
-export interface Error400Body {
+export interface Error403Body {
   message?: string | undefined;
 }
-export type Error400Body2 = Error400Body;
+export type Error403Body3 = Error403Body;
+export type Error403Body5 = Error403Body;
+export type Error403Body2 = Error403Body;
+export type Error403Body4 = Error403Body;
+export type Error400Body = Error403Body;
+export type Error400Body2 = Error403Body;
 export type Error409BodyConflictsItemResourceType = "application" | "service" | "instance";
 export interface Error409BodyConflictsItem {
   domain?: string | undefined;
@@ -5819,27 +5916,25 @@ export interface Error409Body {
   warning?: string | undefined;
   conflicts?: Error409BodyConflictsList | undefined;
 }
-export type Error409Body2 = Error400Body;
-export type Error409Body3 = Error400Body;
-export type Error403Body = Error400Body;
-export type Error403Body3 = Error400Body;
-export type Error403Body5 = Error400Body;
-export type Error403Body2 = Error400Body;
-export type Error403Body4 = Error400Body;
-export type Error404Body = Error400Body;
-export type Error404Body2 = Error400Body;
-export type Error404Body3 = Error400Body;
+export type Error409Body2 = Error403Body;
+export type Error409Body3 = Error403Body;
+export type Error404Body = Error403Body;
+export type Error404Body2 = Error403Body;
+export type Error404Body3 = Error403Body;
 export type Error422BodyErrorsValueList = Array<string>;
 export type Error422BodyErrorsMap = { [key: string]: Error422BodyErrorsValueList | undefined };
 export interface Error422Body {
   message?: string | undefined;
   errors?: Error422BodyErrorsMap | undefined;
 }
-export type Error422Body2 = Error400Body;
+export type Error422Body2 = Error403Body;
 export type AddApplicationDestinationError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Add Destination Attach an additional standalone Docker destination to an application. */
 export const addApplicationDestination: API.OperationMethod<
@@ -5848,16 +5943,31 @@ export const addApplicationDestination: API.OperationMethod<
   AddApplicationDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2536, __c317, 0) as any as S.Schema<AddApplicationDestinationRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<AddApplicationDestinationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(104, __c13, 0) as any as S.Schema<AddApplicationDestinationRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<AddApplicationDestinationResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddApplicationDestination",
 }));
 
-export type CancelDeploymentByUuidError = BadRequest | Forbidden | NotFound | CoolifyOpError;
+export type CancelDeploymentByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Cancel Cancel a deployment by UUID. */
 export const cancelDeploymentByUuid: API.OperationMethod<
   CancelDeploymentByUuidRequest,
@@ -5865,9 +5975,17 @@ export const cancelDeploymentByUuid: API.OperationMethod<
   CancelDeploymentByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2632, __c329, 0) as any as S.Schema<CancelDeploymentByUuidRequest>,
-  output: __S(2633, __c329, 1) as any as S.Schema<CancelDeploymentByUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(216, __c27, 0) as any as S.Schema<CancelDeploymentByUuidRequest>,
+  output: __S(217, __c27, 1) as any as S.Schema<CancelDeploymentByUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5878,6 +5996,9 @@ export type CheckServerRegistryLoginError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Check a registry login on a server Check that the saved login of the server for a registry still works. Runs docker login with the saved credentials on the server. */
 export const checkServerRegistryLogin: API.OperationMethod<
@@ -5886,9 +6007,17 @@ export const checkServerRegistryLogin: API.OperationMethod<
   CheckServerRegistryLoginError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CheckServerRegistryLoginRequest>,
+  input: __S(336, __c42, 0) as any as S.Schema<CheckServerRegistryLoginRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<CheckServerRegistryLoginResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5899,6 +6028,9 @@ export type CloneApplicationByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Clone Clone an application to a destination owned by the authenticated team. */
 export const cloneApplicationByUuid: API.OperationMethod<
@@ -5907,16 +6039,31 @@ export const cloneApplicationByUuid: API.OperationMethod<
   CloneApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CloneApplicationByUuidRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CloneApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(432, __c54, 0) as any as S.Schema<CloneApplicationByUuidRequest>,
+  output: __S(440, __c55, 0) as any as S.Schema<CloneApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneApplicationByUuid",
 }));
 
-export type CloneDatabaseByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CloneDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Clone Clone a database to a destination owned by the authenticated team. */
 export const cloneDatabaseByUuid: API.OperationMethod<
   CloneDatabaseByUuidRequest,
@@ -5924,16 +6071,31 @@ export const cloneDatabaseByUuid: API.OperationMethod<
   CloneDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<CloneDatabaseByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CloneDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(576, __c72, 0) as any as S.Schema<CloneDatabaseByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CloneDatabaseByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneDatabaseByUuid",
 }));
 
-export type CloneServiceByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CloneServiceByUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Clone Clone a service to a destination owned by the authenticated team. */
 export const cloneServiceByUuid: API.OperationMethod<
   CloneServiceByUuidRequest,
@@ -5941,9 +6103,17 @@ export const cloneServiceByUuid: API.OperationMethod<
   CloneServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<CloneServiceByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CloneServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(688, __c86, 0) as any as S.Schema<CloneServiceByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CloneServiceByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5953,6 +6123,9 @@ export const cloneServiceByUuid: API.OperationMethod<
 export type ConfigureApplicationSecretManagerError =
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Configure Application Secret Manager Configure the secret manager source used by an application. */
 export const configureApplicationSecretManager: API.OperationMethod<
@@ -5961,16 +6134,29 @@ export const configureApplicationSecretManager: API.OperationMethod<
   ConfigureApplicationSecretManagerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<ConfigureApplicationSecretManagerRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ConfigureApplicationSecretManagerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(784, __c98, 0) as any as S.Schema<ConfigureApplicationSecretManagerRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ConfigureApplicationSecretManagerResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureApplicationSecretManager",
 }));
 
-export type CreateCloudInitScriptError = Forbidden | UnprocessableEntity | CoolifyOpError;
+export type CreateCloudInitScriptError =
+  | Forbidden
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Cloud-init Script Create a new cloud-init script for the authenticated team. */
 export const createCloudInitScript: API.OperationMethod<
   CreateCloudInitScriptRequest,
@@ -5978,16 +6164,29 @@ export const createCloudInitScript: API.OperationMethod<
   CreateCloudInitScriptError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<CreateCloudInitScriptRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateCloudInitScriptResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(888, __c111, 0) as any as S.Schema<CreateCloudInitScriptRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateCloudInitScriptResponse>,
+  errors: [
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCloudInitScript",
 }));
 
-export type CreateCloudTokenError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateCloudTokenError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Cloud Provider Token Create a new cloud provider token. The token will be validated before being stored. */
 export const createCloudToken: API.OperationMethod<
   CreateCloudTokenRequest,
@@ -5995,9 +6194,16 @@ export const createCloudToken: API.OperationMethod<
   CreateCloudTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<CreateCloudTokenRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateCloudTokenResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(992, __c124, 0) as any as S.Schema<CreateCloudTokenRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateCloudTokenResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6008,6 +6214,9 @@ export type CreateDatabaseBackupError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Backup Create a new scheduled backup configuration for a database */
 export const createDatabaseBackup: API.OperationMethod<
@@ -6016,16 +6225,30 @@ export const createDatabaseBackup: API.OperationMethod<
   CreateDatabaseBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<CreateDatabaseBackupRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CreateDatabaseBackupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1112, __c139, 0) as any as S.Schema<CreateDatabaseBackupRequest>,
+  output: __S(440, __c55, 0) as any as S.Schema<CreateDatabaseBackupResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseBackup",
 }));
 
-export type CreateDatabaseClickhouseError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseClickhouseError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Clickhouse) Create a new Clickhouse database. */
 export const createDatabaseClickhouse: API.OperationMethod<
   CreateDatabaseClickhouseRequest,
@@ -6033,16 +6256,29 @@ export const createDatabaseClickhouse: API.OperationMethod<
   CreateDatabaseClickhouseError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<CreateDatabaseClickhouseRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseClickhouseResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1224, __c153, 0) as any as S.Schema<CreateDatabaseClickhouseRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseClickhouseResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseClickhouse",
 }));
 
-export type CreateDatabaseDragonflyError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseDragonflyError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (DragonFly) Create a new DragonFly database. */
 export const createDatabaseDragonfly: API.OperationMethod<
   CreateDatabaseDragonflyRequest,
@@ -6050,16 +6286,29 @@ export const createDatabaseDragonfly: API.OperationMethod<
   CreateDatabaseDragonflyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<CreateDatabaseDragonflyRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseDragonflyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1320, __c165, 0) as any as S.Schema<CreateDatabaseDragonflyRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseDragonflyResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseDragonfly",
 }));
 
-export type CreateDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseImportError =
+  | Conflict
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Import database backup */
 export const createDatabaseImport: API.OperationMethod<
   CreateDatabaseImportRequest,
@@ -6067,16 +6316,29 @@ export const createDatabaseImport: API.OperationMethod<
   CreateDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<CreateDatabaseImportRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateDatabaseImportResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1416, __c177, 0) as any as S.Schema<CreateDatabaseImportRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateDatabaseImportResponse>,
+  errors: [
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseImport",
 }));
 
-export type CreateDatabaseKeydbError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseKeydbError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (KeyDB) Create a new KeyDB database. */
 export const createDatabaseKeydb: API.OperationMethod<
   CreateDatabaseKeydbRequest,
@@ -6084,16 +6346,29 @@ export const createDatabaseKeydb: API.OperationMethod<
   CreateDatabaseKeydbError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<CreateDatabaseKeydbRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseKeydbResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1512, __c189, 0) as any as S.Schema<CreateDatabaseKeydbRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseKeydbResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseKeydb",
 }));
 
-export type CreateDatabaseMariadbError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseMariadbError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (MariaDB) Create a new MariaDB database. */
 export const createDatabaseMariadb: API.OperationMethod<
   CreateDatabaseMariadbRequest,
@@ -6101,16 +6376,29 @@ export const createDatabaseMariadb: API.OperationMethod<
   CreateDatabaseMariadbError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c164, 0) as any as S.Schema<CreateDatabaseMariadbRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseMariadbResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1608, __c201, 0) as any as S.Schema<CreateDatabaseMariadbRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseMariadbResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseMariadb",
 }));
 
-export type CreateDatabaseMongodbError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseMongodbError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (MongoDB) Create a new MongoDB database. */
 export const createDatabaseMongodb: API.OperationMethod<
   CreateDatabaseMongodbRequest,
@@ -6118,16 +6406,29 @@ export const createDatabaseMongodb: API.OperationMethod<
   CreateDatabaseMongodbError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c176, 0) as any as S.Schema<CreateDatabaseMongodbRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseMongodbResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1696, __c212, 0) as any as S.Schema<CreateDatabaseMongodbRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseMongodbResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseMongodb",
 }));
 
-export type CreateDatabaseMysqlError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseMysqlError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (MySQL) Create a new MySQL database. */
 export const createDatabaseMysql: API.OperationMethod<
   CreateDatabaseMysqlRequest,
@@ -6135,16 +6436,29 @@ export const createDatabaseMysql: API.OperationMethod<
   CreateDatabaseMysqlError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<CreateDatabaseMysqlRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseMysqlResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1800, __c225, 0) as any as S.Schema<CreateDatabaseMysqlRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseMysqlResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseMysql",
 }));
 
-export type CreateDatabasePostgresqlError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabasePostgresqlError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (PostgreSQL) Create a new PostgreSQL database. */
 export const createDatabasePostgresql: API.OperationMethod<
   CreateDatabasePostgresqlRequest,
@@ -6152,16 +6466,29 @@ export const createDatabasePostgresql: API.OperationMethod<
   CreateDatabasePostgresqlError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<CreateDatabasePostgresqlRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabasePostgresqlResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1896, __c237, 0) as any as S.Schema<CreateDatabasePostgresqlRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabasePostgresqlResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabasePostgresql",
 }));
 
-export type CreateDatabaseRedisError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseRedisError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Redis) Create a new Redis database. */
 export const createDatabaseRedis: API.OperationMethod<
   CreateDatabaseRedisRequest,
@@ -6169,16 +6496,29 @@ export const createDatabaseRedis: API.OperationMethod<
   CreateDatabaseRedisError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<CreateDatabaseRedisRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseRedisResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1984, __c248, 0) as any as S.Schema<CreateDatabaseRedisRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseRedisResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseRedis",
 }));
 
-export type CreateDatabaseSqliteError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateDatabaseSqliteError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (SQLite) Create a new SQLite database. */
 export const createDatabaseSqlite: API.OperationMethod<
   CreateDatabaseSqliteRequest,
@@ -6186,16 +6526,28 @@ export const createDatabaseSqlite: API.OperationMethod<
   CreateDatabaseSqliteError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c224, 0) as any as S.Schema<CreateDatabaseSqliteRequest>,
-  output: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseSqliteResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2080, __c260, 0) as any as S.Schema<CreateDatabaseSqliteRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<CreateDatabaseSqliteResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseSqlite",
 }));
 
-export type CreateDigitaloceanServerError = UnprocessableEntity | CoolifyOpError;
+export type CreateDigitaloceanServerError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create a server on DigitalOcean */
 export const createDigitaloceanServer: API.OperationMethod<
   CreateDigitaloceanServerRequest,
@@ -6203,16 +6555,28 @@ export const createDigitaloceanServer: API.OperationMethod<
   CreateDigitaloceanServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<CreateDigitaloceanServerRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateDigitaloceanServerResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2104, __c263, 0) as any as S.Schema<CreateDigitaloceanServerRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateDigitaloceanServerResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDigitaloceanServer",
 }));
 
-export type CreateDockerfileApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreateDockerfileApplicationError =
+  | BadRequest
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Dockerfile without git) Create new application based on a simple Dockerfile (without git). */
 export const createDockerfileApplication: API.OperationMethod<
   CreateDockerfileApplicationRequest,
@@ -6220,16 +6584,29 @@ export const createDockerfileApplication: API.OperationMethod<
   CreateDockerfileApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c246, 0) as any as S.Schema<CreateDockerfileApplicationRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateDockerfileApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2112, __c264, 0) as any as S.Schema<CreateDockerfileApplicationRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateDockerfileApplicationResponse>,
+  errors: [
+    BadRequest,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDockerfileApplication",
 }));
 
-export type CreateDockerimageApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreateDockerimageApplicationError =
+  | BadRequest
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Docker Image without git) Create new application based on a prebuilt docker image (without git). */
 export const createDockerimageApplication: API.OperationMethod<
   CreateDockerimageApplicationRequest,
@@ -6237,9 +6614,16 @@ export const createDockerimageApplication: API.OperationMethod<
   CreateDockerimageApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2056, __c257, 0) as any as S.Schema<CreateDockerimageApplicationRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateDockerimageApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2120, __c265, 0) as any as S.Schema<CreateDockerimageApplicationRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateDockerimageApplicationResponse>,
+  errors: [
+    BadRequest,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6250,6 +6634,9 @@ export type CreateEnvByApplicationUuidError =
   | BadRequest
   | NotFound
   | EnvironmentVariableAlreadyExists
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Env Create env by application UUID. */
 export const createEnvByApplicationUuid: API.OperationMethod<
@@ -6258,9 +6645,17 @@ export const createEnvByApplicationUuid: API.OperationMethod<
   CreateEnvByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c258, 0) as any as S.Schema<CreateEnvByApplicationUuidRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateEnvByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, EnvironmentVariableAlreadyExists, UnknownCoolifyError],
+  input: __S(2128, __c266, 0) as any as S.Schema<CreateEnvByApplicationUuidRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateEnvByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    EnvironmentVariableAlreadyExists,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6272,6 +6667,9 @@ export type CreateEnvByDatabaseUuidError =
   | NotFound
   | UnprocessableEntity
   | EnvironmentVariableAlreadyExists
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Env Create env by database UUID. */
 export const createEnvByDatabaseUuid: API.OperationMethod<
@@ -6280,13 +6678,16 @@ export const createEnvByDatabaseUuid: API.OperationMethod<
   CreateEnvByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2072, __c259, 0) as any as S.Schema<CreateEnvByDatabaseUuidRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateEnvByDatabaseUuidResponse>,
+  input: __S(2136, __c267, 0) as any as S.Schema<CreateEnvByDatabaseUuidRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateEnvByDatabaseUuidResponse>,
   errors: [
     BadRequest,
     NotFound,
     UnprocessableEntity,
     EnvironmentVariableAlreadyExists,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
     UnknownCoolifyError,
   ],
   protocol: CoolifyProtocol,
@@ -6300,6 +6701,9 @@ export type CreateEnvByServiceUuidError =
   | NotFound
   | UnprocessableEntity
   | EnvironmentVariableAlreadyExists
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Env Create env by service UUID. */
 export const createEnvByServiceUuid: API.OperationMethod<
@@ -6308,13 +6712,16 @@ export const createEnvByServiceUuid: API.OperationMethod<
   CreateEnvByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c260, 0) as any as S.Schema<CreateEnvByServiceUuidRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateEnvByServiceUuidResponse>,
+  input: __S(2144, __c268, 0) as any as S.Schema<CreateEnvByServiceUuidRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateEnvByServiceUuidResponse>,
   errors: [
     BadRequest,
     NotFound,
     UnprocessableEntity,
     EnvironmentVariableAlreadyExists,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
     UnknownCoolifyError,
   ],
   protocol: CoolifyProtocol,
@@ -6328,6 +6735,9 @@ export type CreateEnvironmentError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Environment Create environment in project. */
 export const createEnvironment: API.OperationMethod<
@@ -6336,9 +6746,18 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2088, __c261, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateEnvironmentResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2152, __c269, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateEnvironmentResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6349,6 +6768,9 @@ export type CreateEnvironmentSharedEnvError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Environment Shared Env Create a shared environment variable for a project environment (type=environment). */
 export const createEnvironmentSharedEnv: API.OperationMethod<
@@ -6357,16 +6779,30 @@ export const createEnvironmentSharedEnv: API.OperationMethod<
   CreateEnvironmentSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c262, 0) as any as S.Schema<CreateEnvironmentSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateEnvironmentSharedEnvResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2160, __c270, 0) as any as S.Schema<CreateEnvironmentSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateEnvironmentSharedEnvResponse>,
+  errors: [
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEnvironmentSharedEnv",
 }));
 
-export type CreateGithubAppError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateGithubAppError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create GitHub App Create a new GitHub app. */
 export const createGithubApp: API.OperationMethod<
   CreateGithubAppRequest,
@@ -6374,16 +6810,29 @@ export const createGithubApp: API.OperationMethod<
   CreateGithubAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2104, __c263, 0) as any as S.Schema<CreateGithubAppRequest>,
-  output: __S(2105, __c263, 1) as any as S.Schema<CreateGithubAppResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2168, __c271, 0) as any as S.Schema<CreateGithubAppRequest>,
+  output: __S(2169, __c271, 1) as any as S.Schema<CreateGithubAppResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateGithubApp",
 }));
 
-export type CreateGitlabAppError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateGitlabAppError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create GitLab App Create a new GitLab app (OAuth source). Credentials may be supplied later via the UI or update endpoint. */
 export const createGitlabApp: API.OperationMethod<
   CreateGitlabAppRequest,
@@ -6391,16 +6840,30 @@ export const createGitlabApp: API.OperationMethod<
   CreateGitlabAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c264, 0) as any as S.Schema<CreateGitlabAppRequest>,
-  output: __S(2113, __c264, 1) as any as S.Schema<CreateGitlabAppResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2176, __c272, 0) as any as S.Schema<CreateGitlabAppRequest>,
+  output: __S(2177, __c272, 1) as any as S.Schema<CreateGitlabAppResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateGitlabApp",
 }));
 
-export type CreateHetznerServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CreateHetznerServerError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Hetzner Server Create a new server on Hetzner and register it in Coolify. */
 export const createHetznerServer: API.OperationMethod<
   CreateHetznerServerRequest,
@@ -6408,9 +6871,17 @@ export const createHetznerServer: API.OperationMethod<
   CreateHetznerServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2121, __c265, 1) as any as S.Schema<CreateHetznerServerRequest>,
-  output: __S(2122, __c265, 2) as any as S.Schema<CreateHetznerServerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2185, __c273, 1) as any as S.Schema<CreateHetznerServerRequest>,
+  output: __S(2186, __c273, 2) as any as S.Schema<CreateHetznerServerResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6421,6 +6892,9 @@ export type CreatePreviewDeploymentByApplicationUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Preview Deployment Open a preview deployment for a pull request and queue its deployment. When the preview already exists, it is redeployed. Git based applications need git_type unless they use a GitHub or GitLab App source; Bitbucket also needs commit. Docker Image applications need docker_tag for a new preview. */
 export const createPreviewDeploymentByApplicationUuid: API.OperationMethod<
@@ -6429,16 +6903,30 @@ export const createPreviewDeploymentByApplicationUuid: API.OperationMethod<
   CreatePreviewDeploymentByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c266, 0) as any as S.Schema<CreatePreviewDeploymentByApplicationUuidRequest>,
-  output: __S(2129, __c266, 1) as any as S.Schema<ApplicationPreviewDeployment>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2192, __c274, 0) as any as S.Schema<CreatePreviewDeploymentByApplicationUuidRequest>,
+  output: __S(2193, __c274, 1) as any as S.Schema<ApplicationPreviewDeployment>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePreviewDeploymentByApplicationUuid",
 }));
 
-export type CreatePrivateDeployKeyApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreatePrivateDeployKeyApplicationError =
+  | BadRequest
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Private - Deploy Key) Create new application based on a private repository through a Deploy Key. */
 export const createPrivateDeployKeyApplication: API.OperationMethod<
   CreatePrivateDeployKeyApplicationRequest,
@@ -6446,16 +6934,29 @@ export const createPrivateDeployKeyApplication: API.OperationMethod<
   CreatePrivateDeployKeyApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c268, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2208, __c276, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationResponse>,
+  errors: [
+    BadRequest,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePrivateDeployKeyApplication",
 }));
 
-export type CreatePrivateGithubAppApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreatePrivateGithubAppApplicationError =
+  | BadRequest
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Private - GH App) Create new application based on a private repository through a Github App. */
 export const createPrivateGithubAppApplication: API.OperationMethod<
   CreatePrivateGithubAppApplicationRequest,
@@ -6463,16 +6964,29 @@ export const createPrivateGithubAppApplication: API.OperationMethod<
   CreatePrivateGithubAppApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c270, 0) as any as S.Schema<CreatePrivateGithubAppApplicationRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreatePrivateGithubAppApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2224, __c278, 0) as any as S.Schema<CreatePrivateGithubAppApplicationRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreatePrivateGithubAppApplicationResponse>,
+  errors: [
+    BadRequest,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePrivateGithubAppApplication",
 }));
 
-export type CreatePrivateKeyError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreatePrivateKeyError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Create a new private key. */
 export const createPrivateKey: API.OperationMethod<
   CreatePrivateKeyRequest,
@@ -6480,16 +6994,30 @@ export const createPrivateKey: API.OperationMethod<
   CreatePrivateKeyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2168, __c271, 0) as any as S.Schema<CreatePrivateKeyRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreatePrivateKeyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2232, __c279, 0) as any as S.Schema<CreatePrivateKeyRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreatePrivateKeyResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePrivateKey",
 }));
 
-export type CreateProjectError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CreateProjectError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Create Project. */
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
@@ -6497,9 +7025,17 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c272, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateProjectResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2240, __c280, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateProjectResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6510,6 +7046,9 @@ export type CreateProjectSharedEnvError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Project Shared Env Create a shared environment variable for a project (type=project). */
 export const createProjectSharedEnv: API.OperationMethod<
@@ -6518,16 +7057,30 @@ export const createProjectSharedEnv: API.OperationMethod<
   CreateProjectSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2184, __c273, 0) as any as S.Schema<CreateProjectSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateProjectSharedEnvResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2248, __c281, 0) as any as S.Schema<CreateProjectSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateProjectSharedEnvResponse>,
+  errors: [
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectSharedEnv",
 }));
 
-export type CreatePublicApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreatePublicApplicationError =
+  | BadRequest
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create (Public) Create new application based on a public git repository. */
 export const createPublicApplication: API.OperationMethod<
   CreatePublicApplicationRequest,
@@ -6535,16 +7088,29 @@ export const createPublicApplication: API.OperationMethod<
   CreatePublicApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c274, 0) as any as S.Schema<CreatePublicApplicationRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreatePublicApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2256, __c282, 0) as any as S.Schema<CreatePublicApplicationRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreatePublicApplicationResponse>,
+  errors: [
+    BadRequest,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePublicApplication",
 }));
 
-export type CreateS3StorageError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateS3StorageError =
+  | BadRequest
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create S3 Storage Create a new S3 storage configuration for the authenticated team. */
 export const createS3Storage: API.OperationMethod<
   CreateS3StorageRequest,
@@ -6552,9 +7118,16 @@ export const createS3Storage: API.OperationMethod<
   CreateS3StorageError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2200, __c275, 0) as any as S.Schema<CreateS3StorageRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateS3StorageResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2264, __c283, 0) as any as S.Schema<CreateS3StorageRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateS3StorageResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6565,6 +7138,9 @@ export type CreateScheduledTaskByApplicationUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Task Create a new scheduled task for an application. */
 export const createScheduledTaskByApplicationUuid: API.OperationMethod<
@@ -6573,9 +7149,17 @@ export const createScheduledTaskByApplicationUuid: API.OperationMethod<
   CreateScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c276, 0) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>,
-  output: __S(2216, __c277, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2272, __c284, 0) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>,
+  output: __S(2280, __c285, 0) as any as S.Schema<ScheduledTask>,
+  errors: [
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6586,6 +7170,9 @@ export type CreateScheduledTaskByServiceUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Task Create a new scheduled task for a service. */
 export const createScheduledTaskByServiceUuid: API.OperationMethod<
@@ -6594,9 +7181,17 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
   CreateScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c278, 0) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>,
-  output: __S(2216, __c277, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2288, __c286, 0) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>,
+  output: __S(2280, __c285, 0) as any as S.Schema<ScheduledTask>,
+  errors: [
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6606,6 +7201,9 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
 export type CreateSecretManagerIntegrationTokenError =
   | BadRequest
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Secret Manager Token Create and validate a Doppler, Infisical, or Vault integration token. */
 export const createSecretManagerIntegrationToken: API.OperationMethod<
@@ -6614,16 +7212,30 @@ export const createSecretManagerIntegrationToken: API.OperationMethod<
   CreateSecretManagerIntegrationTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2232, __c279, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2296, __c287, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenResponse>,
+  errors: [
+    BadRequest,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSecretManagerIntegrationToken",
 }));
 
-export type CreateServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CreateServerError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Create Server. */
 export const createServer: API.OperationMethod<
   CreateServerRequest,
@@ -6631,9 +7243,17 @@ export const createServer: API.OperationMethod<
   CreateServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c280, 0) as any as S.Schema<CreateServerRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateServerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2304, __c288, 0) as any as S.Schema<CreateServerRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<CreateServerResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6644,6 +7264,9 @@ export type CreateServerDestinationError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create destination Create a Docker network destination on a server owned by the authenticated team. */
 export const createServerDestination: API.OperationMethod<
@@ -6652,16 +7275,31 @@ export const createServerDestination: API.OperationMethod<
   CreateServerDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2248, __c281, 0) as any as S.Schema<CreateServerDestinationRequest>,
-  output: __S(2256, __c282, 0) as any as S.Schema<Destination>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2312, __c289, 0) as any as S.Schema<CreateServerDestinationRequest>,
+  output: __S(2320, __c290, 0) as any as S.Schema<Destination>,
+  errors: [
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServerDestination",
 }));
 
-export type CreateServerSharedEnvError = NotFound | Conflict | UnprocessableEntity | CoolifyOpError;
+export type CreateServerSharedEnvError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Server Shared Env Create a shared environment variable for a server (type=server). */
 export const createServerSharedEnv: API.OperationMethod<
   CreateServerSharedEnvRequest,
@@ -6669,16 +7307,31 @@ export const createServerSharedEnv: API.OperationMethod<
   CreateServerSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2264, __c283, 0) as any as S.Schema<CreateServerSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateServerSharedEnvResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2328, __c291, 0) as any as S.Schema<CreateServerSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateServerSharedEnvResponse>,
+  errors: [
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServerSharedEnv",
 }));
 
-export type CreateServiceError = BadRequest | Conflict | UnprocessableEntity | CoolifyOpError;
+export type CreateServiceError =
+  | BadRequest
+  | Conflict
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create service Create a one-click / custom service */
 export const createService: API.OperationMethod<
   CreateServiceRequest,
@@ -6686,16 +7339,30 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c284, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(2282, __c285, 2) as any as S.Schema<CreateServiceResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2336, __c292, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(2346, __c293, 2) as any as S.Schema<CreateServiceResponse>,
+  errors: [
+    BadRequest,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
 
-export type CreateServiceDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
+export type CreateServiceDatabaseImportError =
+  | Conflict
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Import service database backup */
 export const createServiceDatabaseImport: API.OperationMethod<
   CreateServiceDatabaseImportRequest,
@@ -6703,9 +7370,16 @@ export const createServiceDatabaseImport: API.OperationMethod<
   CreateServiceDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c286, 0) as any as S.Schema<CreateServiceDatabaseImportRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateServiceDatabaseImportResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2352, __c294, 0) as any as S.Schema<CreateServiceDatabaseImportRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateServiceDatabaseImportResponse>,
+  errors: [
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6717,6 +7391,9 @@ export type CreateStorageByApplicationUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Storage Create a persistent storage or file storage for an application. */
 export const createStorageByApplicationUuid: API.OperationMethod<
@@ -6725,9 +7402,18 @@ export const createStorageByApplicationUuid: API.OperationMethod<
   CreateStorageByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2296, __c287, 0) as any as S.Schema<CreateStorageByApplicationUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<CreateStorageByApplicationUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2360, __c295, 0) as any as S.Schema<CreateStorageByApplicationUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<CreateStorageByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6739,6 +7425,9 @@ export type CreateStorageByDatabaseUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Storage Create a persistent storage or file storage for a database. */
 export const createStorageByDatabaseUuid: API.OperationMethod<
@@ -6747,9 +7436,18 @@ export const createStorageByDatabaseUuid: API.OperationMethod<
   CreateStorageByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2312, __c289, 0) as any as S.Schema<CreateStorageByDatabaseUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<CreateStorageByDatabaseUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2376, __c297, 0) as any as S.Schema<CreateStorageByDatabaseUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<CreateStorageByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6761,6 +7459,9 @@ export type CreateStorageByServiceUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Storage Create a persistent storage or file storage for a service sub-resource. */
 export const createStorageByServiceUuid: API.OperationMethod<
@@ -6769,16 +7470,32 @@ export const createStorageByServiceUuid: API.OperationMethod<
   CreateStorageByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c290, 0) as any as S.Schema<CreateStorageByServiceUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<CreateStorageByServiceUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2384, __c298, 0) as any as S.Schema<CreateStorageByServiceUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<CreateStorageByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateStorageByServiceUuid",
 }));
 
-export type CreateTagError = BadRequest | Conflict | UnprocessableEntity | CoolifyOpError;
+export type CreateTagError =
+  | BadRequest
+  | Conflict
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Create a tag for the current team. */
 export const createTag: API.OperationMethod<
   CreateTagRequest,
@@ -6786,9 +7503,17 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2328, __c291, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(2336, __c292, 0) as any as S.Schema<Tag>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2392, __c299, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(2400, __c300, 0) as any as S.Schema<Tag>,
+  errors: [
+    BadRequest,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6799,6 +7524,9 @@ export type CreateTagByApplicationUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Tag Add tag(s) to an application by UUID. */
 export const createTagByApplicationUuid: API.OperationMethod<
@@ -6807,9 +7535,17 @@ export const createTagByApplicationUuid: API.OperationMethod<
   CreateTagByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2344, __c293, 0) as any as S.Schema<CreateTagByApplicationUuidRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<CreateTagByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2408, __c301, 0) as any as S.Schema<CreateTagByApplicationUuidRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<CreateTagByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6820,6 +7556,9 @@ export type CreateTagByDatabaseUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Tag Add tag(s) to a database by UUID. */
 export const createTagByDatabaseUuid: API.OperationMethod<
@@ -6828,9 +7567,17 @@ export const createTagByDatabaseUuid: API.OperationMethod<
   CreateTagByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2360, __c295, 0) as any as S.Schema<CreateTagByDatabaseUuidRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<CreateTagByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2424, __c303, 0) as any as S.Schema<CreateTagByDatabaseUuidRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<CreateTagByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6841,6 +7588,9 @@ export type CreateTagByServiceUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Create Tag Add tag(s) to a service by UUID. */
 export const createTagByServiceUuid: API.OperationMethod<
@@ -6849,16 +7599,30 @@ export const createTagByServiceUuid: API.OperationMethod<
   CreateTagByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c296, 0) as any as S.Schema<CreateTagByServiceUuidRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<CreateTagByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2432, __c304, 0) as any as S.Schema<CreateTagByServiceUuidRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<CreateTagByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagByServiceUuid",
 }));
 
-export type CreateTeamSharedEnvError = Conflict | UnprocessableEntity | CoolifyOpError;
+export type CreateTeamSharedEnvError =
+  | Conflict
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Team Shared Env Create a shared environment variable for the current team (type=team). */
 export const createTeamSharedEnv: API.OperationMethod<
   CreateTeamSharedEnvRequest,
@@ -6866,16 +7630,28 @@ export const createTeamSharedEnv: API.OperationMethod<
   CreateTeamSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2376, __c297, 0) as any as S.Schema<CreateTeamSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateTeamSharedEnvResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2440, __c305, 0) as any as S.Schema<CreateTeamSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateTeamSharedEnvResponse>,
+  errors: [
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTeamSharedEnv",
 }));
 
-export type CreateVultrServerError = UnprocessableEntity | CoolifyOpError;
+export type CreateVultrServerError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Create Vultr Server Create a Vultr instance and link it as a Coolify server. */
 export const createVultrServer: API.OperationMethod<
   CreateVultrServerRequest,
@@ -6883,16 +7659,28 @@ export const createVultrServer: API.OperationMethod<
   CreateVultrServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c298, 0) as any as S.Schema<CreateVultrServerRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<CreateVultrServerResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2448, __c306, 0) as any as S.Schema<CreateVultrServerRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateVultrServerResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVultrServer",
 }));
 
-export type DeleteApplicationError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteApplicationError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Delete application by UUID. */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
@@ -6900,9 +7688,16 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2392, __c299, 0) as any as S.Schema<DeleteApplicationRequest>,
+  input: __S(2456, __c307, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6913,6 +7708,9 @@ export type DeleteApplicationStorageBackupScheduleError =
   | Forbidden
   | NotFound
   | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete application storage backup schedule Delete the backup schedule and its local and S3 archives for an application storage. */
 export const deleteApplicationStorageBackupSchedule: API.OperationMethod<
@@ -6921,16 +7719,29 @@ export const deleteApplicationStorageBackupSchedule: API.OperationMethod<
   DeleteApplicationStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c300, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(2464, __c308, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteApplicationStorageBackupSchedule",
 }));
 
-export type DeleteBackupConfigurationByUuidError = NotFound | CoolifyOpError;
+export type DeleteBackupConfigurationByUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete backup configuration Deletes a backup configuration and all its executions. */
 export const deleteBackupConfigurationByUuid: API.OperationMethod<
   DeleteBackupConfigurationByUuidRequest,
@@ -6938,16 +7749,27 @@ export const deleteBackupConfigurationByUuid: API.OperationMethod<
   DeleteBackupConfigurationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2408, __c301, 0) as any as S.Schema<DeleteBackupConfigurationByUuidRequest>,
+  input: __S(2472, __c309, 0) as any as S.Schema<DeleteBackupConfigurationByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteBackupConfigurationByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteBackupConfigurationByUuid",
 }));
 
-export type DeleteBackupExecutionByUuidError = NotFound | CoolifyOpError;
+export type DeleteBackupExecutionByUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete backup execution Deletes a specific backup execution. */
 export const deleteBackupExecutionByUuid: API.OperationMethod<
   DeleteBackupExecutionByUuidRequest,
@@ -6955,16 +7777,28 @@ export const deleteBackupExecutionByUuid: API.OperationMethod<
   DeleteBackupExecutionByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c302, 0) as any as S.Schema<DeleteBackupExecutionByUuidRequest>,
+  input: __S(2480, __c310, 0) as any as S.Schema<DeleteBackupExecutionByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteBackupExecutionByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteBackupExecutionByUuid",
 }));
 
-export type DeleteCloudInitScriptError = Forbidden | NotFound | CoolifyOpError;
+export type DeleteCloudInitScriptError =
+  | Forbidden
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Cloud-init Script Delete a cloud-init script by UUID. */
 export const deleteCloudInitScript: API.OperationMethod<
   DeleteCloudInitScriptRequest,
@@ -6972,16 +7806,29 @@ export const deleteCloudInitScript: API.OperationMethod<
   DeleteCloudInitScriptError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2424, __c303, 0) as any as S.Schema<DeleteCloudInitScriptRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteCloudInitScriptResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(2488, __c311, 0) as any as S.Schema<DeleteCloudInitScriptRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteCloudInitScriptResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCloudInitScript",
 }));
 
-export type DeleteCloudTokenError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteCloudTokenError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Cloud Provider Token Delete cloud provider token by UUID. Cannot delete if token is used by any servers. */
 export const deleteCloudToken: API.OperationMethod<
   DeleteCloudTokenRequest,
@@ -6989,16 +7836,29 @@ export const deleteCloudToken: API.OperationMethod<
   DeleteCloudTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c304, 0) as any as S.Schema<DeleteCloudTokenRequest>,
+  input: __S(2496, __c312, 0) as any as S.Schema<DeleteCloudTokenRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteCloudTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCloudToken",
 }));
 
-export type DeleteDatabaseError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteDatabaseError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Delete database by UUID. */
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
@@ -7006,9 +7866,16 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2456, __c307, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  input: __S(2504, __c313, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7019,6 +7886,9 @@ export type DeleteDatabaseStorageBackupScheduleError =
   | Forbidden
   | NotFound
   | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete database storage backup schedule Delete the backup schedule and its local and S3 archives for a database storage. */
 export const deleteDatabaseStorageBackupSchedule: API.OperationMethod<
@@ -7027,16 +7897,30 @@ export const deleteDatabaseStorageBackupSchedule: API.OperationMethod<
   DeleteDatabaseStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c308, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(2512, __c314, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDatabaseStorageBackupSchedule",
 }));
 
-export type DeleteDestinationError = NotFound | Conflict | CoolifyOpError;
+export type DeleteDestinationError =
+  | NotFound
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete destination Delete an unused Docker network destination. */
 export const deleteDestination: API.OperationMethod<
   DeleteDestinationRequest,
@@ -7044,16 +7928,29 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2472, __c309, 0) as any as S.Schema<DeleteDestinationRequest>,
+  input: __S(2520, __c315, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDestinationResponse>,
-  errors: [NotFound, Conflict, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDestination",
 }));
 
-export type DeleteEnvByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteEnvByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Env Delete env by UUID. */
 export const deleteEnvByApplicationUuid: API.OperationMethod<
   DeleteEnvByApplicationUuidRequest,
@@ -7061,16 +7958,29 @@ export const deleteEnvByApplicationUuid: API.OperationMethod<
   DeleteEnvByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c310, 0) as any as S.Schema<DeleteEnvByApplicationUuidRequest>,
+  input: __S(2528, __c316, 0) as any as S.Schema<DeleteEnvByApplicationUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvByApplicationUuid",
 }));
 
-export type DeleteEnvByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteEnvByDatabaseUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Env Delete env by UUID. */
 export const deleteEnvByDatabaseUuid: API.OperationMethod<
   DeleteEnvByDatabaseUuidRequest,
@@ -7078,16 +7988,29 @@ export const deleteEnvByDatabaseUuid: API.OperationMethod<
   DeleteEnvByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2488, __c311, 0) as any as S.Schema<DeleteEnvByDatabaseUuidRequest>,
+  input: __S(2536, __c317, 0) as any as S.Schema<DeleteEnvByDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvByDatabaseUuid",
 }));
 
-export type DeleteEnvByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteEnvByServiceUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Env Delete env by UUID. */
 export const deleteEnvByServiceUuid: API.OperationMethod<
   DeleteEnvByServiceUuidRequest,
@@ -7095,9 +8018,16 @@ export const deleteEnvByServiceUuid: API.OperationMethod<
   DeleteEnvByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c312, 0) as any as S.Schema<DeleteEnvByServiceUuidRequest>,
+  input: __S(2544, __c318, 0) as any as S.Schema<DeleteEnvByServiceUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7109,6 +8039,9 @@ export type DeleteEnvironmentError =
   | NotFound
   | UnprocessableEntity
   | EnvironmentHasResources
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Environment Delete environment by name or UUID. Environment must be empty. */
 export const deleteEnvironment: API.OperationMethod<
@@ -7117,16 +8050,30 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2504, __c313, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  input: __S(2552, __c319, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, EnvironmentHasResources, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    EnvironmentHasResources,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
 
-export type DeleteEnvironmentSharedEnvError = NotFound | CoolifyOpError;
+export type DeleteEnvironmentSharedEnvError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Environment Shared Env Delete an environment shared environment variable by id. */
 export const deleteEnvironmentSharedEnv: API.OperationMethod<
   DeleteEnvironmentSharedEnvRequest,
@@ -7134,16 +8081,28 @@ export const deleteEnvironmentSharedEnv: API.OperationMethod<
   DeleteEnvironmentSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c314, 0) as any as S.Schema<DeleteEnvironmentSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteEnvironmentSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2560, __c320, 0) as any as S.Schema<DeleteEnvironmentSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteEnvironmentSharedEnvResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentSharedEnv",
 }));
 
-export type DeleteGithubAppError = NotFound | Conflict | CoolifyOpError;
+export type DeleteGithubAppError =
+  | NotFound
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete GitHub App Delete a GitHub app if it's not being used by any applications. */
 export const deleteGithubApp: API.OperationMethod<
   DeleteGithubAppRequest,
@@ -7151,16 +8110,29 @@ export const deleteGithubApp: API.OperationMethod<
   DeleteGithubAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2520, __c315, 0) as any as S.Schema<DeleteGithubAppRequest>,
+  input: __S(2568, __c321, 0) as any as S.Schema<DeleteGithubAppRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteGithubAppResponse>,
-  errors: [NotFound, Conflict, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteGithubApp",
 }));
 
-export type DeleteGitlabAppError = NotFound | Conflict | CoolifyOpError;
+export type DeleteGitlabAppError =
+  | NotFound
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete GitLab App Delete a GitLab app if it is not being used by any applications. */
 export const deleteGitlabApp: API.OperationMethod<
   DeleteGitlabAppRequest,
@@ -7168,9 +8140,16 @@ export const deleteGitlabApp: API.OperationMethod<
   DeleteGitlabAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c316, 0) as any as S.Schema<DeleteGitlabAppRequest>,
+  input: __S(2576, __c322, 0) as any as S.Schema<DeleteGitlabAppRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteGitlabAppResponse>,
-  errors: [NotFound, Conflict, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7181,6 +8160,9 @@ export type DeletePreviewDeploymentByPullRequestIdError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Preview Deployment Delete a preview deployment for a pull request. Cancels active deployments, stops containers, removes volumes/networks, and deletes the preview record. */
 export const deletePreviewDeploymentByPullRequestId: API.OperationMethod<
@@ -7189,9 +8171,17 @@ export const deletePreviewDeploymentByPullRequestId: API.OperationMethod<
   DeletePreviewDeploymentByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2552, __c319, 0) as any as S.Schema<DeletePreviewDeploymentByPullRequestIdRequest>,
+  input: __S(2584, __c323, 0) as any as S.Schema<DeletePreviewDeploymentByPullRequestIdRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeletePreviewDeploymentByPullRequestIdResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7202,6 +8192,9 @@ export type DeletePrivateKeyByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Delete a private key. */
 export const deletePrivateKeyByUuid: API.OperationMethod<
@@ -7210,9 +8203,17 @@ export const deletePrivateKeyByUuid: API.OperationMethod<
   DeletePrivateKeyByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c320, 0) as any as S.Schema<DeletePrivateKeyByUuidRequest>,
+  input: __S(2592, __c324, 0) as any as S.Schema<DeletePrivateKeyByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeletePrivateKeyByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7224,6 +8225,9 @@ export type DeleteProjectError =
   | NotFound
   | UnprocessableEntity
   | ProjectHasResources
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Delete project by UUID. */
 export const deleteProject: API.OperationMethod<
@@ -7232,16 +8236,30 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2568, __c321, 0) as any as S.Schema<DeleteProjectRequest>,
+  input: __S(2600, __c325, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, ProjectHasResources, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    ProjectHasResources,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
 
-export type DeleteProjectSharedEnvError = NotFound | CoolifyOpError;
+export type DeleteProjectSharedEnvError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Project Shared Env Delete a project shared environment variable by id. */
 export const deleteProjectSharedEnv: API.OperationMethod<
   DeleteProjectSharedEnvRequest,
@@ -7249,16 +8267,27 @@ export const deleteProjectSharedEnv: API.OperationMethod<
   DeleteProjectSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c322, 0) as any as S.Schema<DeleteProjectSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteProjectSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2608, __c326, 0) as any as S.Schema<DeleteProjectSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteProjectSharedEnvResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectSharedEnv",
 }));
 
-export type DeleteS3StorageError = NotFound | CoolifyOpError;
+export type DeleteS3StorageError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete S3 Storage Delete S3 storage by UUID. */
 export const deleteS3Storage: API.OperationMethod<
   DeleteS3StorageRequest,
@@ -7266,16 +8295,27 @@ export const deleteS3Storage: API.OperationMethod<
   DeleteS3StorageError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2584, __c323, 0) as any as S.Schema<DeleteS3StorageRequest>,
+  input: __S(2616, __c327, 0) as any as S.Schema<DeleteS3StorageRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteS3StorageResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteS3Storage",
 }));
 
-export type DeleteScheduledTaskByApplicationUuidError = NotFound | CoolifyOpError;
+export type DeleteScheduledTaskByApplicationUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Task Delete a scheduled task for an application. */
 export const deleteScheduledTaskByApplicationUuid: API.OperationMethod<
   DeleteScheduledTaskByApplicationUuidRequest,
@@ -7283,16 +8323,27 @@ export const deleteScheduledTaskByApplicationUuid: API.OperationMethod<
   DeleteScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c324, 0) as any as S.Schema<DeleteScheduledTaskByApplicationUuidRequest>,
+  input: __S(2624, __c328, 0) as any as S.Schema<DeleteScheduledTaskByApplicationUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteScheduledTaskByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteScheduledTaskByApplicationUuid",
 }));
 
-export type DeleteScheduledTaskByServiceUuidError = NotFound | CoolifyOpError;
+export type DeleteScheduledTaskByServiceUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Task Delete a scheduled task for a service. */
 export const deleteScheduledTaskByServiceUuid: API.OperationMethod<
   DeleteScheduledTaskByServiceUuidRequest,
@@ -7300,16 +8351,29 @@ export const deleteScheduledTaskByServiceUuid: API.OperationMethod<
   DeleteScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2600, __c325, 0) as any as S.Schema<DeleteScheduledTaskByServiceUuidRequest>,
+  input: __S(2632, __c329, 0) as any as S.Schema<DeleteScheduledTaskByServiceUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteScheduledTaskByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteScheduledTaskByServiceUuid",
 }));
 
-export type DeleteServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type DeleteServerError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Delete server by UUID. */
 export const deleteServer: API.OperationMethod<
   DeleteServerRequest,
@@ -7317,16 +8381,29 @@ export const deleteServer: API.OperationMethod<
   DeleteServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c326, 0) as any as S.Schema<DeleteServerRequest>,
+  input: __S(2640, __c330, 0) as any as S.Schema<DeleteServerRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteServerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServer",
 }));
 
-export type DeleteServerSharedEnvError = NotFound | CoolifyOpError;
+export type DeleteServerSharedEnvError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Server Shared Env Delete a server shared environment variable by id. */
 export const deleteServerSharedEnv: API.OperationMethod<
   DeleteServerSharedEnvRequest,
@@ -7334,16 +8411,28 @@ export const deleteServerSharedEnv: API.OperationMethod<
   DeleteServerSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2616, __c327, 0) as any as S.Schema<DeleteServerSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteServerSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2648, __c331, 0) as any as S.Schema<DeleteServerSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteServerSharedEnvResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServerSharedEnv",
 }));
 
-export type DeleteServiceError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteServiceError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Delete service by UUID. */
 export const deleteService: API.OperationMethod<
   DeleteServiceRequest,
@@ -7351,9 +8440,16 @@ export const deleteService: API.OperationMethod<
   DeleteServiceError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c328, 0) as any as S.Schema<DeleteServiceRequest>,
+  input: __S(2656, __c332, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7364,6 +8460,9 @@ export type DeleteServiceStorageBackupScheduleError =
   | Forbidden
   | NotFound
   | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete service storage backup schedule Delete the backup schedule and its local and S3 archives for a service storage. */
 export const deleteServiceStorageBackupSchedule: API.OperationMethod<
@@ -7372,9 +8471,17 @@ export const deleteServiceStorageBackupSchedule: API.OperationMethod<
   DeleteServiceStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c330, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(2664, __c333, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7385,6 +8492,9 @@ export type DeleteStorageByApplicationUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Storage Delete a persistent storage or file storage by application UUID. */
 export const deleteStorageByApplicationUuid: API.OperationMethod<
@@ -7393,9 +8503,17 @@ export const deleteStorageByApplicationUuid: API.OperationMethod<
   DeleteStorageByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2648, __c331, 0) as any as S.Schema<DeleteStorageByApplicationUuidRequest>,
+  input: __S(2672, __c334, 0) as any as S.Schema<DeleteStorageByApplicationUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteStorageByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7406,6 +8524,9 @@ export type DeleteStorageByDatabaseUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Storage Delete a persistent storage or file storage by database UUID. */
 export const deleteStorageByDatabaseUuid: API.OperationMethod<
@@ -7414,9 +8535,17 @@ export const deleteStorageByDatabaseUuid: API.OperationMethod<
   DeleteStorageByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c332, 0) as any as S.Schema<DeleteStorageByDatabaseUuidRequest>,
+  input: __S(2680, __c335, 0) as any as S.Schema<DeleteStorageByDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteStorageByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7427,6 +8556,9 @@ export type DeleteStorageByServiceUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Delete Storage Delete a persistent storage or file storage by service UUID. */
 export const deleteStorageByServiceUuid: API.OperationMethod<
@@ -7435,16 +8567,29 @@ export const deleteStorageByServiceUuid: API.OperationMethod<
   DeleteStorageByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2664, __c333, 0) as any as S.Schema<DeleteStorageByServiceUuidRequest>,
+  input: __S(2688, __c336, 0) as any as S.Schema<DeleteStorageByServiceUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteStorageByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteStorageByServiceUuid",
 }));
 
-export type DeleteTagError = NotFound | CoolifyOpError;
+export type DeleteTagError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Delete a tag for the current team. Detaches the tag from all resources via cascade. */
 export const deleteTag: API.OperationMethod<
   DeleteTagRequest,
@@ -7452,16 +8597,28 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c334, 0) as any as S.Schema<DeleteTagRequest>,
+  input: __S(2696, __c337, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTag",
 }));
 
-export type DeleteTagByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteTagByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Tag Remove a tag from an application by UUID. */
 export const deleteTagByApplicationUuid: API.OperationMethod<
   DeleteTagByApplicationUuidRequest,
@@ -7469,16 +8626,29 @@ export const deleteTagByApplicationUuid: API.OperationMethod<
   DeleteTagByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2680, __c335, 0) as any as S.Schema<DeleteTagByApplicationUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteTagByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(2704, __c338, 0) as any as S.Schema<DeleteTagByApplicationUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteTagByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagByApplicationUuid",
 }));
 
-export type DeleteTagByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteTagByDatabaseUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Tag Remove a tag from a database by UUID. */
 export const deleteTagByDatabaseUuid: API.OperationMethod<
   DeleteTagByDatabaseUuidRequest,
@@ -7486,16 +8656,29 @@ export const deleteTagByDatabaseUuid: API.OperationMethod<
   DeleteTagByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c336, 0) as any as S.Schema<DeleteTagByDatabaseUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteTagByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(2712, __c339, 0) as any as S.Schema<DeleteTagByDatabaseUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteTagByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagByDatabaseUuid",
 }));
 
-export type DeleteTagByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteTagByServiceUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Tag Remove a tag from a service by UUID. */
 export const deleteTagByServiceUuid: API.OperationMethod<
   DeleteTagByServiceUuidRequest,
@@ -7503,16 +8686,28 @@ export const deleteTagByServiceUuid: API.OperationMethod<
   DeleteTagByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2696, __c337, 0) as any as S.Schema<DeleteTagByServiceUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteTagByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteTagByServiceUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteTagByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagByServiceUuid",
 }));
 
-export type DeleteTeamSharedEnvError = NotFound | CoolifyOpError;
+export type DeleteTeamSharedEnvError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Delete Team Shared Env Delete a team shared environment variable by id. */
 export const deleteTeamSharedEnv: API.OperationMethod<
   DeleteTeamSharedEnvRequest,
@@ -7520,16 +8715,27 @@ export const deleteTeamSharedEnv: API.OperationMethod<
   DeleteTeamSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c338, 0) as any as S.Schema<DeleteTeamSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DeleteTeamSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteTeamSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteTeamSharedEnvResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTeamSharedEnv",
 }));
 
-export type DeployByTagOrUuidError = BadRequest | CoolifyOpError;
+export type DeployByTagOrUuidError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Deploy Deploy by tag or UUID using query parameters or a JSON body. */
 export const deployByTagOrUuid: API.OperationMethod<
   DeployByTagOrUuidRequest,
@@ -7537,16 +8743,28 @@ export const deployByTagOrUuid: API.OperationMethod<
   DeployByTagOrUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2712, __c339, 0) as any as S.Schema<DeployByTagOrUuidRequest>,
-  output: __S(2715, __c339, 3) as any as S.Schema<DeployByTagOrUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(40, __c5, 0) as any as S.Schema<DeployByTagOrUuidRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<DeployByTagOrUuidResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployByTagOrUuid",
 }));
 
-export type DisableApiError = BadRequest | Forbidden | CoolifyOpError;
+export type DisableApiError =
+  | BadRequest
+  | Forbidden
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Disable API Disable API (only with root permissions). */
 export const disableApi: API.OperationMethod<
   DisableApiRequest,
@@ -7554,16 +8772,29 @@ export const disableApi: API.OperationMethod<
   DisableApiError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DisableApiRequest>,
+  input: __S(48, __c6, 0) as any as S.Schema<DisableApiRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DisableApiResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableApi",
 }));
 
-export type DisableMcpError = BadRequest | Forbidden | CoolifyOpError;
+export type DisableMcpError =
+  | BadRequest
+  | Forbidden
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Disable MCP Server Disable the MCP server endpoint at /mcp (only with root permissions). */
 export const disableMcp: API.OperationMethod<
   DisableMcpRequest,
@@ -7571,9 +8802,16 @@ export const disableMcp: API.OperationMethod<
   DisableMcpError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DisableMcpRequest>,
+  input: __S(56, __c7, 0) as any as S.Schema<DisableMcpRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DisableMcpResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7584,6 +8822,9 @@ export type DisableServerCloudflareTunnelError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Disable Cloudflare Tunnel Mark Cloudflare Tunnel as disabled and restore ip_previous when available. Does not remove the remote cloudflared container. */
 export const disableServerCloudflareTunnel: API.OperationMethod<
@@ -7592,16 +8833,30 @@ export const disableServerCloudflareTunnel: API.OperationMethod<
   DisableServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DisableServerCloudflareTunnelRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<DisableServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(64, __c8, 0) as any as S.Schema<DisableServerCloudflareTunnelRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DisableServerCloudflareTunnelResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableServerCloudflareTunnel",
 }));
 
-export type EnableApiError = BadRequest | Forbidden | CoolifyOpError;
+export type EnableApiError =
+  | BadRequest
+  | Forbidden
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Enable API Enable API (only with root permissions). */
 export const enableApi: API.OperationMethod<
   EnableApiRequest,
@@ -7609,16 +8864,29 @@ export const enableApi: API.OperationMethod<
   EnableApiError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<EnableApiRequest>,
+  input: __S(72, __c9, 0) as any as S.Schema<EnableApiRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<EnableApiResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableApi",
 }));
 
-export type EnableMcpError = BadRequest | Forbidden | CoolifyOpError;
+export type EnableMcpError =
+  | BadRequest
+  | Forbidden
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Enable MCP Server Enable the MCP server endpoint at /mcp (only with root permissions). */
 export const enableMcp: API.OperationMethod<
   EnableMcpRequest,
@@ -7626,9 +8894,16 @@ export const enableMcp: API.OperationMethod<
   EnableMcpError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<EnableMcpRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<EnableMcpRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<EnableMcpResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7639,6 +8914,9 @@ export type EnableServerCloudflareTunnelError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Enable Cloudflare Tunnel (manual) Manually mark Cloudflare Tunnel as enabled for a server (matches UI manual enable). Does not deploy cloudflared remotely. */
 export const enableServerCloudflareTunnel: API.OperationMethod<
@@ -7647,16 +8925,30 @@ export const enableServerCloudflareTunnel: API.OperationMethod<
   EnableServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<EnableServerCloudflareTunnelRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<EnableServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(88, __c11, 0) as any as S.Schema<EnableServerCloudflareTunnelRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<EnableServerCloudflareTunnelResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableServerCloudflareTunnel",
 }));
 
-export type ExecuteScheduledTaskByApplicationUuidError = Forbidden | NotFound | CoolifyOpError;
+export type ExecuteScheduledTaskByApplicationUuidError =
+  | Forbidden
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Execute Task Queue immediate execution of a scheduled task for an application. Requires the deploy ability. */
 export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
   ExecuteScheduledTaskByApplicationUuidRequest,
@@ -7664,16 +8956,29 @@ export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
   ExecuteScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(96, __c12, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteScheduledTaskByApplicationUuid",
 }));
 
-export type ExecuteScheduledTaskByServiceUuidError = Forbidden | NotFound | CoolifyOpError;
+export type ExecuteScheduledTaskByServiceUuidError =
+  | Forbidden
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Execute Task Queue immediate execution of a scheduled task for a service. Requires the deploy ability. */
 export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   ExecuteScheduledTaskByServiceUuidRequest,
@@ -7681,16 +8986,29 @@ export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   ExecuteScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(120, __c15, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteScheduledTaskByServiceUuid",
 }));
 
-export type GetApplicationError = BadRequest | NotFound | CoolifyOpError;
+export type GetApplicationError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get application by UUID. */
 export const getApplication: API.OperationMethod<
   GetApplicationRequest,
@@ -7698,16 +9016,29 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<Application>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(128, __c16, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<Application>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
 
-export type GetApplicationLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type GetApplicationLogsByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get application logs. Get application logs by UUID. Requires the `read:sensitive` or `root` token ability. */
 export const getApplicationLogsByUuid: API.OperationMethod<
   GetApplicationLogsByUuidRequest,
@@ -7715,16 +9046,29 @@ export const getApplicationLogsByUuid: API.OperationMethod<
   GetApplicationLogsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetApplicationLogsByUuidRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetApplicationLogsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(144, __c18, 0) as any as S.Schema<GetApplicationLogsByUuidRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetApplicationLogsByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApplicationLogsByUuid",
 }));
 
-export type GetCloudInitScriptError = Forbidden | NotFound | CoolifyOpError;
+export type GetCloudInitScriptError =
+  | Forbidden
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Cloud-init Script Get a cloud-init script by UUID. */
 export const getCloudInitScript: API.OperationMethod<
   GetCloudInitScriptRequest,
@@ -7732,16 +9076,28 @@ export const getCloudInitScript: API.OperationMethod<
   GetCloudInitScriptError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetCloudInitScriptRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCloudInitScriptResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(160, __c20, 0) as any as S.Schema<GetCloudInitScriptRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCloudInitScriptResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCloudInitScript",
 }));
 
-export type GetCloudTokenError = NotFound | CoolifyOpError;
+export type GetCloudTokenError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Cloud Provider Token Get cloud provider token by UUID. */
 export const getCloudToken: API.OperationMethod<
   GetCloudTokenRequest,
@@ -7749,16 +9105,27 @@ export const getCloudToken: API.OperationMethod<
   GetCloudTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetCloudTokenRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<GetCloudTokenResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(168, __c21, 0) as any as S.Schema<GetCloudTokenRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<GetCloudTokenResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCloudToken",
 }));
 
-export type GetCurrentTeamDiscordNotificationsError = BadRequest | CoolifyOpError;
+export type GetCurrentTeamDiscordNotificationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Discord notification settings Get the current team Discord notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamDiscordNotifications: API.OperationMethod<
   GetCurrentTeamDiscordNotificationsRequest,
@@ -7766,16 +9133,27 @@ export const getCurrentTeamDiscordNotifications: API.OperationMethod<
   GetCurrentTeamDiscordNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(176, __c22, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCurrentTeamDiscordNotifications",
 }));
 
-export type GetCurrentTeamEmailNotificationsError = BadRequest | CoolifyOpError;
+export type GetCurrentTeamEmailNotificationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get email notification settings Get the current team email notification settings, including `smtp_ehlo_domain`, the hostname sent with SMTP EHLO. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamEmailNotifications: API.OperationMethod<
   GetCurrentTeamEmailNotificationsRequest,
@@ -7783,16 +9161,27 @@ export const getCurrentTeamEmailNotifications: API.OperationMethod<
   GetCurrentTeamEmailNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(184, __c23, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCurrentTeamEmailNotifications",
 }));
 
-export type GetCurrentTeamPushoverNotificationsError = BadRequest | CoolifyOpError;
+export type GetCurrentTeamPushoverNotificationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Pushover notification settings Get the current team Pushover notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamPushoverNotifications: API.OperationMethod<
   GetCurrentTeamPushoverNotificationsRequest,
@@ -7800,16 +9189,27 @@ export const getCurrentTeamPushoverNotifications: API.OperationMethod<
   GetCurrentTeamPushoverNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(192, __c24, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCurrentTeamPushoverNotifications",
 }));
 
-export type GetCurrentTeamSlackNotificationsError = BadRequest | CoolifyOpError;
+export type GetCurrentTeamSlackNotificationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Slack notification settings Get the current team Slack notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamSlackNotifications: API.OperationMethod<
   GetCurrentTeamSlackNotificationsRequest,
@@ -7817,16 +9217,27 @@ export const getCurrentTeamSlackNotifications: API.OperationMethod<
   GetCurrentTeamSlackNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(200, __c25, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCurrentTeamSlackNotifications",
 }));
 
-export type GetCurrentTeamTelegramNotificationsError = BadRequest | CoolifyOpError;
+export type GetCurrentTeamTelegramNotificationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Telegram notification settings Get the current team Telegram notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamTelegramNotifications: API.OperationMethod<
   GetCurrentTeamTelegramNotificationsRequest,
@@ -7834,16 +9245,27 @@ export const getCurrentTeamTelegramNotifications: API.OperationMethod<
   GetCurrentTeamTelegramNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(208, __c26, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCurrentTeamTelegramNotifications",
 }));
 
-export type GetCurrentTeamWebhookNotificationsError = BadRequest | CoolifyOpError;
+export type GetCurrentTeamWebhookNotificationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get webhook notification settings Get the current team webhook notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamWebhookNotifications: API.OperationMethod<
   GetCurrentTeamWebhookNotificationsRequest,
@@ -7851,16 +9273,28 @@ export const getCurrentTeamWebhookNotifications: API.OperationMethod<
   GetCurrentTeamWebhookNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(224, __c28, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCurrentTeamWebhookNotifications",
 }));
 
-export type GetDatabaseError = BadRequest | NotFound | CoolifyOpError;
+export type GetDatabaseError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get database by UUID. */
 export const getDatabase: API.OperationMethod<
   GetDatabaseRequest,
@@ -7868,16 +9302,29 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<GetDatabaseResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(232, __c29, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<GetDatabaseResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabase",
 }));
 
-export type GetDatabaseBackupsByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type GetDatabaseBackupsByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get backups details by database UUID. */
 export const getDatabaseBackupsByUuid: API.OperationMethod<
   GetDatabaseBackupsByUuidRequest,
@@ -7885,16 +9332,28 @@ export const getDatabaseBackupsByUuid: API.OperationMethod<
   GetDatabaseBackupsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetDatabaseBackupsByUuidRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<GetDatabaseBackupsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(248, __c31, 0) as any as S.Schema<GetDatabaseBackupsByUuidRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<GetDatabaseBackupsByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseBackupsByUuid",
 }));
 
-export type GetDatabaseImportError = NotFound | CoolifyOpError;
+export type GetDatabaseImportError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get database import status */
 export const getDatabaseImport: API.OperationMethod<
   GetDatabaseImportRequest,
@@ -7902,16 +9361,28 @@ export const getDatabaseImport: API.OperationMethod<
   GetDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetDatabaseImportRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<DatabaseImportStatus>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(264, __c33, 0) as any as S.Schema<GetDatabaseImportRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<DatabaseImportStatus>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseImport",
 }));
 
-export type GetDatabaseLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type GetDatabaseLogsByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get database logs. Get database logs by UUID. Requires the `read:sensitive` or `root` token ability. */
 export const getDatabaseLogsByUuid: API.OperationMethod<
   GetDatabaseLogsByUuidRequest,
@@ -7919,16 +9390,29 @@ export const getDatabaseLogsByUuid: API.OperationMethod<
   GetDatabaseLogsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetDatabaseLogsByUuidRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetDatabaseLogsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(280, __c35, 0) as any as S.Schema<GetDatabaseLogsByUuidRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetDatabaseLogsByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseLogsByUuid",
 }));
 
-export type GetDeploymentError = BadRequest | NotFound | CoolifyOpError;
+export type GetDeploymentError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get deployment by UUID. */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
@@ -7936,16 +9420,28 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<ApplicationDeploymentQueue>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(288, __c36, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<ApplicationDeploymentQueue>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
 
-export type GetDestinationError = NotFound | CoolifyOpError;
+export type GetDestinationError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get destination Get a Docker network destination by UUID. */
 export const getDestination: API.OperationMethod<
   GetDestinationRequest,
@@ -7953,16 +9449,27 @@ export const getDestination: API.OperationMethod<
   GetDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<GetDestinationRequest>,
-  output: __S(2256, __c282, 0) as any as S.Schema<Destination>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(304, __c38, 0) as any as S.Schema<GetDestinationRequest>,
+  output: __S(2320, __c290, 0) as any as S.Schema<Destination>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDestination",
 }));
 
-export type GetDigitaloceanImagesError = UnprocessableEntity | CoolifyOpError;
+export type GetDigitaloceanImagesError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get DigitalOcean images */
 export const getDigitaloceanImages: API.OperationMethod<
   GetDigitaloceanImagesRequest,
@@ -7970,16 +9477,27 @@ export const getDigitaloceanImages: API.OperationMethod<
   GetDigitaloceanImagesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetDigitaloceanImagesRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetDigitaloceanImagesResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(312, __c39, 0) as any as S.Schema<GetDigitaloceanImagesRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetDigitaloceanImagesResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDigitaloceanImages",
 }));
 
-export type GetDigitaloceanRegionsError = UnprocessableEntity | CoolifyOpError;
+export type GetDigitaloceanRegionsError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get DigitalOcean regions */
 export const getDigitaloceanRegions: API.OperationMethod<
   GetDigitaloceanRegionsRequest,
@@ -7987,16 +9505,27 @@ export const getDigitaloceanRegions: API.OperationMethod<
   GetDigitaloceanRegionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<GetDigitaloceanRegionsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetDigitaloceanRegionsResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(320, __c40, 0) as any as S.Schema<GetDigitaloceanRegionsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetDigitaloceanRegionsResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDigitaloceanRegions",
 }));
 
-export type GetDigitaloceanSizesError = UnprocessableEntity | CoolifyOpError;
+export type GetDigitaloceanSizesError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get DigitalOcean sizes */
 export const getDigitaloceanSizes: API.OperationMethod<
   GetDigitaloceanSizesRequest,
@@ -8004,16 +9533,27 @@ export const getDigitaloceanSizes: API.OperationMethod<
   GetDigitaloceanSizesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetDigitaloceanSizesRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetDigitaloceanSizesResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(328, __c41, 0) as any as S.Schema<GetDigitaloceanSizesRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetDigitaloceanSizesResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDigitaloceanSizes",
 }));
 
-export type GetDigitaloceanSshKeysError = UnprocessableEntity | CoolifyOpError;
+export type GetDigitaloceanSshKeysError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get DigitalOcean SSH keys */
 export const getDigitaloceanSshKeys: API.OperationMethod<
   GetDigitaloceanSshKeysRequest,
@@ -8021,16 +9561,27 @@ export const getDigitaloceanSshKeys: API.OperationMethod<
   GetDigitaloceanSshKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetDigitaloceanSshKeysRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetDigitaloceanSshKeysResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(344, __c43, 0) as any as S.Schema<GetDigitaloceanSshKeysRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetDigitaloceanSshKeysResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDigitaloceanSshKeys",
 }));
 
-export type GetDomainsByServerUuidError = BadRequest | CoolifyOpError;
+export type GetDomainsByServerUuidError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Domains Get domains by server. */
 export const getDomainsByServerUuid: API.OperationMethod<
   GetDomainsByServerUuidRequest,
@@ -8038,9 +9589,15 @@ export const getDomainsByServerUuid: API.OperationMethod<
   GetDomainsByServerUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetDomainsByServerUuidRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<GetDomainsByServerUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(352, __c44, 0) as any as S.Schema<GetDomainsByServerUuidRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<GetDomainsByServerUuidResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8051,6 +9608,9 @@ export type GetEnvironmentByNameOrUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Environment Get environment by name or UUID. */
 export const getEnvironmentByNameOrUuid: API.OperationMethod<
@@ -8059,16 +9619,31 @@ export const getEnvironmentByNameOrUuid: API.OperationMethod<
   GetEnvironmentByNameOrUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetEnvironmentByNameOrUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(360, __c45, 0) as any as S.Schema<GetEnvironmentByNameOrUuidRequest>,
+  output: __S(368, __c46, 0) as any as S.Schema<Environment>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEnvironmentByNameOrUuid",
 }));
 
-export type GetEnvironmentsError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type GetEnvironmentsError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Environments List all environments in a project. */
 export const getEnvironments: API.OperationMethod<
   GetEnvironmentsRequest,
@@ -8076,16 +9651,29 @@ export const getEnvironments: API.OperationMethod<
   GetEnvironmentsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetEnvironmentsRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<GetEnvironmentsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(376, __c47, 0) as any as S.Schema<GetEnvironmentsRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<GetEnvironmentsResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEnvironments",
 }));
 
-export type GetHetznerFirewallsError = NotFound | CoolifyOpError;
+export type GetHetznerFirewallsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Hetzner Firewalls Get all existing Hetzner firewalls for the current project. */
 export const getHetznerFirewalls: API.OperationMethod<
   GetHetznerFirewallsRequest,
@@ -8093,16 +9681,27 @@ export const getHetznerFirewalls: API.OperationMethod<
   GetHetznerFirewallsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<GetHetznerFirewallsRequest>,
-  output: __S(363, __c45, 3) as any as S.Schema<GetHetznerFirewallsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(384, __c48, 0) as any as S.Schema<GetHetznerFirewallsRequest>,
+  output: __S(387, __c48, 3) as any as S.Schema<GetHetznerFirewallsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerFirewalls",
 }));
 
-export type GetHetznerImagesError = NotFound | CoolifyOpError;
+export type GetHetznerImagesError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Hetzner Images Get all available Hetzner system images (operating systems). */
 export const getHetznerImages: API.OperationMethod<
   GetHetznerImagesRequest,
@@ -8110,16 +9709,27 @@ export const getHetznerImages: API.OperationMethod<
   GetHetznerImagesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetHetznerImagesRequest>,
-  output: __S(371, __c46, 3) as any as S.Schema<GetHetznerImagesResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(392, __c49, 0) as any as S.Schema<GetHetznerImagesRequest>,
+  output: __S(395, __c49, 3) as any as S.Schema<GetHetznerImagesResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerImages",
 }));
 
-export type GetHetznerLocationsError = NotFound | CoolifyOpError;
+export type GetHetznerLocationsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Hetzner Locations Get all available Hetzner datacenter locations. */
 export const getHetznerLocations: API.OperationMethod<
   GetHetznerLocationsRequest,
@@ -8127,16 +9737,27 @@ export const getHetznerLocations: API.OperationMethod<
   GetHetznerLocationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetHetznerLocationsRequest>,
-  output: __S(379, __c47, 3) as any as S.Schema<GetHetznerLocationsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(400, __c50, 0) as any as S.Schema<GetHetznerLocationsRequest>,
+  output: __S(403, __c50, 3) as any as S.Schema<GetHetznerLocationsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerLocations",
 }));
 
-export type GetHetznerNetworksError = NotFound | CoolifyOpError;
+export type GetHetznerNetworksError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Hetzner Networks Get all existing Hetzner private networks for the current project. */
 export const getHetznerNetworks: API.OperationMethod<
   GetHetznerNetworksRequest,
@@ -8144,16 +9765,27 @@ export const getHetznerNetworks: API.OperationMethod<
   GetHetznerNetworksError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<GetHetznerNetworksRequest>,
-  output: __S(387, __c48, 3) as any as S.Schema<GetHetznerNetworksResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(408, __c51, 0) as any as S.Schema<GetHetznerNetworksRequest>,
+  output: __S(411, __c51, 3) as any as S.Schema<GetHetznerNetworksResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerNetworks",
 }));
 
-export type GetHetznerServerTypesError = NotFound | CoolifyOpError;
+export type GetHetznerServerTypesError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Hetzner Server Types Get all available Hetzner server types (instance sizes). */
 export const getHetznerServerTypes: API.OperationMethod<
   GetHetznerServerTypesRequest,
@@ -8161,16 +9793,27 @@ export const getHetznerServerTypes: API.OperationMethod<
   GetHetznerServerTypesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<GetHetznerServerTypesRequest>,
-  output: __S(398, __c49, 6) as any as S.Schema<GetHetznerServerTypesResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(416, __c52, 0) as any as S.Schema<GetHetznerServerTypesRequest>,
+  output: __S(422, __c52, 6) as any as S.Schema<GetHetznerServerTypesResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerServerTypes",
 }));
 
-export type GetHetznerSshKeysError = NotFound | CoolifyOpError;
+export type GetHetznerSshKeysError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Hetzner SSH Keys Get all SSH keys stored in the Hetzner account. */
 export const getHetznerSshKeys: API.OperationMethod<
   GetHetznerSshKeysRequest,
@@ -8178,16 +9821,27 @@ export const getHetznerSshKeys: API.OperationMethod<
   GetHetznerSshKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<GetHetznerSshKeysRequest>,
-  output: __S(403, __c50, 3) as any as S.Schema<GetHetznerSshKeysResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(424, __c53, 0) as any as S.Schema<GetHetznerSshKeysRequest>,
+  output: __S(427, __c53, 3) as any as S.Schema<GetHetznerSshKeysResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerSshKeys",
 }));
 
-export type GetInstanceEmailSettingsError = Forbidden | CoolifyOpError;
+export type GetInstanceEmailSettingsError =
+  | Forbidden
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get instance email settings Get instance-wide SMTP and Resend settings. Requires a root-team token belonging to a root-team admin or owner. Sensitive fields require the `read:sensitive` or `root` token ability. */
 export const getInstanceEmailSettings: API.OperationMethod<
   GetInstanceEmailSettingsRequest,
@@ -8195,16 +9849,28 @@ export const getInstanceEmailSettings: API.OperationMethod<
   GetInstanceEmailSettingsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<GetInstanceEmailSettingsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetInstanceEmailSettingsResponse>,
-  errors: [Forbidden, UnknownCoolifyError],
+  input: __S(448, __c56, 0) as any as S.Schema<GetInstanceEmailSettingsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetInstanceEmailSettingsResponse>,
+  errors: [
+    Forbidden,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceEmailSettings",
 }));
 
-export type GetMembersByTeamIdError = BadRequest | NotFound | CoolifyOpError;
+export type GetMembersByTeamIdError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Members Get members by TeamId. */
 export const getMembersByTeamId: API.OperationMethod<
   GetMembersByTeamIdRequest,
@@ -8212,9 +9878,16 @@ export const getMembersByTeamId: API.OperationMethod<
   GetMembersByTeamIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<GetMembersByTeamIdRequest>,
-  output: __S(432, __c54, 0) as any as S.Schema<GetMembersByTeamIdResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(456, __c57, 0) as any as S.Schema<GetMembersByTeamIdRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<GetMembersByTeamIdResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8225,6 +9898,9 @@ export type GetPreviewApplicationLogsByPullRequestIdError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Get preview application logs. Get runtime container logs for a preview deployment by application UUID and pull request ID. Requires the `read:sensitive` or `root` token ability. */
 export const getPreviewApplicationLogsByPullRequestId: API.OperationMethod<
@@ -8233,9 +9909,17 @@ export const getPreviewApplicationLogsByPullRequestId: API.OperationMethod<
   GetPreviewApplicationLogsByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(480, __c60, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8245,6 +9929,9 @@ export const getPreviewApplicationLogsByPullRequestId: API.OperationMethod<
 export type GetPreviewDeploymentByPullRequestIdError =
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Get Preview Deployment Get a preview deployment by pull request ID. */
 export const getPreviewDeploymentByPullRequestId: API.OperationMethod<
@@ -8253,16 +9940,29 @@ export const getPreviewDeploymentByPullRequestId: API.OperationMethod<
   GetPreviewDeploymentByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<GetPreviewDeploymentByPullRequestIdRequest>,
-  output: __S(2138, __c267, 2) as any as S.Schema<ApplicationPreview>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(488, __c61, 0) as any as S.Schema<GetPreviewDeploymentByPullRequestIdRequest>,
+  output: __S(2202, __c275, 2) as any as S.Schema<ApplicationPreview>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPreviewDeploymentByPullRequestId",
 }));
 
-export type GetPrivateKeyByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type GetPrivateKeyByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get key by UUID. */
 export const getPrivateKeyByUuid: API.OperationMethod<
   GetPrivateKeyByUuidRequest,
@@ -8270,16 +9970,29 @@ export const getPrivateKeyByUuid: API.OperationMethod<
   GetPrivateKeyByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<GetPrivateKeyByUuidRequest>,
-  output: __S(472, __c59, 0) as any as S.Schema<PrivateKey>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(496, __c62, 0) as any as S.Schema<GetPrivateKeyByUuidRequest>,
+  output: __S(504, __c63, 0) as any as S.Schema<PrivateKey>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPrivateKeyByUuid",
 }));
 
-export type GetProjectError = BadRequest | NotFound | CoolifyOpError;
+export type GetProjectError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get project by UUID. */
 export const getProject: API.OperationMethod<
   GetProjectRequest,
@@ -8287,16 +10000,28 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(488, __c61, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(512, __c64, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<Project>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProject",
 }));
 
-export type GetResourcesByServerUuidError = BadRequest | CoolifyOpError;
+export type GetResourcesByServerUuidError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Resources Get resources by server. */
 export const getResourcesByServerUuid: API.OperationMethod<
   GetResourcesByServerUuidRequest,
@@ -8304,16 +10029,27 @@ export const getResourcesByServerUuid: API.OperationMethod<
   GetResourcesByServerUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<GetResourcesByServerUuidRequest>,
-  output: __S(499, __c62, 3) as any as S.Schema<GetResourcesByServerUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(528, __c66, 0) as any as S.Schema<GetResourcesByServerUuidRequest>,
+  output: __S(531, __c66, 3) as any as S.Schema<GetResourcesByServerUuidResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourcesByServerUuid",
 }));
 
-export type GetS3StorageError = NotFound | CoolifyOpError;
+export type GetS3StorageError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get S3 Storage Get S3 storage by UUID. */
 export const getS3Storage: API.OperationMethod<
   GetS3StorageRequest,
@@ -8321,16 +10057,28 @@ export const getS3Storage: API.OperationMethod<
   GetS3StorageError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<GetS3StorageRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<GetS3StorageResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(536, __c67, 0) as any as S.Schema<GetS3StorageRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<GetS3StorageResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetS3Storage",
 }));
 
-export type GetServerError = BadRequest | NotFound | CoolifyOpError;
+export type GetServerError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get server by UUID. */
 export const getServer: API.OperationMethod<
   GetServerRequest,
@@ -8338,16 +10086,29 @@ export const getServer: API.OperationMethod<
   GetServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<GetServerRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<Server>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(552, __c69, 0) as any as S.Schema<GetServerRequest>,
+  output: __S(561, __c70, 1) as any as S.Schema<Server>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServer",
 }));
 
-export type GetServerCloudflareTunnelError = BadRequest | NotFound | CoolifyOpError;
+export type GetServerCloudflareTunnelError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Cloudflare Tunnel settings Get Cloudflare Tunnel settings for a server owned by the authenticated team. */
 export const getServerCloudflareTunnel: API.OperationMethod<
   GetServerCloudflareTunnelRequest,
@@ -8355,16 +10116,29 @@ export const getServerCloudflareTunnel: API.OperationMethod<
   GetServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<GetServerCloudflareTunnelRequest>,
-  output: __S(537, __c67, 1) as any as S.Schema<GetServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(568, __c71, 0) as any as S.Schema<GetServerCloudflareTunnelRequest>,
+  output: __S(569, __c71, 1) as any as S.Schema<GetServerCloudflareTunnelResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerCloudflareTunnel",
 }));
 
-export type GetServerDockerCleanupError = BadRequest | NotFound | CoolifyOpError;
+export type GetServerDockerCleanupError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Docker cleanup settings Get Docker cleanup settings for a server owned by the authenticated team. */
 export const getServerDockerCleanup: API.OperationMethod<
   GetServerDockerCleanupRequest,
@@ -8372,16 +10146,29 @@ export const getServerDockerCleanup: API.OperationMethod<
   GetServerDockerCleanupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<GetServerDockerCleanupRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<GetServerDockerCleanupResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(584, __c73, 0) as any as S.Schema<GetServerDockerCleanupRequest>,
+  output: __S(592, __c74, 0) as any as S.Schema<GetServerDockerCleanupResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerDockerCleanup",
 }));
 
-export type GetServerLogDrainsError = BadRequest | NotFound | CoolifyOpError;
+export type GetServerLogDrainsError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get log drain settings Get log drain settings for a server owned by the authenticated team. Sensitive fields require the read:sensitive or root token ability. */
 export const getServerLogDrains: API.OperationMethod<
   GetServerLogDrainsRequest,
@@ -8389,16 +10176,29 @@ export const getServerLogDrains: API.OperationMethod<
   GetServerLogDrainsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<GetServerLogDrainsRequest>,
-  output: __S(561, __c70, 1) as any as S.Schema<GetServerLogDrainsResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(600, __c75, 0) as any as S.Schema<GetServerLogDrainsRequest>,
+  output: __S(601, __c75, 1) as any as S.Schema<GetServerLogDrainsResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerLogDrains",
 }));
 
-export type GetServerProxyError = BadRequest | NotFound | CoolifyOpError;
+export type GetServerProxyError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get server proxy Get proxy settings for a server owned by the authenticated team. The raw proxy configuration is only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner, and only when already stored in the database (no remote fetch). */
 export const getServerProxy: API.OperationMethod<
   GetServerProxyRequest,
@@ -8406,16 +10206,29 @@ export const getServerProxy: API.OperationMethod<
   GetServerProxyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<GetServerProxyRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<GetServerProxyResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(608, __c76, 0) as any as S.Schema<GetServerProxyRequest>,
+  output: __S(616, __c77, 0) as any as S.Schema<GetServerProxyResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerProxy",
 }));
 
-export type GetServerSentinelError = BadRequest | NotFound | CoolifyOpError;
+export type GetServerSentinelError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Sentinel settings Get Sentinel settings for a server owned by the authenticated team. sentinel_token and sentinel_custom_url require the read:sensitive or root token ability. */
 export const getServerSentinel: API.OperationMethod<
   GetServerSentinelRequest,
@@ -8423,16 +10236,29 @@ export const getServerSentinel: API.OperationMethod<
   GetServerSentinelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<GetServerSentinelRequest>,
-  output: __S(593, __c74, 1) as any as S.Schema<GetServerSentinelResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(624, __c78, 0) as any as S.Schema<GetServerSentinelRequest>,
+  output: __S(625, __c78, 1) as any as S.Schema<GetServerSentinelResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerSentinel",
 }));
 
-export type GetServiceError = BadRequest | NotFound | CoolifyOpError;
+export type GetServiceError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get service by UUID. */
 export const getService: API.OperationMethod<
   GetServiceRequest,
@@ -8440,16 +10266,28 @@ export const getService: API.OperationMethod<
   GetServiceError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(608, __c76, 0) as any as S.Schema<Service>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(632, __c79, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(640, __c80, 0) as any as S.Schema<Service>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetService",
 }));
 
-export type GetServiceApplicationByServiceAndAppUuidError = NotFound | CoolifyOpError;
+export type GetServiceApplicationByServiceAndAppUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get service application Get a single compose service application by service UUID and application UUID. */
 export const getServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   GetServiceApplicationByServiceAndAppUuidRequest,
@@ -8457,9 +10295,15 @@ export const getServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   GetServiceApplicationByServiceAndAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(648, __c81, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8469,6 +10313,9 @@ export const getServiceApplicationByServiceAndAppUuid: API.OperationMethod<
 export type GetServiceApplicationLogsByServiceAndAppUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Get service application logs Get Docker logs for a single compose service container. Requires the `read:sensitive` or `root` token ability. */
 export const getServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
@@ -8477,20 +10324,32 @@ export const getServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   GetServiceApplicationLogsByServiceAndAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidRequest>,
+  input: __S(656, __c82, 0) as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidRequest>,
   output: __S(
-    112,
-    __c14,
+    152,
+    __c19,
     0,
   ) as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceApplicationLogsByServiceAndAppUuid",
 }));
 
-export type GetServiceDatabaseByServiceAndDatabaseUuidError = NotFound | CoolifyOpError;
+export type GetServiceDatabaseByServiceAndDatabaseUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get service database Get a compose database by service UUID and database UUID. */
 export const getServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   GetServiceDatabaseByServiceAndDatabaseUuidRequest,
@@ -8498,20 +10357,31 @@ export const getServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   GetServiceDatabaseByServiceAndDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidRequest>,
+  input: __S(664, __c83, 0) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(
-    2304,
-    __c288,
+    2368,
+    __c296,
     0,
   ) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
-export type GetServiceDatabaseImportError = NotFound | CoolifyOpError;
+export type GetServiceDatabaseImportError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get service database import status */
 export const getServiceDatabaseImport: API.OperationMethod<
   GetServiceDatabaseImportRequest,
@@ -8519,9 +10389,15 @@ export const getServiceDatabaseImport: API.OperationMethod<
   GetServiceDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<GetServiceDatabaseImportRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<DatabaseImportStatus>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(672, __c84, 0) as any as S.Schema<GetServiceDatabaseImportRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<DatabaseImportStatus>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8531,6 +10407,9 @@ export const getServiceDatabaseImport: API.OperationMethod<
 export type GetServiceDatabaseLogsByServiceAndDatabaseUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Get service database logs Get Docker logs for a compose database container. Requires the `read:sensitive` or `root` token ability. */
 export const getServiceDatabaseLogsByServiceAndDatabaseUuid: API.OperationMethod<
@@ -8540,23 +10419,36 @@ export const getServiceDatabaseLogsByServiceAndDatabaseUuid: API.OperationMethod
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    648,
-    __c81,
+    680,
+    __c85,
     0,
   ) as any as S.Schema<GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest>,
   output: __S(
-    112,
-    __c14,
+    152,
+    __c19,
     0,
   ) as any as S.Schema<GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceDatabaseLogsByServiceAndDatabaseUuid",
 }));
 
-export type GetServiceLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type GetServiceLogsByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get service logs. Get logs for a specific service sub-resource by service UUID. The `sub_service_name` query parameter must match the `name` field of one of the service applications or databases returned by `GET /services/{uuid}`. Requires the `read:sensitive` or `root` token ability. */
 export const getServiceLogsByUuid: API.OperationMethod<
   GetServiceLogsByUuidRequest,
@@ -8564,29 +10456,54 @@ export const getServiceLogsByUuid: API.OperationMethod<
   GetServiceLogsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<GetServiceLogsByUuidRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<GetServiceLogsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(696, __c87, 0) as any as S.Schema<GetServiceLogsByUuidRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetServiceLogsByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceLogsByUuid",
 }));
 
-export type GetTeamError = BadRequest | NotFound | CoolifyOpError;
+export type GetTeamError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Get team by TeamId. */
 export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, CoolifyOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(664, __c83, 0) as any as S.Schema<GetTeamRequest>,
-    output: __S(672, __c84, 0) as any as S.Schema<Team>,
-    errors: [BadRequest, NotFound, UnknownCoolifyError],
+    input: __S(704, __c88, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(712, __c89, 0) as any as S.Schema<Team>,
+    errors: [
+      BadRequest,
+      NotFound,
+      TokenScopeForbidden,
+      ActionNotAuthorized,
+      CoolifyHostRequiresAdmin,
+      UnknownCoolifyError,
+    ],
     protocol: CoolifyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetTeam",
   }));
 
-export type GetTokenTeamError = BadRequest | CoolifyOpError;
+export type GetTokenTeamError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Authenticated Team Get the team bound to the API token. */
 export const getTokenTeam: API.OperationMethod<
   GetTokenTeamRequest,
@@ -8594,16 +10511,27 @@ export const getTokenTeam: API.OperationMethod<
   GetTokenTeamError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<GetTokenTeamRequest>,
-  output: __S(672, __c84, 0) as any as S.Schema<Team>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(720, __c90, 0) as any as S.Schema<GetTokenTeamRequest>,
+  output: __S(712, __c89, 0) as any as S.Schema<Team>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTokenTeam",
 }));
 
-export type GetTokenTeamMembersError = BadRequest | CoolifyOpError;
+export type GetTokenTeamMembersError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Authenticated Team Members Get members of the team bound to the API token. */
 export const getTokenTeamMembers: API.OperationMethod<
   GetTokenTeamMembersRequest,
@@ -8611,16 +10539,27 @@ export const getTokenTeamMembers: API.OperationMethod<
   GetTokenTeamMembersError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<GetTokenTeamMembersRequest>,
-  output: __S(432, __c54, 0) as any as S.Schema<GetTokenTeamMembersResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(728, __c91, 0) as any as S.Schema<GetTokenTeamMembersRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<GetTokenTeamMembersResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTokenTeamMembers",
 }));
 
-export type GetVultrOperatingSystemsError = NotFound | CoolifyOpError;
+export type GetVultrOperatingSystemsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Vultr Operating Systems Get all available Vultr operating systems. */
 export const getVultrOperatingSystems: API.OperationMethod<
   GetVultrOperatingSystemsRequest,
@@ -8628,16 +10567,27 @@ export const getVultrOperatingSystems: API.OperationMethod<
   GetVultrOperatingSystemsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<GetVultrOperatingSystemsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetVultrOperatingSystemsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(736, __c92, 0) as any as S.Schema<GetVultrOperatingSystemsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetVultrOperatingSystemsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVultrOperatingSystems",
 }));
 
-export type GetVultrPlansError = NotFound | CoolifyOpError;
+export type GetVultrPlansError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Vultr Plans Get all available Vultr plans. */
 export const getVultrPlans: API.OperationMethod<
   GetVultrPlansRequest,
@@ -8645,16 +10595,27 @@ export const getVultrPlans: API.OperationMethod<
   GetVultrPlansError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<GetVultrPlansRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetVultrPlansResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(744, __c93, 0) as any as S.Schema<GetVultrPlansRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetVultrPlansResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVultrPlans",
 }));
 
-export type GetVultrRegionsError = NotFound | CoolifyOpError;
+export type GetVultrRegionsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Vultr Regions Get all available Vultr regions. */
 export const getVultrRegions: API.OperationMethod<
   GetVultrRegionsRequest,
@@ -8662,16 +10623,27 @@ export const getVultrRegions: API.OperationMethod<
   GetVultrRegionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<GetVultrRegionsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetVultrRegionsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(752, __c94, 0) as any as S.Schema<GetVultrRegionsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetVultrRegionsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVultrRegions",
 }));
 
-export type GetVultrSshKeysError = NotFound | CoolifyOpError;
+export type GetVultrSshKeysError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Get Vultr SSH Keys Get all Vultr SSH keys available to the selected token. */
 export const getVultrSshKeys: API.OperationMethod<
   GetVultrSshKeysRequest,
@@ -8679,16 +10651,27 @@ export const getVultrSshKeys: API.OperationMethod<
   GetVultrSshKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<GetVultrSshKeysRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<GetVultrSshKeysResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(760, __c95, 0) as any as S.Schema<GetVultrSshKeysRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetVultrSshKeysResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVultrSshKeys",
 }));
 
-export type HealthcheckError = BadRequest | CoolifyOpError;
+export type HealthcheckError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Healthcheck Healthcheck endpoint. */
 export const healthcheck: API.OperationMethod<
   HealthcheckRequest,
@@ -8696,16 +10679,27 @@ export const healthcheck: API.OperationMethod<
   HealthcheckError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<HealthcheckRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<HealthcheckResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(768, __c96, 0) as any as S.Schema<HealthcheckRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<HealthcheckResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "Healthcheck",
 }));
 
-export type ListApplicationDestinationsError = NotFound | CoolifyOpError;
+export type ListApplicationDestinationsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Destinations List primary and additional destinations for a standalone application. */
 export const listApplicationDestinations: API.OperationMethod<
   ListApplicationDestinationsRequest,
@@ -8713,16 +10707,27 @@ export const listApplicationDestinations: API.OperationMethod<
   ListApplicationDestinationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<ListApplicationDestinationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ListApplicationDestinationsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(776, __c97, 0) as any as S.Schema<ListApplicationDestinationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ListApplicationDestinationsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationDestinations",
 }));
 
-export type ListApplicationRollbackImagesError = NotFound | CoolifyOpError;
+export type ListApplicationRollbackImagesError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Rollback Images List available Docker images for rolling back an application. Returns an empty list when the server is unavailable or remote inspection is not possible. */
 export const listApplicationRollbackImages: API.OperationMethod<
   ListApplicationRollbackImagesRequest,
@@ -8730,16 +10735,27 @@ export const listApplicationRollbackImages: API.OperationMethod<
   ListApplicationRollbackImagesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<ListApplicationRollbackImagesRequest>,
-  output: __S(763, __c95, 3) as any as S.Schema<ListApplicationRollbackImagesResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(792, __c99, 0) as any as S.Schema<ListApplicationRollbackImagesRequest>,
+  output: __S(795, __c99, 3) as any as S.Schema<ListApplicationRollbackImagesResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationRollbackImages",
 }));
 
-export type ListApplicationsError = BadRequest | CoolifyOpError;
+export type ListApplicationsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all applications. */
 export const listApplications: API.OperationMethod<
   ListApplicationsRequest,
@@ -8747,16 +10763,28 @@ export const listApplications: API.OperationMethod<
   ListApplicationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<ListApplicationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(800, __c100, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(809, __c101, 1) as any as S.Schema<ListApplicationsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplications",
 }));
 
-export type ListAuditEventsError = Forbidden | UnprocessableEntity | CoolifyOpError;
+export type ListAuditEventsError =
+  | Forbidden
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List audit events of the team. Only team admins and owners can view audit events. Actor e-mail, token, metadata, changes, IP address, and user agent are returned only for tokens with the read:sensitive or root permission. */
 export const listAuditEvents: API.OperationMethod<
   ListAuditEventsRequest,
@@ -8764,16 +10792,28 @@ export const listAuditEvents: API.OperationMethod<
   ListAuditEventsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<ListAuditEventsRequest>,
-  output: __S(787, __c98, 3) as any as S.Schema<ListAuditEventsResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(816, __c102, 0) as any as S.Schema<ListAuditEventsRequest>,
+  output: __S(819, __c102, 3) as any as S.Schema<ListAuditEventsResponse>,
+  errors: [
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAuditEvents",
 }));
 
-export type ListBackupExecutionsError = NotFound | CoolifyOpError;
+export type ListBackupExecutionsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List backup executions Get all executions for a specific backup configuration. */
 export const listBackupExecutions: API.OperationMethod<
   ListBackupExecutionsRequest,
@@ -8781,16 +10821,27 @@ export const listBackupExecutions: API.OperationMethod<
   ListBackupExecutionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<ListBackupExecutionsRequest>,
-  output: __S(803, __c100, 3) as any as S.Schema<ListBackupExecutionsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(824, __c103, 0) as any as S.Schema<ListBackupExecutionsRequest>,
+  output: __S(827, __c103, 3) as any as S.Schema<ListBackupExecutionsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupExecutions",
 }));
 
-export type ListCloudInitScriptsError = Forbidden | CoolifyOpError;
+export type ListCloudInitScriptsError =
+  | Forbidden
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Cloud-init Scripts List all cloud-init scripts for the authenticated team. */
 export const listCloudInitScripts: API.OperationMethod<
   ListCloudInitScriptsRequest,
@@ -8798,16 +10849,27 @@ export const listCloudInitScripts: API.OperationMethod<
   ListCloudInitScriptsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<ListCloudInitScriptsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ListCloudInitScriptsResponse>,
-  errors: [Forbidden, UnknownCoolifyError],
+  input: __S(832, __c104, 0) as any as S.Schema<ListCloudInitScriptsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ListCloudInitScriptsResponse>,
+  errors: [
+    Forbidden,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudInitScripts",
 }));
 
-export type ListCloudTokensError = BadRequest | CoolifyOpError;
+export type ListCloudTokensError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Cloud Provider Tokens List all cloud provider tokens for the authenticated team. */
 export const listCloudTokens: API.OperationMethod<
   ListCloudTokensRequest,
@@ -8815,16 +10877,27 @@ export const listCloudTokens: API.OperationMethod<
   ListCloudTokensError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<ListCloudTokensRequest>,
-  output: __S(819, __c102, 3) as any as S.Schema<ListCloudTokensResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(840, __c105, 0) as any as S.Schema<ListCloudTokensRequest>,
+  output: __S(843, __c105, 3) as any as S.Schema<ListCloudTokensResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudTokens",
 }));
 
-export type ListDatabasesError = BadRequest | CoolifyOpError;
+export type ListDatabasesError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all databases. */
 export const listDatabases: API.OperationMethod<
   ListDatabasesRequest,
@@ -8832,16 +10905,27 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(826, __c103, 2) as any as S.Schema<ListDatabasesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(848, __c106, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(850, __c106, 2) as any as S.Schema<ListDatabasesResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabases",
 }));
 
-export type ListDeploymentsError = BadRequest | CoolifyOpError;
+export type ListDeploymentsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List currently running deployments */
 export const listDeployments: API.OperationMethod<
   ListDeploymentsRequest,
@@ -8849,16 +10933,27 @@ export const listDeployments: API.OperationMethod<
   ListDeploymentsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<ListDeploymentsRequest>,
-  output: __S(834, __c104, 2) as any as S.Schema<ListDeploymentsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(856, __c107, 0) as any as S.Schema<ListDeploymentsRequest>,
+  output: __S(858, __c107, 2) as any as S.Schema<ListDeploymentsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployments",
 }));
 
-export type ListDeploymentsByAppUuidError = BadRequest | CoolifyOpError;
+export type ListDeploymentsByAppUuidError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List application deployments List application deployments by using the app uuid */
 export const listDeploymentsByAppUuid: API.OperationMethod<
   ListDeploymentsByAppUuidRequest,
@@ -8866,16 +10961,26 @@ export const listDeploymentsByAppUuid: API.OperationMethod<
   ListDeploymentsByAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<ListDeploymentsByAppUuidRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<ListDeploymentsByAppUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(864, __c108, 0) as any as S.Schema<ListDeploymentsByAppUuidRequest>,
+  output: __S(809, __c101, 1) as any as S.Schema<ListDeploymentsByAppUuidResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeploymentsByAppUuid",
 }));
 
-export type ListDestinationsError = CoolifyOpError;
+export type ListDestinationsError =
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List destinations List all Docker network destinations for the authenticated team. */
 export const listDestinations: API.OperationMethod<
   ListDestinationsRequest,
@@ -8883,16 +10988,21 @@ export const listDestinations: API.OperationMethod<
   ListDestinationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<ListDestinationsRequest>,
-  output: __S(857, __c107, 1) as any as S.Schema<ListDestinationsResponse>,
-  errors: [UnknownCoolifyError],
+  input: __S(872, __c109, 0) as any as S.Schema<ListDestinationsRequest>,
+  output: __S(881, __c110, 1) as any as S.Schema<ListDestinationsResponse>,
+  errors: [TokenScopeForbidden, ActionNotAuthorized, CoolifyHostRequiresAdmin, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDestinations",
 }));
 
-export type ListEnvironmentSharedEnvsError = NotFound | CoolifyOpError;
+export type ListEnvironmentSharedEnvsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Environment Shared Envs List shared environment variables for a project environment (type=environment). */
 export const listEnvironmentSharedEnvs: API.OperationMethod<
   ListEnvironmentSharedEnvsRequest,
@@ -8900,16 +11010,28 @@ export const listEnvironmentSharedEnvs: API.OperationMethod<
   ListEnvironmentSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<ListEnvironmentSharedEnvsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ListEnvironmentSharedEnvsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(896, __c112, 0) as any as S.Schema<ListEnvironmentSharedEnvsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ListEnvironmentSharedEnvsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironmentSharedEnvs",
 }));
 
-export type ListEnvsByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListEnvsByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Envs List all envs by application UUID. */
 export const listEnvsByApplicationUuid: API.OperationMethod<
   ListEnvsByApplicationUuidRequest,
@@ -8917,16 +11039,29 @@ export const listEnvsByApplicationUuid: API.OperationMethod<
   ListEnvsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<ListEnvsByApplicationUuidRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<ListEnvsByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(904, __c113, 0) as any as S.Schema<ListEnvsByApplicationUuidRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<ListEnvsByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvsByApplicationUuid",
 }));
 
-export type ListEnvsByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListEnvsByDatabaseUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Envs List all envs by database UUID. */
 export const listEnvsByDatabaseUuid: API.OperationMethod<
   ListEnvsByDatabaseUuidRequest,
@@ -8934,16 +11069,29 @@ export const listEnvsByDatabaseUuid: API.OperationMethod<
   ListEnvsByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<ListEnvsByDatabaseUuidRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<ListEnvsByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(928, __c116, 0) as any as S.Schema<ListEnvsByDatabaseUuidRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<ListEnvsByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvsByDatabaseUuid",
 }));
 
-export type ListEnvsByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListEnvsByServiceUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Envs List all envs by service UUID. */
 export const listEnvsByServiceUuid: API.OperationMethod<
   ListEnvsByServiceUuidRequest,
@@ -8951,16 +11099,28 @@ export const listEnvsByServiceUuid: API.OperationMethod<
   ListEnvsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<ListEnvsByServiceUuidRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<ListEnvsByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(936, __c117, 0) as any as S.Schema<ListEnvsByServiceUuidRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<ListEnvsByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvsByServiceUuid",
 }));
 
-export type ListGithubAppsError = BadRequest | CoolifyOpError;
+export type ListGithubAppsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all GitHub apps. */
 export const listGithubApps: API.OperationMethod<
   ListGithubAppsRequest,
@@ -8968,16 +11128,27 @@ export const listGithubApps: API.OperationMethod<
   ListGithubAppsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<ListGithubAppsRequest>,
-  output: __S(931, __c116, 3) as any as S.Schema<ListGithubAppsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(944, __c118, 0) as any as S.Schema<ListGithubAppsRequest>,
+  output: __S(947, __c118, 3) as any as S.Schema<ListGithubAppsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGithubApps",
 }));
 
-export type ListGitlabAppsError = BadRequest | CoolifyOpError;
+export type ListGitlabAppsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all GitLab apps for the current team (and system-wide sources). */
 export const listGitlabApps: API.OperationMethod<
   ListGitlabAppsRequest,
@@ -8985,16 +11156,27 @@ export const listGitlabApps: API.OperationMethod<
   ListGitlabAppsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<ListGitlabAppsRequest>,
-  output: __S(939, __c117, 3) as any as S.Schema<ListGitlabAppsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(952, __c119, 0) as any as S.Schema<ListGitlabAppsRequest>,
+  output: __S(955, __c119, 3) as any as S.Schema<ListGitlabAppsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGitlabApps",
 }));
 
-export type ListPreviewDeploymentsByApplicationUuidError = NotFound | CoolifyOpError;
+export type ListPreviewDeploymentsByApplicationUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Preview Deployments List the preview deployments of an application, newest pull request first. */
 export const listPreviewDeploymentsByApplicationUuid: API.OperationMethod<
   ListPreviewDeploymentsByApplicationUuidRequest,
@@ -9002,16 +11184,27 @@ export const listPreviewDeploymentsByApplicationUuid: API.OperationMethod<
   ListPreviewDeploymentsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidRequest>,
-  output: __S(946, __c118, 2) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(960, __c120, 0) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidRequest>,
+  output: __S(962, __c120, 2) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPreviewDeploymentsByApplicationUuid",
 }));
 
-export type ListPrivateKeysError = BadRequest | CoolifyOpError;
+export type ListPrivateKeysError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all private keys. */
 export const listPrivateKeys: API.OperationMethod<
   ListPrivateKeysRequest,
@@ -9019,16 +11212,27 @@ export const listPrivateKeys: API.OperationMethod<
   ListPrivateKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<ListPrivateKeysRequest>,
-  output: __S(954, __c119, 2) as any as S.Schema<ListPrivateKeysResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(968, __c121, 0) as any as S.Schema<ListPrivateKeysRequest>,
+  output: __S(970, __c121, 2) as any as S.Schema<ListPrivateKeysResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateKeys",
 }));
 
-export type ListProjectsError = BadRequest | CoolifyOpError;
+export type ListProjectsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List projects. */
 export const listProjects: API.OperationMethod<
   ListProjectsRequest,
@@ -9036,16 +11240,27 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(962, __c120, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(976, __c122, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(978, __c122, 2) as any as S.Schema<ListProjectsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjects",
 }));
 
-export type ListProjectSharedEnvsError = NotFound | CoolifyOpError;
+export type ListProjectSharedEnvsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Project Shared Envs List shared environment variables for a project (type=project). */
 export const listProjectSharedEnvs: API.OperationMethod<
   ListProjectSharedEnvsRequest,
@@ -9053,16 +11268,27 @@ export const listProjectSharedEnvs: API.OperationMethod<
   ListProjectSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<ListProjectSharedEnvsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ListProjectSharedEnvsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(984, __c123, 0) as any as S.Schema<ListProjectSharedEnvsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ListProjectSharedEnvsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectSharedEnvs",
 }));
 
-export type ListResourcesError = BadRequest | CoolifyOpError;
+export type ListResourcesError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Get all resources. */
 export const listResources: API.OperationMethod<
   ListResourcesRequest,
@@ -9070,16 +11296,27 @@ export const listResources: API.OperationMethod<
   ListResourcesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<ListResourcesRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<ListResourcesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1008, __c126, 0) as any as S.Schema<ListResourcesRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<ListResourcesResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResources",
 }));
 
-export type ListS3StoragesError = BadRequest | CoolifyOpError;
+export type ListS3StoragesError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List S3 Storages List all S3 storages for the authenticated team. */
 export const listS3Storages: API.OperationMethod<
   ListS3StoragesRequest,
@@ -9087,16 +11324,27 @@ export const listS3Storages: API.OperationMethod<
   ListS3StoragesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<ListS3StoragesRequest>,
-  output: __S(986, __c123, 2) as any as S.Schema<ListS3StoragesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1016, __c127, 0) as any as S.Schema<ListS3StoragesRequest>,
+  output: __S(1018, __c127, 2) as any as S.Schema<ListS3StoragesResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListS3Storages",
 }));
 
-export type ListScheduledTaskExecutionsByApplicationUuidError = NotFound | CoolifyOpError;
+export type ListScheduledTaskExecutionsByApplicationUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Executions List all executions for a scheduled task on an application. */
 export const listScheduledTaskExecutionsByApplicationUuid: API.OperationMethod<
   ListScheduledTaskExecutionsByApplicationUuidRequest,
@@ -9105,23 +11353,34 @@ export const listScheduledTaskExecutionsByApplicationUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c124,
+    1024,
+    __c128,
     0,
   ) as any as S.Schema<ListScheduledTaskExecutionsByApplicationUuidRequest>,
   output: __S(
-    1002,
-    __c125,
+    1034,
+    __c129,
     2,
   ) as any as S.Schema<ListScheduledTaskExecutionsByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduledTaskExecutionsByApplicationUuid",
 }));
 
-export type ListScheduledTaskExecutionsByServiceUuidError = NotFound | CoolifyOpError;
+export type ListScheduledTaskExecutionsByServiceUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Executions List all executions for a scheduled task on a service. */
 export const listScheduledTaskExecutionsByServiceUuid: API.OperationMethod<
   ListScheduledTaskExecutionsByServiceUuidRequest,
@@ -9129,16 +11388,27 @@ export const listScheduledTaskExecutionsByServiceUuid: API.OperationMethod<
   ListScheduledTaskExecutionsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidRequest>,
-  output: __S(1002, __c125, 2) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1040, __c130, 0) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidRequest>,
+  output: __S(1034, __c129, 2) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduledTaskExecutionsByServiceUuid",
 }));
 
-export type ListScheduledTasksByApplicationUuidError = NotFound | CoolifyOpError;
+export type ListScheduledTasksByApplicationUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Tasks List all scheduled tasks for an application. */
 export const listScheduledTasksByApplicationUuid: API.OperationMethod<
   ListScheduledTasksByApplicationUuidRequest,
@@ -9146,16 +11416,27 @@ export const listScheduledTasksByApplicationUuid: API.OperationMethod<
   ListScheduledTasksByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<ListScheduledTasksByApplicationUuidRequest>,
-  output: __S(1033, __c129, 1) as any as S.Schema<ListScheduledTasksByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1048, __c131, 0) as any as S.Schema<ListScheduledTasksByApplicationUuidRequest>,
+  output: __S(1057, __c132, 1) as any as S.Schema<ListScheduledTasksByApplicationUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduledTasksByApplicationUuid",
 }));
 
-export type ListScheduledTasksByServiceUuidError = NotFound | CoolifyOpError;
+export type ListScheduledTasksByServiceUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Tasks List all scheduled tasks for a service. */
 export const listScheduledTasksByServiceUuid: API.OperationMethod<
   ListScheduledTasksByServiceUuidRequest,
@@ -9163,16 +11444,27 @@ export const listScheduledTasksByServiceUuid: API.OperationMethod<
   ListScheduledTasksByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<ListScheduledTasksByServiceUuidRequest>,
-  output: __S(1033, __c129, 1) as any as S.Schema<ListScheduledTasksByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1064, __c133, 0) as any as S.Schema<ListScheduledTasksByServiceUuidRequest>,
+  output: __S(1057, __c132, 1) as any as S.Schema<ListScheduledTasksByServiceUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduledTasksByServiceUuid",
 }));
 
-export type ListServerDestinationsError = NotFound | CoolifyOpError;
+export type ListServerDestinationsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List destinations by server List Docker network destinations attached to a server owned by the authenticated team. */
 export const listServerDestinations: API.OperationMethod<
   ListServerDestinationsRequest,
@@ -9180,16 +11472,28 @@ export const listServerDestinations: API.OperationMethod<
   ListServerDestinationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<ListServerDestinationsRequest>,
-  output: __S(857, __c107, 1) as any as S.Schema<ListServerDestinationsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1072, __c134, 0) as any as S.Schema<ListServerDestinationsRequest>,
+  output: __S(881, __c110, 1) as any as S.Schema<ListServerDestinationsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerDestinations",
 }));
 
-export type ListServerDockerCleanupExecutionsError = BadRequest | NotFound | CoolifyOpError;
+export type ListServerDockerCleanupExecutionsError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Docker cleanup executions List recent Docker cleanup execution logs for a server owned by the authenticated team. */
 export const listServerDockerCleanupExecutions: API.OperationMethod<
   ListServerDockerCleanupExecutionsRequest,
@@ -9197,16 +11501,29 @@ export const listServerDockerCleanupExecutions: API.OperationMethod<
   ListServerDockerCleanupExecutionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<ListServerDockerCleanupExecutionsRequest>,
-  output: __S(1059, __c132, 3) as any as S.Schema<ListServerDockerCleanupExecutionsResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1080, __c135, 0) as any as S.Schema<ListServerDockerCleanupExecutionsRequest>,
+  output: __S(1083, __c135, 3) as any as S.Schema<ListServerDockerCleanupExecutionsResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerDockerCleanupExecutions",
 }));
 
-export type ListServerRegistriesError = BadRequest | NotFound | CoolifyOpError;
+export type ListServerRegistriesError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List server registry logins List the Docker registries a server is logged in to and the registries its resources pull from or push to. Reads the Docker config of the server over SSH. Credentials are never returned, only registry names and usernames. Requires the `read:sensitive` ability. */
 export const listServerRegistries: API.OperationMethod<
   ListServerRegistriesRequest,
@@ -9214,16 +11531,28 @@ export const listServerRegistries: API.OperationMethod<
   ListServerRegistriesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<ListServerRegistriesRequest>,
-  output: __S(1069, __c133, 5) as any as S.Schema<ListServerRegistriesResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1088, __c136, 0) as any as S.Schema<ListServerRegistriesRequest>,
+  output: __S(1093, __c136, 5) as any as S.Schema<ListServerRegistriesResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerRegistries",
 }));
 
-export type ListServersError = BadRequest | CoolifyOpError;
+export type ListServersError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all servers. */
 export const listServers: API.OperationMethod<
   ListServersRequest,
@@ -9231,16 +11560,27 @@ export const listServers: API.OperationMethod<
   ListServersError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<ListServersRequest>,
-  output: __S(1074, __c134, 2) as any as S.Schema<ListServersResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1096, __c137, 0) as any as S.Schema<ListServersRequest>,
+  output: __S(1098, __c137, 2) as any as S.Schema<ListServersResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServers",
 }));
 
-export type ListServerSharedEnvsError = NotFound | CoolifyOpError;
+export type ListServerSharedEnvsError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Server Shared Envs List shared environment variables for a server (type=server). */
 export const listServerSharedEnvs: API.OperationMethod<
   ListServerSharedEnvsRequest,
@@ -9248,16 +11588,27 @@ export const listServerSharedEnvs: API.OperationMethod<
   ListServerSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<ListServerSharedEnvsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ListServerSharedEnvsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1120, __c140, 0) as any as S.Schema<ListServerSharedEnvsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ListServerSharedEnvsResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerSharedEnvs",
 }));
 
-export type ListServiceApplicationsByServiceUuidError = NotFound | CoolifyOpError;
+export type ListServiceApplicationsByServiceUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List service applications List compose service applications (containers) for a single service. */
 export const listServiceApplicationsByServiceUuid: API.OperationMethod<
   ListServiceApplicationsByServiceUuidRequest,
@@ -9265,16 +11616,27 @@ export const listServiceApplicationsByServiceUuid: API.OperationMethod<
   ListServiceApplicationsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidRequest>,
-  output: __S(1096, __c137, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1128, __c141, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidRequest>,
+  output: __S(1136, __c142, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceApplicationsByServiceUuid",
 }));
 
-export type ListServiceDatabasesByServiceUuidError = NotFound | CoolifyOpError;
+export type ListServiceDatabasesByServiceUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List service databases List compose databases for a single service. */
 export const listServiceDatabasesByServiceUuid: API.OperationMethod<
   ListServiceDatabasesByServiceUuidRequest,
@@ -9282,16 +11644,27 @@ export const listServiceDatabasesByServiceUuid: API.OperationMethod<
   ListServiceDatabasesByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidRequest>,
-  output: __S(1096, __c137, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1152, __c144, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidRequest>,
+  output: __S(1136, __c142, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceDatabasesByServiceUuid",
 }));
 
-export type ListServicesError = BadRequest | CoolifyOpError;
+export type ListServicesError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all services. */
 export const listServices: API.OperationMethod<
   ListServicesRequest,
@@ -9299,16 +11672,28 @@ export const listServices: API.OperationMethod<
   ListServicesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<ListServicesRequest>,
-  output: __S(1130, __c141, 2) as any as S.Schema<ListServicesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1160, __c145, 0) as any as S.Schema<ListServicesRequest>,
+  output: __S(1162, __c145, 2) as any as S.Schema<ListServicesResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
 }));
 
-export type ListStoragesByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListStoragesByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Storages List all persistent storages and file storages by application UUID. */
 export const listStoragesByApplicationUuid: API.OperationMethod<
   ListStoragesByApplicationUuidRequest,
@@ -9316,16 +11701,29 @@ export const listStoragesByApplicationUuid: API.OperationMethod<
   ListStoragesByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<ListStoragesByApplicationUuidRequest>,
-  output: __S(1144, __c143, 0) as any as S.Schema<ListStoragesByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1168, __c146, 0) as any as S.Schema<ListStoragesByApplicationUuidRequest>,
+  output: __S(1176, __c147, 0) as any as S.Schema<ListStoragesByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStoragesByApplicationUuid",
 }));
 
-export type ListStoragesByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListStoragesByDatabaseUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Storages List all persistent storages and file storages by database UUID. */
 export const listStoragesByDatabaseUuid: API.OperationMethod<
   ListStoragesByDatabaseUuidRequest,
@@ -9333,16 +11731,29 @@ export const listStoragesByDatabaseUuid: API.OperationMethod<
   ListStoragesByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<ListStoragesByDatabaseUuidRequest>,
-  output: __S(1144, __c143, 0) as any as S.Schema<ListStoragesByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1184, __c148, 0) as any as S.Schema<ListStoragesByDatabaseUuidRequest>,
+  output: __S(1176, __c147, 0) as any as S.Schema<ListStoragesByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStoragesByDatabaseUuid",
 }));
 
-export type ListStoragesByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListStoragesByServiceUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Storages List all persistent storages and file storages by service UUID. */
 export const listStoragesByServiceUuid: API.OperationMethod<
   ListStoragesByServiceUuidRequest,
@@ -9350,16 +11761,28 @@ export const listStoragesByServiceUuid: API.OperationMethod<
   ListStoragesByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<ListStoragesByServiceUuidRequest>,
-  output: __S(1144, __c143, 0) as any as S.Schema<ListStoragesByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1192, __c149, 0) as any as S.Schema<ListStoragesByServiceUuidRequest>,
+  output: __S(1176, __c147, 0) as any as S.Schema<ListStoragesByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStoragesByServiceUuid",
 }));
 
-export type ListTagsError = BadRequest | CoolifyOpError;
+export type ListTagsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List List all tags for the current team. */
 export const listTags: API.OperationMethod<
   ListTagsRequest,
@@ -9367,16 +11790,28 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c146, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<ListTagsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1200, __c150, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<ListTagsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
 
-export type ListTagsByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListTagsByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Tags List tags for an application by UUID. */
 export const listTagsByApplicationUuid: API.OperationMethod<
   ListTagsByApplicationUuidRequest,
@@ -9384,16 +11819,29 @@ export const listTagsByApplicationUuid: API.OperationMethod<
   ListTagsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<ListTagsByApplicationUuidRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<ListTagsByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1208, __c151, 0) as any as S.Schema<ListTagsByApplicationUuidRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<ListTagsByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagsByApplicationUuid",
 }));
 
-export type ListTagsByDatabaseUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListTagsByDatabaseUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Tags List tags for a database by UUID. */
 export const listTagsByDatabaseUuid: API.OperationMethod<
   ListTagsByDatabaseUuidRequest,
@@ -9401,16 +11849,29 @@ export const listTagsByDatabaseUuid: API.OperationMethod<
   ListTagsByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<ListTagsByDatabaseUuidRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<ListTagsByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1216, __c152, 0) as any as S.Schema<ListTagsByDatabaseUuidRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<ListTagsByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagsByDatabaseUuid",
 }));
 
-export type ListTagsByServiceUuidError = BadRequest | NotFound | CoolifyOpError;
+export type ListTagsByServiceUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Tags List tags for a service by UUID. */
 export const listTagsByServiceUuid: API.OperationMethod<
   ListTagsByServiceUuidRequest,
@@ -9418,16 +11879,28 @@ export const listTagsByServiceUuid: API.OperationMethod<
   ListTagsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<ListTagsByServiceUuidRequest>,
-  output: __S(2353, __c294, 1) as any as S.Schema<ListTagsByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1240, __c155, 0) as any as S.Schema<ListTagsByServiceUuidRequest>,
+  output: __S(2417, __c302, 1) as any as S.Schema<ListTagsByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagsByServiceUuid",
 }));
 
-export type ListTeamsError = BadRequest | CoolifyOpError;
+export type ListTeamsError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Get all teams. */
 export const listTeams: API.OperationMethod<
   ListTeamsRequest,
@@ -9435,16 +11908,26 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(1202, __c150, 2) as any as S.Schema<ListTeamsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1248, __c156, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(1250, __c156, 2) as any as S.Schema<ListTeamsResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTeams",
 }));
 
-export type ListTeamSharedEnvsError = CoolifyOpError;
+export type ListTeamSharedEnvsError =
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** List Team Shared Envs List shared environment variables for the current team (type=team). */
 export const listTeamSharedEnvs: API.OperationMethod<
   ListTeamSharedEnvsRequest,
@@ -9452,16 +11935,22 @@ export const listTeamSharedEnvs: API.OperationMethod<
   ListTeamSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<ListTeamSharedEnvsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<ListTeamSharedEnvsResponse>,
-  errors: [UnknownCoolifyError],
+  input: __S(1256, __c157, 0) as any as S.Schema<ListTeamSharedEnvsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<ListTeamSharedEnvsResponse>,
+  errors: [TokenScopeForbidden, ActionNotAuthorized, CoolifyHostRequiresAdmin, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTeamSharedEnvs",
 }));
 
-export type LoadBranchesError = BadRequest | NotFound | CoolifyOpError;
+export type LoadBranchesError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Load Branches for a GitHub Repository Fetch branches from GitHub for a given repository. */
 export const loadBranches: API.OperationMethod<
   LoadBranchesRequest,
@@ -9469,16 +11958,29 @@ export const loadBranches: API.OperationMethod<
   LoadBranchesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<LoadBranchesRequest>,
-  output: __S(1225, __c153, 1) as any as S.Schema<LoadBranchesResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1264, __c158, 0) as any as S.Schema<LoadBranchesRequest>,
+  output: __S(1265, __c158, 1) as any as S.Schema<LoadBranchesResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoadBranches",
 }));
 
-export type LoadRepositoriesError = BadRequest | NotFound | CoolifyOpError;
+export type LoadRepositoriesError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Load Repositories for a GitHub App Fetch repositories from GitHub for a given GitHub app. */
 export const loadRepositories: API.OperationMethod<
   LoadRepositoriesRequest,
@@ -9486,16 +11988,30 @@ export const loadRepositories: API.OperationMethod<
   LoadRepositoriesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<LoadRepositoriesRequest>,
-  output: __S(1233, __c154, 1) as any as S.Schema<LoadRepositoriesResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1272, __c159, 0) as any as S.Schema<LoadRepositoriesRequest>,
+  output: __S(1273, __c159, 1) as any as S.Schema<LoadRepositoriesResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoadRepositories",
 }));
 
-export type LoginServerRegistryError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type LoginServerRegistryError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Log in to a registry on a server Run docker login on the server, writing to the Docker config that deployments use. Logging in again to the same registry replaces the saved login. */
 export const loginServerRegistry: API.OperationMethod<
   LoginServerRegistryRequest,
@@ -9503,9 +12019,17 @@ export const loginServerRegistry: API.OperationMethod<
   LoginServerRegistryError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<LoginServerRegistryRequest>,
+  input: __S(1280, __c160, 0) as any as S.Schema<LoginServerRegistryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<LoginServerRegistryResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9516,6 +12040,9 @@ export type LogoutServerRegistryError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Log out from a registry on a server Run docker logout on the server for a registry. */
 export const logoutServerRegistry: API.OperationMethod<
@@ -9524,9 +12051,17 @@ export const logoutServerRegistry: API.OperationMethod<
   LogoutServerRegistryError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<LogoutServerRegistryRequest>,
+  input: __S(1288, __c161, 0) as any as S.Schema<LogoutServerRegistryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<LogoutServerRegistryResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9537,6 +12072,9 @@ export type MigrateApplicationByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Migrate to Server Migrate an application to another destination/server owned by the authenticated team. Stops the application, optionally transfers persistent volume data when both servers are managed by Coolify, and updates database records. Redeploy after migration completes. */
 export const migrateApplicationByUuid: API.OperationMethod<
@@ -9545,9 +12083,17 @@ export const migrateApplicationByUuid: API.OperationMethod<
   MigrateApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<MigrateApplicationByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<MigrateApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1296, __c162, 0) as any as S.Schema<MigrateApplicationByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<MigrateApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9558,6 +12104,9 @@ export type MigrateDatabaseByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Migrate to Server Migrate a database to another destination/server owned by the authenticated team. Stops the database, optionally transfers persistent volume data when both servers are managed by Coolify, and updates database records. Redeploy after migration completes. */
 export const migrateDatabaseByUuid: API.OperationMethod<
@@ -9566,9 +12115,17 @@ export const migrateDatabaseByUuid: API.OperationMethod<
   MigrateDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<MigrateDatabaseByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<MigrateDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1304, __c163, 0) as any as S.Schema<MigrateDatabaseByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<MigrateDatabaseByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9579,6 +12136,9 @@ export type MigrateServiceByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Migrate to Server Migrate a service to another destination/server owned by the authenticated team. Stops the service, optionally transfers persistent volume data when both servers are managed by Coolify, and updates database records. Redeploy after migration completes. */
 export const migrateServiceByUuid: API.OperationMethod<
@@ -9587,9 +12147,17 @@ export const migrateServiceByUuid: API.OperationMethod<
   MigrateServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<MigrateServiceByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<MigrateServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1312, __c164, 0) as any as S.Schema<MigrateServiceByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<MigrateServiceByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9600,6 +12168,9 @@ export type MoveApplicationByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Move Move application to another project/environment. This is a purely organizational change -- running containers are not affected. Note: after moving, the application will pick up shared environment variables from the new environment on the next deployment. */
 export const moveApplicationByUuid: API.OperationMethod<
@@ -9608,16 +12179,31 @@ export const moveApplicationByUuid: API.OperationMethod<
   MoveApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c160, 0) as any as S.Schema<MoveApplicationByUuidRequest>,
-  output: __S(1288, __c161, 0) as any as S.Schema<MoveApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1328, __c166, 0) as any as S.Schema<MoveApplicationByUuidRequest>,
+  output: __S(1336, __c167, 0) as any as S.Schema<MoveApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveApplicationByUuid",
 }));
 
-export type MoveDatabaseByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type MoveDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Move Move database to another project/environment. This is a purely organizational change -- running containers are not affected. Note: after moving, the database will pick up shared environment variables from the new environment on the next deployment. */
 export const moveDatabaseByUuid: API.OperationMethod<
   MoveDatabaseByUuidRequest,
@@ -9625,16 +12211,31 @@ export const moveDatabaseByUuid: API.OperationMethod<
   MoveDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c162, 0) as any as S.Schema<MoveDatabaseByUuidRequest>,
-  output: __S(1288, __c161, 0) as any as S.Schema<MoveDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1344, __c168, 0) as any as S.Schema<MoveDatabaseByUuidRequest>,
+  output: __S(1336, __c167, 0) as any as S.Schema<MoveDatabaseByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveDatabaseByUuid",
 }));
 
-export type MoveServiceByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type MoveServiceByUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Move Move service to another project/environment. This is a purely organizational change -- running containers are not affected. Note: after moving, the service will pick up shared environment variables from the new environment on the next deployment. */
 export const moveServiceByUuid: API.OperationMethod<
   MoveServiceByUuidRequest,
@@ -9642,9 +12243,17 @@ export const moveServiceByUuid: API.OperationMethod<
   MoveServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<MoveServiceByUuidRequest>,
-  output: __S(1288, __c161, 0) as any as S.Schema<MoveServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1352, __c169, 0) as any as S.Schema<MoveServiceByUuidRequest>,
+  output: __S(1336, __c167, 0) as any as S.Schema<MoveServiceByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9655,6 +12264,9 @@ export type PatchServiceApplicationByServiceAndAppUuidError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update service application Update fields for a compose service application. Use `url` for comma-separated public URLs (same rules as `urls[].url` on PATCH /services/{uuid}). */
 export const patchServiceApplicationByServiceAndAppUuid: API.OperationMethod<
@@ -9663,13 +12275,21 @@ export const patchServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   PatchServiceApplicationByServiceAndAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidRequest>,
+  input: __S(1360, __c170, 0) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(
-    2304,
-    __c288,
+    2368,
+    __c296,
     0,
   ) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9680,6 +12300,9 @@ export type PatchServiceDatabaseByServiceAndDatabaseUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update service database Update mutable fields for a compose service database. */
 export const patchServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
@@ -9689,16 +12312,24 @@ export const patchServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1328,
-    __c166,
+    1368,
+    __c171,
     0,
   ) as any as S.Schema<PatchServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(
-    2304,
-    __c288,
+    2368,
+    __c296,
     0,
   ) as any as S.Schema<PatchServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9708,6 +12339,9 @@ export const patchServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
 export type PostRestartServiceApplicationByServiceAndAppUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Restart service application container Restarts a single compose service container. */
 export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMethod<
@@ -9717,8 +12351,8 @@ export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMeth
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1336,
-    __c167,
+    1376,
+    __c172,
     0,
   ) as any as S.Schema<PostRestartServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(
@@ -9726,7 +12360,14 @@ export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMeth
     __c0,
     0,
   ) as any as S.Schema<PostRestartServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9736,6 +12377,9 @@ export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMeth
 export type PostServiceApplicationLogsByServiceAndAppUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Get service application logs Get Docker logs for a single compose service container. Requires the `read:sensitive` or `root` token ability. */
 export const postServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
@@ -9745,16 +12389,23 @@ export const postServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c168,
+    1384,
+    __c173,
     0,
   ) as any as S.Schema<PostServiceApplicationLogsByServiceAndAppUuidRequest>,
   output: __S(
-    112,
-    __c14,
+    152,
+    __c19,
     0,
   ) as any as S.Schema<PostServiceApplicationLogsByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9764,6 +12415,9 @@ export const postServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
 export type PostStartServiceApplicationByServiceAndAppUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Start or redeploy service application container Runs docker compose up for a single compose service (no-deps), optionally pulling the image and rebuilding. */
 export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod<
@@ -9773,8 +12427,8 @@ export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1352,
-    __c169,
+    1392,
+    __c174,
     0,
   ) as any as S.Schema<PostStartServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(
@@ -9782,7 +12436,14 @@ export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod
     __c0,
     0,
   ) as any as S.Schema<PostStartServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9792,6 +12453,9 @@ export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod
 export type PostStopServiceApplicationByServiceAndAppUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Stop service application container Stops a single compose service container. */
 export const postStopServiceApplicationByServiceAndAppUuid: API.OperationMethod<
@@ -9801,19 +12465,32 @@ export const postStopServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1360,
-    __c170,
+    1400,
+    __c175,
     0,
   ) as any as S.Schema<PostStopServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<PostStopServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PostStopServiceApplicationByServiceAndAppUuid",
 }));
 
-export type RemoveApplicationDestinationError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type RemoveApplicationDestinationError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Remove Destination Detach an additional destination from an application. */
 export const removeApplicationDestination: API.OperationMethod<
   RemoveApplicationDestinationRequest,
@@ -9821,16 +12498,29 @@ export const removeApplicationDestination: API.OperationMethod<
   RemoveApplicationDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1368, __c171, 0) as any as S.Schema<RemoveApplicationDestinationRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<RemoveApplicationDestinationResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1408, __c176, 0) as any as S.Schema<RemoveApplicationDestinationRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RemoveApplicationDestinationResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveApplicationDestination",
 }));
 
-export type RestartApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type RestartApplicationByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Restart Restart application. */
 export const restartApplicationByUuid: API.OperationMethod<
   RestartApplicationByUuidRequest,
@@ -9838,9 +12528,16 @@ export const restartApplicationByUuid: API.OperationMethod<
   RestartApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c172, 0) as any as S.Schema<RestartApplicationByUuidRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<RestartApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1424, __c178, 0) as any as S.Schema<RestartApplicationByUuidRequest>,
+  output: __S(1432, __c179, 0) as any as S.Schema<RestartApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9852,6 +12549,9 @@ export type RestartDatabaseByUuidError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Restart Restart database. */
 export const restartDatabaseByUuid: API.OperationMethod<
@@ -9860,16 +12560,31 @@ export const restartDatabaseByUuid: API.OperationMethod<
   RestartDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c174, 0) as any as S.Schema<RestartDatabaseByUuidRequest>,
+  input: __S(1440, __c180, 0) as any as S.Schema<RestartDatabaseByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartDatabaseByUuid",
 }));
 
-export type RestartServerProxyError = BadRequest | NotFound | CoolifyOpError;
+export type RestartServerProxyError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Restart server proxy Queue a proxy restart for a team-owned server. Needs a token with the `deploy` permission. */
 export const restartServerProxy: API.OperationMethod<
   RestartServerProxyRequest,
@@ -9877,16 +12592,29 @@ export const restartServerProxy: API.OperationMethod<
   RestartServerProxyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1400, __c175, 0) as any as S.Schema<RestartServerProxyRequest>,
+  input: __S(1448, __c181, 0) as any as S.Schema<RestartServerProxyRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestartServerProxyResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartServerProxy",
 }));
 
-export type RestartServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type RestartServiceByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Restart Restart service. */
 export const restartServiceByUuid: API.OperationMethod<
   RestartServiceByUuidRequest,
@@ -9894,9 +12622,16 @@ export const restartServiceByUuid: API.OperationMethod<
   RestartServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1416, __c177, 0) as any as S.Schema<RestartServiceByUuidRequest>,
+  input: __S(1456, __c182, 0) as any as S.Schema<RestartServiceByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestartServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9906,6 +12641,9 @@ export const restartServiceByUuid: API.OperationMethod<
 export type RestartServiceDatabaseByServiceAndDatabaseUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Restart service database container Restart a compose database container. */
 export const restartServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
@@ -9915,8 +12653,8 @@ export const restartServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1424,
-    __c178,
+    1464,
+    __c183,
     0,
   ) as any as S.Schema<RestartServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(
@@ -9924,7 +12662,14 @@ export const restartServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod
     __c0,
     0,
   ) as any as S.Schema<RestartServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9935,6 +12680,9 @@ export type RollbackApplicationByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Rollback Queue a rollback deployment for an application to a previous image commit/tag. */
 export const rollbackApplicationByUuid: API.OperationMethod<
@@ -9943,16 +12691,29 @@ export const rollbackApplicationByUuid: API.OperationMethod<
   RollbackApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1432, __c179, 0) as any as S.Schema<RollbackApplicationByUuidRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<RollbackApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1472, __c184, 0) as any as S.Schema<RollbackApplicationByUuidRequest>,
+  output: __S(1432, __c179, 0) as any as S.Schema<RollbackApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackApplicationByUuid",
 }));
 
-export type RunApplicationStorageBackupError = NotFound | CoolifyOpError;
+export type RunApplicationStorageBackupError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Run application storage backup Queue an immediate volume backup for an application storage that has a schedule. */
 export const runApplicationStorageBackup: API.OperationMethod<
   RunApplicationStorageBackupRequest,
@@ -9960,16 +12721,27 @@ export const runApplicationStorageBackup: API.OperationMethod<
   RunApplicationStorageBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c180, 0) as any as S.Schema<RunApplicationStorageBackupRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<RunApplicationStorageBackupResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1480, __c185, 0) as any as S.Schema<RunApplicationStorageBackupRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RunApplicationStorageBackupResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunApplicationStorageBackup",
 }));
 
-export type RunDatabaseStorageBackupError = NotFound | CoolifyOpError;
+export type RunDatabaseStorageBackupError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Run database storage backup Queue an immediate volume backup for a database storage that has a schedule. */
 export const runDatabaseStorageBackup: API.OperationMethod<
   RunDatabaseStorageBackupRequest,
@@ -9977,9 +12749,15 @@ export const runDatabaseStorageBackup: API.OperationMethod<
   RunDatabaseStorageBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1448, __c181, 0) as any as S.Schema<RunDatabaseStorageBackupRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<RunDatabaseStorageBackupResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1488, __c186, 0) as any as S.Schema<RunDatabaseStorageBackupRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RunDatabaseStorageBackupResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9990,6 +12768,9 @@ export type RunServerDockerCleanupError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Run Docker cleanup Dispatch a manual Docker cleanup job for a server owned by the authenticated team. */
 export const runServerDockerCleanup: API.OperationMethod<
@@ -9998,16 +12779,29 @@ export const runServerDockerCleanup: API.OperationMethod<
   RunServerDockerCleanupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c182, 0) as any as S.Schema<RunServerDockerCleanupRequest>,
+  input: __S(1496, __c187, 0) as any as S.Schema<RunServerDockerCleanupRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RunServerDockerCleanupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunServerDockerCleanup",
 }));
 
-export type RunServiceStorageBackupError = NotFound | CoolifyOpError;
+export type RunServiceStorageBackupError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Run service storage backup Queue an immediate volume backup for a service storage that has a schedule. */
 export const runServiceStorageBackup: API.OperationMethod<
   RunServiceStorageBackupRequest,
@@ -10015,9 +12809,15 @@ export const runServiceStorageBackup: API.OperationMethod<
   RunServiceStorageBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<RunServiceStorageBackupRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<RunServiceStorageBackupResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1504, __c188, 0) as any as S.Schema<RunServiceStorageBackupRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<RunServiceStorageBackupResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10028,6 +12828,9 @@ export type SaveServerProxyConfigurationError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Save server proxy configuration Save the raw proxy Docker Compose configuration for a team-owned server. Needs a token with the `write` and `deploy` permissions. Multi-line configuration must be base64 encoded (same pattern as other compose payloads). */
 export const saveServerProxyConfiguration: API.OperationMethod<
@@ -10036,9 +12839,17 @@ export const saveServerProxyConfiguration: API.OperationMethod<
   SaveServerProxyConfigurationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<SaveServerProxyConfigurationRequest>,
-  output: __S(1473, __c184, 1) as any as S.Schema<SaveServerProxyConfigurationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1520, __c190, 0) as any as S.Schema<SaveServerProxyConfigurationRequest>,
+  output: __S(1521, __c190, 1) as any as S.Schema<SaveServerProxyConfigurationResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10050,6 +12861,9 @@ export type SetApplicationStorageBackupScheduleError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Set application storage backup schedule Create or replace the backup schedule for an application persistent volume or directory storage. */
 export const setApplicationStorageBackupSchedule: API.OperationMethod<
@@ -10058,9 +12872,18 @@ export const setApplicationStorageBackupSchedule: API.OperationMethod<
   SetApplicationStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<SetApplicationStorageBackupScheduleRequest>,
-  output: __S(1488, __c186, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1528, __c191, 0) as any as S.Schema<SetApplicationStorageBackupScheduleRequest>,
+  output: __S(1536, __c192, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10072,6 +12895,9 @@ export type SetDatabaseStorageBackupScheduleError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Set database storage backup schedule Create or replace the backup schedule for a database persistent volume or directory storage. */
 export const setDatabaseStorageBackupSchedule: API.OperationMethod<
@@ -10080,9 +12906,18 @@ export const setDatabaseStorageBackupSchedule: API.OperationMethod<
   SetDatabaseStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1496, __c187, 0) as any as S.Schema<SetDatabaseStorageBackupScheduleRequest>,
-  output: __S(1488, __c186, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1544, __c193, 0) as any as S.Schema<SetDatabaseStorageBackupScheduleRequest>,
+  output: __S(1536, __c192, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10094,6 +12929,9 @@ export type SetServiceStorageBackupScheduleError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Set service storage backup schedule Create or replace the backup schedule for a service persistent volume or directory storage. */
 export const setServiceStorageBackupSchedule: API.OperationMethod<
@@ -10102,16 +12940,31 @@ export const setServiceStorageBackupSchedule: API.OperationMethod<
   SetServiceStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1512, __c189, 0) as any as S.Schema<SetServiceStorageBackupScheduleRequest>,
-  output: __S(1488, __c186, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1552, __c194, 0) as any as S.Schema<SetServiceStorageBackupScheduleRequest>,
+  output: __S(1536, __c192, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetServiceStorageBackupSchedule",
 }));
 
-export type StartApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type StartApplicationByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Start Start application. */
 export const startApplicationByUuid: API.OperationMethod<
   StartApplicationByUuidRequest,
@@ -10119,9 +12972,16 @@ export const startApplicationByUuid: API.OperationMethod<
   StartApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<StartApplicationByUuidRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<StartApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1560, __c195, 0) as any as S.Schema<StartApplicationByUuidRequest>,
+  output: __S(1432, __c179, 0) as any as S.Schema<StartApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10133,6 +12993,9 @@ export type StartDatabaseByUuidError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Start Start database. */
 export const startDatabaseByUuid: API.OperationMethod<
@@ -10141,16 +13004,31 @@ export const startDatabaseByUuid: API.OperationMethod<
   StartDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1528, __c191, 0) as any as S.Schema<StartDatabaseByUuidRequest>,
+  input: __S(1568, __c196, 0) as any as S.Schema<StartDatabaseByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartDatabaseByUuid",
 }));
 
-export type StartServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type StartServiceByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Start Start service. */
 export const startServiceByUuid: API.OperationMethod<
   StartServiceByUuidRequest,
@@ -10158,9 +13036,16 @@ export const startServiceByUuid: API.OperationMethod<
   StartServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c192, 0) as any as S.Schema<StartServiceByUuidRequest>,
+  input: __S(1576, __c197, 0) as any as S.Schema<StartServiceByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StartServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10170,6 +13055,9 @@ export const startServiceByUuid: API.OperationMethod<
 export type StartServiceDatabaseByServiceAndDatabaseUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Start or redeploy service database container Run docker compose up for a single compose database. */
 export const startServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
@@ -10179,19 +13067,32 @@ export const startServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1544,
-    __c193,
+    1584,
+    __c198,
     0,
   ) as any as S.Schema<StartServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StartServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
-export type StopApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type StopApplicationByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Stop Stop application. */
 export const stopApplicationByUuid: API.OperationMethod<
   StopApplicationByUuidRequest,
@@ -10199,16 +13100,29 @@ export const stopApplicationByUuid: API.OperationMethod<
   StopApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<StopApplicationByUuidRequest>,
+  input: __S(1592, __c199, 0) as any as S.Schema<StopApplicationByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopApplicationByUuid",
 }));
 
-export type StopDatabaseByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type StopDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Stop Stop database. */
 export const stopDatabaseByUuid: API.OperationMethod<
   StopDatabaseByUuidRequest,
@@ -10216,16 +13130,29 @@ export const stopDatabaseByUuid: API.OperationMethod<
   StopDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1560, __c195, 0) as any as S.Schema<StopDatabaseByUuidRequest>,
+  input: __S(1600, __c200, 0) as any as S.Schema<StopDatabaseByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopDatabaseByUuid",
 }));
 
-export type StopServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type StopServiceByUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Stop Stop service. */
 export const stopServiceByUuid: API.OperationMethod<
   StopServiceByUuidRequest,
@@ -10233,9 +13160,16 @@ export const stopServiceByUuid: API.OperationMethod<
   StopServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<StopServiceByUuidRequest>,
+  input: __S(1616, __c202, 0) as any as S.Schema<StopServiceByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10245,6 +13179,9 @@ export const stopServiceByUuid: API.OperationMethod<
 export type StopServiceDatabaseByServiceAndDatabaseUuidError =
   | BadRequest
   | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Stop service database container Stop a compose database container. */
 export const stopServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
@@ -10254,19 +13191,33 @@ export const stopServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1576,
-    __c197,
+    1624,
+    __c203,
     0,
   ) as any as S.Schema<StopServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
-export type UpdateApplicationByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
+export type UpdateApplicationByUuidError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Update application by UUID. */
 export const updateApplicationByUuid: API.OperationMethod<
   UpdateApplicationByUuidRequest,
@@ -10274,9 +13225,17 @@ export const updateApplicationByUuid: API.OperationMethod<
   UpdateApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c198, 0) as any as S.Schema<UpdateApplicationByUuidRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<UpdateApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(1632, __c204, 0) as any as S.Schema<UpdateApplicationByUuidRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<UpdateApplicationByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10287,6 +13246,9 @@ export type UpdateCloudInitScriptByUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Cloud-init Script Update a cloud-init script by UUID. */
 export const updateCloudInitScriptByUuid: API.OperationMethod<
@@ -10295,16 +13257,30 @@ export const updateCloudInitScriptByUuid: API.OperationMethod<
   UpdateCloudInitScriptByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c200, 0) as any as S.Schema<UpdateCloudInitScriptByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCloudInitScriptByUuidResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1640, __c205, 0) as any as S.Schema<UpdateCloudInitScriptByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCloudInitScriptByUuidResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCloudInitScriptByUuid",
 }));
 
-export type UpdateCloudTokenByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateCloudTokenByUuidError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Cloud Provider Token Update cloud provider token name. */
 export const updateCloudTokenByUuid: API.OperationMethod<
   UpdateCloudTokenByUuidRequest,
@@ -10312,9 +13288,16 @@ export const updateCloudTokenByUuid: API.OperationMethod<
   UpdateCloudTokenByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<UpdateCloudTokenByUuidRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<UpdateCloudTokenByUuidResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1648, __c206, 0) as any as S.Schema<UpdateCloudTokenByUuidRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<UpdateCloudTokenByUuidResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10325,6 +13308,9 @@ export type UpdateCurrentTeamDiscordNotificationsError =
   | BadRequest
   | Forbidden
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Discord notification settings Update the current team Discord notification settings. */
 export const updateCurrentTeamDiscordNotifications: API.OperationMethod<
@@ -10333,9 +13319,17 @@ export const updateCurrentTeamDiscordNotifications: API.OperationMethod<
   UpdateCurrentTeamDiscordNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c202, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1656, __c207, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10346,6 +13340,9 @@ export type UpdateCurrentTeamEmailNotificationsError =
   | BadRequest
   | Forbidden
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update email notification settings Update the current team email notification settings. Set `smtp_ehlo_domain` to a valid hostname to control the SMTP EHLO domain, or `null` to use the system default. */
 export const updateCurrentTeamEmailNotifications: API.OperationMethod<
@@ -10354,9 +13351,17 @@ export const updateCurrentTeamEmailNotifications: API.OperationMethod<
   UpdateCurrentTeamEmailNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1664, __c208, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10367,6 +13372,9 @@ export type UpdateCurrentTeamPushoverNotificationsError =
   | BadRequest
   | Forbidden
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Pushover notification settings Update the current team Pushover notification settings. */
 export const updateCurrentTeamPushoverNotifications: API.OperationMethod<
@@ -10375,9 +13383,17 @@ export const updateCurrentTeamPushoverNotifications: API.OperationMethod<
   UpdateCurrentTeamPushoverNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c204, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1672, __c209, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10388,6 +13404,9 @@ export type UpdateCurrentTeamSlackNotificationsError =
   | BadRequest
   | Forbidden
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Slack notification settings Update the current team Slack notification settings. */
 export const updateCurrentTeamSlackNotifications: API.OperationMethod<
@@ -10396,9 +13415,17 @@ export const updateCurrentTeamSlackNotifications: API.OperationMethod<
   UpdateCurrentTeamSlackNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1680, __c210, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10409,6 +13436,9 @@ export type UpdateCurrentTeamTelegramNotificationsError =
   | BadRequest
   | Forbidden
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Telegram notification settings Update the current team Telegram notification settings. */
 export const updateCurrentTeamTelegramNotifications: API.OperationMethod<
@@ -10417,9 +13447,17 @@ export const updateCurrentTeamTelegramNotifications: API.OperationMethod<
   UpdateCurrentTeamTelegramNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c206, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1688, __c211, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10430,6 +13468,9 @@ export type UpdateCurrentTeamWebhookNotificationsError =
   | BadRequest
   | Forbidden
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update webhook notification settings Update the current team webhook notification settings. */
 export const updateCurrentTeamWebhookNotifications: API.OperationMethod<
@@ -10438,9 +13479,17 @@ export const updateCurrentTeamWebhookNotifications: API.OperationMethod<
   UpdateCurrentTeamWebhookNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1656, __c207, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1704, __c213, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10451,6 +13500,9 @@ export type UpdateDatabaseBackupError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Update a specific backup configuration for a given database, identified by its UUID and the backup ID */
 export const updateDatabaseBackup: API.OperationMethod<
@@ -10459,9 +13511,17 @@ export const updateDatabaseBackup: API.OperationMethod<
   UpdateDatabaseBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<UpdateDatabaseBackupRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateDatabaseBackupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1712, __c214, 0) as any as S.Schema<UpdateDatabaseBackupRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateDatabaseBackupResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10473,6 +13533,9 @@ export type UpdateDatabaseByUuidError =
   | NotFound
   | UnprocessableEntity
   | Conflict
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Update database by UUID. */
 export const updateDatabaseByUuid: API.OperationMethod<
@@ -10481,16 +13544,31 @@ export const updateDatabaseByUuid: API.OperationMethod<
   UpdateDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1672, __c209, 0) as any as S.Schema<UpdateDatabaseByUuidRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, Conflict, UnknownCoolifyError],
+  input: __S(1720, __c215, 0) as any as S.Schema<UpdateDatabaseByUuidRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateDatabaseByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    Conflict,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDatabaseByUuid",
 }));
 
-export type UpdateDestinationByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateDestinationByUuidError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update destination Update a Docker network destination name. Network cannot be changed via the API. */
 export const updateDestinationByUuid: API.OperationMethod<
   UpdateDestinationByUuidRequest,
@@ -10498,16 +13576,29 @@ export const updateDestinationByUuid: API.OperationMethod<
   UpdateDestinationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1688, __c211, 0) as any as S.Schema<UpdateDestinationByUuidRequest>,
-  output: __S(2256, __c282, 0) as any as S.Schema<Destination>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1728, __c216, 0) as any as S.Schema<UpdateDestinationByUuidRequest>,
+  output: __S(2320, __c290, 0) as any as S.Schema<Destination>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDestinationByUuid",
 }));
 
-export type UpdateEnvByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type UpdateEnvByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Env Update env by application UUID. */
 export const updateEnvByApplicationUuid: API.OperationMethod<
   UpdateEnvByApplicationUuidRequest,
@@ -10515,9 +13606,16 @@ export const updateEnvByApplicationUuid: API.OperationMethod<
   UpdateEnvByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<UpdateEnvByApplicationUuidRequest>,
-  output: __S(880, __c110, 0) as any as S.Schema<EnvironmentVariable>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1736, __c217, 0) as any as S.Schema<UpdateEnvByApplicationUuidRequest>,
+  output: __S(912, __c114, 0) as any as S.Schema<EnvironmentVariable>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10528,6 +13626,9 @@ export type UpdateEnvByDatabaseUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Env Update env by database UUID. */
 export const updateEnvByDatabaseUuid: API.OperationMethod<
@@ -10536,9 +13637,17 @@ export const updateEnvByDatabaseUuid: API.OperationMethod<
   UpdateEnvByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1704, __c213, 0) as any as S.Schema<UpdateEnvByDatabaseUuidRequest>,
-  output: __S(880, __c110, 0) as any as S.Schema<EnvironmentVariable>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1744, __c218, 0) as any as S.Schema<UpdateEnvByDatabaseUuidRequest>,
+  output: __S(912, __c114, 0) as any as S.Schema<EnvironmentVariable>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10549,6 +13658,9 @@ export type UpdateEnvByServiceUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Env Update env by service UUID. */
 export const updateEnvByServiceUuid: API.OperationMethod<
@@ -10557,9 +13669,17 @@ export const updateEnvByServiceUuid: API.OperationMethod<
   UpdateEnvByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c214, 0) as any as S.Schema<UpdateEnvByServiceUuidRequest>,
-  output: __S(880, __c110, 0) as any as S.Schema<EnvironmentVariable>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1752, __c219, 0) as any as S.Schema<UpdateEnvByServiceUuidRequest>,
+  output: __S(912, __c114, 0) as any as S.Schema<EnvironmentVariable>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10571,6 +13691,9 @@ export type UpdateEnvironmentError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Environment Update environment by name or UUID within a project. */
 export const updateEnvironment: API.OperationMethod<
@@ -10579,16 +13702,31 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1720, __c215, 0) as any as S.Schema<UpdateEnvironmentRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<UpdateEnvironmentResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1760, __c220, 0) as any as S.Schema<UpdateEnvironmentRequest>,
+  output: __S(1768, __c221, 0) as any as S.Schema<UpdateEnvironmentResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
 
-export type UpdateEnvironmentSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateEnvironmentSharedEnvError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Environment Shared Env Update an environment shared environment variable by id. */
 export const updateEnvironmentSharedEnv: API.OperationMethod<
   UpdateEnvironmentSharedEnvRequest,
@@ -10596,16 +13734,29 @@ export const updateEnvironmentSharedEnv: API.OperationMethod<
   UpdateEnvironmentSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1736, __c217, 0) as any as S.Schema<UpdateEnvironmentSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateEnvironmentSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1776, __c222, 0) as any as S.Schema<UpdateEnvironmentSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateEnvironmentSharedEnvResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentSharedEnv",
 }));
 
-export type UpdateEnvsByApplicationUuidError = BadRequest | NotFound | CoolifyOpError;
+export type UpdateEnvsByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Envs (Bulk) Update multiple envs by application UUID. */
 export const updateEnvsByApplicationUuid: API.OperationMethod<
   UpdateEnvsByApplicationUuidRequest,
@@ -10613,9 +13764,16 @@ export const updateEnvsByApplicationUuid: API.OperationMethod<
   UpdateEnvsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c218, 0) as any as S.Schema<UpdateEnvsByApplicationUuidRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<UpdateEnvsByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1784, __c223, 0) as any as S.Schema<UpdateEnvsByApplicationUuidRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<UpdateEnvsByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10626,6 +13784,9 @@ export type UpdateEnvsByDatabaseUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Envs (Bulk) Update multiple envs by database UUID. */
 export const updateEnvsByDatabaseUuid: API.OperationMethod<
@@ -10634,9 +13795,17 @@ export const updateEnvsByDatabaseUuid: API.OperationMethod<
   UpdateEnvsByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1762, __c220, 2) as any as S.Schema<UpdateEnvsByDatabaseUuidRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<UpdateEnvsByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1810, __c226, 2) as any as S.Schema<UpdateEnvsByDatabaseUuidRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<UpdateEnvsByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10647,6 +13816,9 @@ export type UpdateEnvsByServiceUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Envs (Bulk) Update multiple envs by service UUID. */
 export const updateEnvsByServiceUuid: API.OperationMethod<
@@ -10655,16 +13827,30 @@ export const updateEnvsByServiceUuid: API.OperationMethod<
   UpdateEnvsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1768, __c221, 0) as any as S.Schema<UpdateEnvsByServiceUuidRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<UpdateEnvsByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1816, __c227, 0) as any as S.Schema<UpdateEnvsByServiceUuidRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<UpdateEnvsByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEnvsByServiceUuid",
 }));
 
-export type UpdateGithubAppError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateGithubAppError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update GitHub App Update an existing GitHub app. */
 export const updateGithubApp: API.OperationMethod<
   UpdateGithubAppRequest,
@@ -10672,16 +13858,29 @@ export const updateGithubApp: API.OperationMethod<
   UpdateGithubAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c222, 0) as any as S.Schema<UpdateGithubAppRequest>,
-  output: __S(1784, __c223, 0) as any as S.Schema<UpdateGithubAppResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1824, __c228, 0) as any as S.Schema<UpdateGithubAppRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<UpdateGithubAppResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGithubApp",
 }));
 
-export type UpdateGitlabAppError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateGitlabAppError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update GitLab App Update an existing GitLab app. */
 export const updateGitlabApp: API.OperationMethod<
   UpdateGitlabAppRequest,
@@ -10689,16 +13888,29 @@ export const updateGitlabApp: API.OperationMethod<
   UpdateGitlabAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<UpdateGitlabAppRequest>,
-  output: __S(1784, __c223, 0) as any as S.Schema<UpdateGitlabAppResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1840, __c230, 0) as any as S.Schema<UpdateGitlabAppRequest>,
+  output: __S(1832, __c229, 0) as any as S.Schema<UpdateGitlabAppResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGitlabApp",
 }));
 
-export type UpdateInstanceEmailSettingsError = Forbidden | UnprocessableEntity | CoolifyOpError;
+export type UpdateInstanceEmailSettingsError =
+  | Forbidden
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update instance email settings Update instance-wide SMTP and Resend settings. Requires `write:sensitive` and a root-team token belonging to a root-team admin or owner. */
 export const updateInstanceEmailSettings: API.OperationMethod<
   UpdateInstanceEmailSettingsRequest,
@@ -10706,9 +13918,16 @@ export const updateInstanceEmailSettings: API.OperationMethod<
   UpdateInstanceEmailSettingsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<UpdateInstanceEmailSettingsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateInstanceEmailSettingsResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1848, __c231, 0) as any as S.Schema<UpdateInstanceEmailSettingsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateInstanceEmailSettingsResponse>,
+  errors: [
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10720,6 +13939,9 @@ export type UpdatePreviewDomainsByPullRequestIdError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Preview Domains Replace domains for a preview deployment. Use domains for regular applications or docker_compose_domains for Docker Compose applications. Ports are stored as internal overrides while public domains remain portless. */
 export const updatePreviewDomainsByPullRequestId: API.OperationMethod<
@@ -10728,16 +13950,32 @@ export const updatePreviewDomainsByPullRequestId: API.OperationMethod<
   UpdatePreviewDomainsByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1818, __c227, 2) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1858, __c232, 2) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePreviewDomainsByPullRequestId",
 }));
 
-export type UpdatePrivateKeyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdatePrivateKeyError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Update a private key. */
 export const updatePrivateKey: API.OperationMethod<
   UpdatePrivateKeyRequest,
@@ -10745,16 +13983,31 @@ export const updatePrivateKey: API.OperationMethod<
   UpdatePrivateKeyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<UpdatePrivateKeyRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<UpdatePrivateKeyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1864, __c233, 0) as any as S.Schema<UpdatePrivateKeyRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<UpdatePrivateKeyResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePrivateKey",
 }));
 
-export type UpdateProjectByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateProjectByUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Update Project. */
 export const updateProjectByUuid: API.OperationMethod<
   UpdateProjectByUuidRequest,
@@ -10762,16 +14015,30 @@ export const updateProjectByUuid: API.OperationMethod<
   UpdateProjectByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<UpdateProjectByUuidRequest>,
-  output: __S(1728, __c216, 0) as any as S.Schema<UpdateProjectByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1872, __c234, 0) as any as S.Schema<UpdateProjectByUuidRequest>,
+  output: __S(1768, __c221, 0) as any as S.Schema<UpdateProjectByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectByUuid",
 }));
 
-export type UpdateProjectSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateProjectSharedEnvError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Project Shared Env Update a project shared environment variable by id. */
 export const updateProjectSharedEnv: API.OperationMethod<
   UpdateProjectSharedEnvRequest,
@@ -10779,16 +14046,29 @@ export const updateProjectSharedEnv: API.OperationMethod<
   UpdateProjectSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c230, 0) as any as S.Schema<UpdateProjectSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateProjectSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1880, __c235, 0) as any as S.Schema<UpdateProjectSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateProjectSharedEnvResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectSharedEnv",
 }));
 
-export type UpdateS3StorageByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateS3StorageByUuidError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update S3 Storage Update S3 storage by UUID. */
 export const updateS3StorageByUuid: API.OperationMethod<
   UpdateS3StorageByUuidRequest,
@@ -10796,9 +14076,16 @@ export const updateS3StorageByUuid: API.OperationMethod<
   UpdateS3StorageByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<UpdateS3StorageByUuidRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<UpdateS3StorageByUuidResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1888, __c236, 0) as any as S.Schema<UpdateS3StorageByUuidRequest>,
+  output: __S(1000, __c125, 0) as any as S.Schema<UpdateS3StorageByUuidResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10809,6 +14096,9 @@ export type UpdateScheduledTaskByApplicationUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Task Update a scheduled task for an application. */
 export const updateScheduledTaskByApplicationUuid: API.OperationMethod<
@@ -10817,9 +14107,17 @@ export const updateScheduledTaskByApplicationUuid: API.OperationMethod<
   UpdateScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c232, 0) as any as S.Schema<UpdateScheduledTaskByApplicationUuidRequest>,
-  output: __S(2216, __c277, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1904, __c238, 0) as any as S.Schema<UpdateScheduledTaskByApplicationUuidRequest>,
+  output: __S(2280, __c285, 0) as any as S.Schema<ScheduledTask>,
+  errors: [
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10830,6 +14128,9 @@ export type UpdateScheduledTaskByServiceUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Task Update a scheduled task for a service. */
 export const updateScheduledTaskByServiceUuid: API.OperationMethod<
@@ -10838,16 +14139,31 @@ export const updateScheduledTaskByServiceUuid: API.OperationMethod<
   UpdateScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1864, __c233, 0) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>,
-  output: __S(2216, __c277, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1912, __c239, 0) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>,
+  output: __S(2280, __c285, 0) as any as S.Schema<ScheduledTask>,
+  errors: [
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateScheduledTaskByServiceUuid",
 }));
 
-export type UpdateServerByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateServerByUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Update Server. */
 export const updateServerByUuid: API.OperationMethod<
   UpdateServerByUuidRequest,
@@ -10855,9 +14171,17 @@ export const updateServerByUuid: API.OperationMethod<
   UpdateServerByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<UpdateServerByUuidRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<Server>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1920, __c240, 0) as any as S.Schema<UpdateServerByUuidRequest>,
+  output: __S(561, __c70, 1) as any as S.Schema<Server>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10868,6 +14192,9 @@ export type UpdateServerCloudflareTunnelError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Cloudflare Tunnel settings Update stored Cloudflare Tunnel settings for a server. Does not run remote cloudflared configuration; use enable/disable for the manual UI actions. */
 export const updateServerCloudflareTunnel: API.OperationMethod<
@@ -10876,9 +14203,17 @@ export const updateServerCloudflareTunnel: API.OperationMethod<
   UpdateServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c236, 0) as any as S.Schema<UpdateServerCloudflareTunnelRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1928, __c241, 0) as any as S.Schema<UpdateServerCloudflareTunnelRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateServerCloudflareTunnelResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10889,6 +14224,9 @@ export type UpdateServerDockerCleanupError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Docker cleanup settings Update Docker cleanup settings for a server owned by the authenticated team. */
 export const updateServerDockerCleanup: API.OperationMethod<
@@ -10897,9 +14235,17 @@ export const updateServerDockerCleanup: API.OperationMethod<
   UpdateServerDockerCleanupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1896, __c237, 0) as any as S.Schema<UpdateServerDockerCleanupRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<UpdateServerDockerCleanupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1936, __c242, 0) as any as S.Schema<UpdateServerDockerCleanupRequest>,
+  output: __S(592, __c74, 0) as any as S.Schema<UpdateServerDockerCleanupResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10911,6 +14257,9 @@ export type UpdateServerLogDrainsError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. Changing `logdrain_custom_config` or `logdrain_custom_config_parser` needs a token with the `deploy` permission. Custom configs cannot use the lua, wasm, exec, exec_wasi, or file plugins, @INCLUDE, or plugins_file, and the parser file can only contain [PARSER] and [MULTILINE_PARSER] sections. */
 export const updateServerLogDrains: API.OperationMethod<
@@ -10919,16 +14268,32 @@ export const updateServerLogDrains: API.OperationMethod<
   UpdateServerLogDrainsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<UpdateServerLogDrainsRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateServerLogDrainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1944, __c243, 0) as any as S.Schema<UpdateServerLogDrainsRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateServerLogDrainsResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateServerLogDrains",
 }));
 
-export type UpdateServerProxyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateServerProxyError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update server proxy Update proxy redirect settings, exact labels generation, the Traefik certificate resolver, and optionally the proxy type for a team-owned server. */
 export const updateServerProxy: API.OperationMethod<
   UpdateServerProxyRequest,
@@ -10936,9 +14301,17 @@ export const updateServerProxy: API.OperationMethod<
   UpdateServerProxyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<UpdateServerProxyRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<UpdateServerProxyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1952, __c244, 0) as any as S.Schema<UpdateServerProxyRequest>,
+  output: __S(616, __c77, 0) as any as S.Schema<UpdateServerProxyResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10949,6 +14322,9 @@ export type UpdateServerSentinelError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Sentinel settings Update Sentinel settings for a server owned by the authenticated team. Changing token/metrics timing fields may restart Sentinel. */
 export const updateServerSentinel: API.OperationMethod<
@@ -10957,16 +14333,30 @@ export const updateServerSentinel: API.OperationMethod<
   UpdateServerSentinelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c240, 0) as any as S.Schema<UpdateServerSentinelRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateServerSentinelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1960, __c245, 0) as any as S.Schema<UpdateServerSentinelRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateServerSentinelResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateServerSentinel",
 }));
 
-export type UpdateServerSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateServerSharedEnvError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Server Shared Env Update a server shared environment variable by id. */
 export const updateServerSharedEnv: API.OperationMethod<
   UpdateServerSharedEnvRequest,
@@ -10974,9 +14364,16 @@ export const updateServerSharedEnv: API.OperationMethod<
   UpdateServerSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1928, __c241, 0) as any as S.Schema<UpdateServerSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateServerSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1968, __c246, 0) as any as S.Schema<UpdateServerSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateServerSharedEnvResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10988,6 +14385,9 @@ export type UpdateServiceByUuidError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Update service by UUID. */
 export const updateServiceByUuid: API.OperationMethod<
@@ -10996,9 +14396,18 @@ export const updateServiceByUuid: API.OperationMethod<
   UpdateServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<UpdateServiceByUuidRequest>,
-  output: __S(2282, __c285, 2) as any as S.Schema<UpdateServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1976, __c247, 0) as any as S.Schema<UpdateServiceByUuidRequest>,
+  output: __S(2346, __c293, 2) as any as S.Schema<UpdateServiceByUuidResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11010,6 +14419,9 @@ export type UpdateStorageByApplicationUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Storage Update a persistent storage or file storage by application UUID. */
 export const updateStorageByApplicationUuid: API.OperationMethod<
@@ -11018,9 +14430,18 @@ export const updateStorageByApplicationUuid: API.OperationMethod<
   UpdateStorageByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<UpdateStorageByApplicationUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<UpdateStorageByApplicationUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1992, __c249, 0) as any as S.Schema<UpdateStorageByApplicationUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<UpdateStorageByApplicationUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11032,6 +14453,9 @@ export type UpdateStorageByDatabaseUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Storage Update a persistent storage or file storage by database UUID. */
 export const updateStorageByDatabaseUuid: API.OperationMethod<
@@ -11040,9 +14464,18 @@ export const updateStorageByDatabaseUuid: API.OperationMethod<
   UpdateStorageByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c244, 0) as any as S.Schema<UpdateStorageByDatabaseUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<UpdateStorageByDatabaseUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2000, __c250, 0) as any as S.Schema<UpdateStorageByDatabaseUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<UpdateStorageByDatabaseUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11054,6 +14487,9 @@ export type UpdateStorageByServiceUuidError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Storage Update a persistent storage or file storage by service UUID. */
 export const updateStorageByServiceUuid: API.OperationMethod<
@@ -11062,9 +14498,18 @@ export const updateStorageByServiceUuid: API.OperationMethod<
   UpdateStorageByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<UpdateStorageByServiceUuidRequest>,
-  output: __S(2304, __c288, 0) as any as S.Schema<UpdateStorageByServiceUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2008, __c251, 0) as any as S.Schema<UpdateStorageByServiceUuidRequest>,
+  output: __S(2368, __c296, 0) as any as S.Schema<UpdateStorageByServiceUuidResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11076,6 +14521,9 @@ export type UpdateTagByUuidError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Update Update a tag name for the current team. */
 export const updateTagByUuid: API.OperationMethod<
@@ -11084,16 +14532,31 @@ export const updateTagByUuid: API.OperationMethod<
   UpdateTagByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1976, __c247, 0) as any as S.Schema<UpdateTagByUuidRequest>,
-  output: __S(2336, __c292, 0) as any as S.Schema<Tag>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2016, __c252, 0) as any as S.Schema<UpdateTagByUuidRequest>,
+  output: __S(2400, __c300, 0) as any as S.Schema<Tag>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateTagByUuid",
 }));
 
-export type UpdateTeamSharedEnvError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateTeamSharedEnvError =
+  | NotFound
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update Team Shared Env Update a team shared environment variable by id. */
 export const updateTeamSharedEnv: API.OperationMethod<
   UpdateTeamSharedEnvRequest,
@@ -11101,16 +14564,30 @@ export const updateTeamSharedEnv: API.OperationMethod<
   UpdateTeamSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c248, 0) as any as S.Schema<UpdateTeamSharedEnvRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UpdateTeamSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2024, __c253, 0) as any as S.Schema<UpdateTeamSharedEnvRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UpdateTeamSharedEnvResponse>,
+  errors: [
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateTeamSharedEnv",
 }));
 
-export type UpdateTokenTeamError = BadRequest | Forbidden | UnprocessableEntity | CoolifyOpError;
+export type UpdateTokenTeamError =
+  | BadRequest
+  | Forbidden
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Update authenticated team Update settings for the team bound to the API token. */
 export const updateTokenTeam: API.OperationMethod<
   UpdateTokenTeamRequest,
@@ -11118,16 +14595,29 @@ export const updateTokenTeam: API.OperationMethod<
   UpdateTokenTeamError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<UpdateTokenTeamRequest>,
-  output: __S(672, __c84, 0) as any as S.Schema<Team>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2032, __c254, 0) as any as S.Schema<UpdateTokenTeamRequest>,
+  output: __S(712, __c89, 0) as any as S.Schema<Team>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateTokenTeam",
 }));
 
-export type UploadDatabaseImportError = UnprocessableEntity | CoolifyOpError;
+export type UploadDatabaseImportError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Upload database import */
 export const uploadDatabaseImport: API.OperationMethod<
   UploadDatabaseImportRequest,
@@ -11135,16 +14625,27 @@ export const uploadDatabaseImport: API.OperationMethod<
   UploadDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<UploadDatabaseImportRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UploadDatabaseImportResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2040, __c255, 0) as any as S.Schema<UploadDatabaseImportRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UploadDatabaseImportResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadDatabaseImport",
 }));
 
-export type UploadServiceDatabaseImportError = UnprocessableEntity | CoolifyOpError;
+export type UploadServiceDatabaseImportError =
+  | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Upload service database import */
 export const uploadServiceDatabaseImport: API.OperationMethod<
   UploadServiceDatabaseImportRequest,
@@ -11152,16 +14653,27 @@ export const uploadServiceDatabaseImport: API.OperationMethod<
   UploadServiceDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2008, __c251, 0) as any as S.Schema<UploadServiceDatabaseImportRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<UploadServiceDatabaseImportResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2048, __c256, 0) as any as S.Schema<UploadServiceDatabaseImportRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UploadServiceDatabaseImportResponse>,
+  errors: [
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadServiceDatabaseImport",
 }));
 
-export type ValidateCloudTokenByUuidError = NotFound | CoolifyOpError;
+export type ValidateCloudTokenByUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Validate Cloud Provider Token Validate a cloud provider token against the provider API. */
 export const validateCloudTokenByUuid: API.OperationMethod<
   ValidateCloudTokenByUuidRequest,
@@ -11169,16 +14681,27 @@ export const validateCloudTokenByUuid: API.OperationMethod<
   ValidateCloudTokenByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c252, 0) as any as S.Schema<ValidateCloudTokenByUuidRequest>,
-  output: __S(2024, __c253, 0) as any as S.Schema<ValidateCloudTokenByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2056, __c257, 0) as any as S.Schema<ValidateCloudTokenByUuidRequest>,
+  output: __S(2064, __c258, 0) as any as S.Schema<ValidateCloudTokenByUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateCloudTokenByUuid",
 }));
 
-export type ValidateS3StorageByUuidError = NotFound | CoolifyOpError;
+export type ValidateS3StorageByUuidError =
+  | NotFound
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Validate S3 Storage Validate an S3 storage connection using ListObjectsV2. */
 export const validateS3StorageByUuid: API.OperationMethod<
   ValidateS3StorageByUuidRequest,
@@ -11186,9 +14709,15 @@ export const validateS3StorageByUuid: API.OperationMethod<
   ValidateS3StorageByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c254, 0) as any as S.Schema<ValidateS3StorageByUuidRequest>,
-  output: __S(2024, __c253, 0) as any as S.Schema<ValidateS3StorageByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2072, __c259, 0) as any as S.Schema<ValidateS3StorageByUuidRequest>,
+  output: __S(2064, __c258, 0) as any as S.Schema<ValidateS3StorageByUuidResponse>,
+  errors: [
+    NotFound,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11199,6 +14728,9 @@ export type ValidateServerByUuidError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
   | CoolifyOpError;
 /** Validate Validate server by UUID. */
 export const validateServerByUuid: API.OperationMethod<
@@ -11207,16 +14739,29 @@ export const validateServerByUuid: API.OperationMethod<
   ValidateServerByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2040, __c255, 0) as any as S.Schema<ValidateServerByUuidRequest>,
+  input: __S(2088, __c261, 0) as any as S.Schema<ValidateServerByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ValidateServerByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateServerByUuid",
 }));
 
-export type VersionError = BadRequest | CoolifyOpError;
+export type VersionError =
+  | BadRequest
+  | TokenScopeForbidden
+  | ActionNotAuthorized
+  | CoolifyHostRequiresAdmin
+  | CoolifyOpError;
 /** Version Get Coolify version. */
 export const version: API.OperationMethod<
   VersionRequest,
@@ -11224,9 +14769,15 @@ export const version: API.OperationMethod<
   VersionError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c256, 0) as any as S.Schema<VersionRequest>,
-  output: __S(2544, __c318, 0) as any as S.Schema<VersionResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(2096, __c262, 0) as any as S.Schema<VersionRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<VersionResponse>,
+  errors: [
+    BadRequest,
+    TokenScopeForbidden,
+    ActionNotAuthorized,
+    CoolifyHostRequiresAdmin,
+    UnknownCoolifyError,
+  ],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11247,41 +14798,75 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          resource_name: S.optional(S.String),
-          resource_uuid: S.optional(S.NullOr(S.String)),
-          resource_type: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Error409BodyConflictsItem" });
-    case 1:
-      return S.Array(__S(8, __c1, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          warning: S.optional(S.String),
-          conflicts: S.optional(__S(9, __c1, 1)),
-        }),
-      ).annotate({ identifier: "Error409Body" });
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, __S(8, __c1, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          registry: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/servers/{uuid}/registries/{registry}/check", code: 200 }),
-        ),
-      ).annotate({ identifier: "CheckServerRegistryLoginRequest" });
+          message: S.optional(S.String),
+          errors: S.optional(__S(16, __c2, 0)),
+        }),
+      ).annotate({ identifier: "Error422Body" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          tag_uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/tags/{tag_uuid}", code: 200 })),
+      ).annotate({ identifier: "DeleteTagByServiceUuidRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          env_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/team/envs/{env_id}", code: 200 })),
+      ).annotate({ identifier: "DeleteTeamSharedEnvRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String.pipe(T.Query())),
+          uuid: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          pr: S.optional(S.Number.pipe(T.Query())),
+          pull_request_id: S.optional(S.Number.pipe(T.Query())),
+          docker_tag: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/deploy", code: 200 })),
+      ).annotate({ identifier: "DeployByTagOrUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          resource_uuid: S.optional(S.String),
+          deployment_uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeployByTagOrUuidResponseDeploymentsItem" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          deployments: S.optional(__S(42, __c5, 2)),
+        }),
+      ).annotate({ identifier: "DeployByTagOrUuidResponse" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11289,7 +14874,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DisableApiRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11297,7 +14882,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DisableMcpRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11309,7 +14894,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DisableServerCloudflareTunnelRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11317,7 +14902,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "EnableApiRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11325,7 +14910,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "EnableMcpRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11337,7 +14922,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EnableServerCloudflareTunnelRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11354,7 +14939,26 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ExecuteScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/destinations", code: 200 })),
+      ).annotate({ identifier: "AddApplicationDestinationRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AddApplicationDestinationResponse",
+      });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11371,7 +14975,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ExecuteScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11381,7 +14985,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11435,7 +15039,7 @@ function __c12(j: number): any {
           uuid: S.optional(S.String),
           name: S.optional(S.String),
           fqdn: S.optional(S.NullOr(S.String)),
-          noindex_domains: S.optional(S.NullOr(__S(2440, __c305, 0))),
+          noindex_domains: S.optional(S.NullOr(__S(8, __c1, 0))),
           config_hash: S.optional(S.String),
           git_repository: S.optional(S.String),
           git_branch: S.optional(S.String),
@@ -11514,12 +15118,12 @@ function __c12(j: number): any {
           is_http_basic_auth_enabled: S.optional(S.Boolean),
           http_basic_auth_username: S.optional(S.NullOr(S.String)),
           http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          settings: S.optional(__S(96, __c12, 0)),
+          settings: S.optional(__S(136, __c17, 0)),
         }),
       ).annotate({ identifier: "Application" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11532,7 +15136,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetApplicationLogsByUuidRequest" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11542,31 +15146,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetApplicationLogsByUuidResponse" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          clone_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/clone", code: 200 })),
-      ).annotate({ identifier: "CloneApplicationByUuidRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloneApplicationByUuidResponse" });
-  }
-}
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11576,7 +15156,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetCloudInitScriptRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11598,7 +15178,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetCloudTokenResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11606,7 +15186,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamDiscordNotificationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11614,7 +15194,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamEmailNotificationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11622,7 +15202,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamPushoverNotificationsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11630,7 +15210,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamSlackNotificationsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11638,7 +15218,25 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamTelegramNotificationsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/deployments/{uuid}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelDeploymentByUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          deployment_uuid: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelDeploymentByUuidResponse" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11646,7 +15244,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamWebhookNotificationsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11655,12 +15253,12 @@ function __c25(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}", code: 200 })),
       ).annotate({ identifier: "GetDatabaseRequest" });
     case 1:
-      return S.suspend(() => __S(208, __c26, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(240, __c30, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDatabaseResponse",
       });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11705,7 +15303,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "Database" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11715,7 +15313,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetDatabaseBackupsByUuidRequest" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -11723,20 +15321,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          clone_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/clone", code: 200 })),
-      ).annotate({ identifier: "CloneDatabaseByUuidRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11749,7 +15334,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetDatabaseImportRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11765,7 +15350,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DatabaseImportStatus" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11777,7 +15362,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetDatabaseLogsByUuidRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11787,7 +15372,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetDeploymentRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11824,7 +15409,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ApplicationDeploymentQueue" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11834,7 +15419,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetDestinationRequest" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11845,7 +15430,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetDigitaloceanImagesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11856,7 +15441,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetDigitaloceanRegionsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11867,7 +15452,20 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetDigitaloceanSizesRequest" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          registry: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/servers/{uuid}/registries/{registry}/check", code: 200 }),
+        ),
+      ).annotate({ identifier: "CheckServerRegistryLoginRequest" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11878,7 +15476,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetDigitaloceanSshKeysRequest" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11890,18 +15488,18 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ip: S.optional(S.String),
-          domains: S.optional(__S(2440, __c305, 0)),
+          domains: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "GetDomainsByServerUuidResponseBodyItem" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
-      return S.suspend(() => __S(322, __c40, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(354, __c44, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDomainsByServerUuidResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11914,7 +15512,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetEnvironmentByNameOrUuidRequest" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11930,20 +15528,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "Environment" });
   }
 }
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          clone_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/clone", code: 200 })),
-      ).annotate({ identifier: "CloneServiceByUuidRequest" });
-  }
-}
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11952,14 +15537,14 @@ function __c44(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/environments", code: 200 })),
       ).annotate({ identifier: "GetEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(336, __c42, 0));
+      return S.Array(__S(368, __c46, 0));
     case 2:
-      return S.suspend(() => __S(353, __c44, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEnvironmentsResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11976,14 +15561,14 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "GetHetznerFirewallsResponseBodyItem" });
     case 2:
-      return S.Array(__S(361, __c45, 1));
+      return S.Array(__S(385, __c48, 1));
     case 3:
-      return S.suspend(() => __S(362, __c45, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(386, __c48, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHetznerFirewallsResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12005,14 +15590,14 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "GetHetznerImagesResponseBodyItem" });
     case 2:
-      return S.Array(__S(369, __c46, 1));
+      return S.Array(__S(393, __c49, 1));
     case 3:
-      return S.suspend(() => __S(370, __c46, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(394, __c49, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHetznerImagesResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12034,14 +15619,14 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "GetHetznerLocationsResponseBodyItem" });
     case 2:
-      return S.Array(__S(377, __c47, 1));
+      return S.Array(__S(401, __c50, 1));
     case 3:
-      return S.suspend(() => __S(378, __c47, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(402, __c50, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHetznerLocationsResponse",
       });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12059,14 +15644,14 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "GetHetznerNetworksResponseBodyItem" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(409, __c51, 1));
     case 3:
-      return S.suspend(() => __S(386, __c48, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(410, __c51, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHetznerNetworksResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12086,12 +15671,12 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          price_hourly: S.optional(__S(393, __c49, 1)),
-          price_monthly: S.optional(__S(393, __c49, 1)),
+          price_hourly: S.optional(__S(417, __c52, 1)),
+          price_monthly: S.optional(__S(417, __c52, 1)),
         }),
       ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItemPricesItem" });
     case 3:
-      return S.Array(__S(394, __c49, 2));
+      return S.Array(__S(418, __c52, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -12101,18 +15686,18 @@ function __c49(j: number): any {
           cores: S.optional(S.Number),
           memory: S.optional(S.Number),
           disk: S.optional(S.Number),
-          prices: S.optional(__S(395, __c49, 3)),
+          prices: S.optional(__S(419, __c52, 3)),
         }),
       ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItem" });
     case 5:
-      return S.Array(__S(396, __c49, 4));
+      return S.Array(__S(420, __c52, 4));
     case 6:
-      return S.suspend(() => __S(397, __c49, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(421, __c52, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHetznerServerTypesResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12131,14 +15716,38 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "GetHetznerSshKeysResponseBodyItem" });
     case 2:
-      return S.Array(__S(401, __c50, 1));
+      return S.Array(__S(425, __c53, 1));
     case 3:
-      return S.suspend(() => __S(402, __c50, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(426, __c53, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetHetznerSshKeysResponse",
       });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          clone_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/clone", code: 200 })),
+      ).annotate({ identifier: "CloneApplicationByUuidRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloneApplicationByUuidResponse" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12146,7 +15755,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetInstanceEmailSettingsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12156,7 +15765,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetMembersByTeamIdRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12173,18 +15782,18 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "User" });
     case 1:
-      return S.Array(__S(424, __c53, 0));
+      return S.Array(__S(464, __c58, 0));
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(425, __c53, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMembersByTeamIdResponse",
       });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12204,19 +15813,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetPreviewApplicationLogsByPullRequestIdRequest" });
   }
 }
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          integration_token_uuid: S.String,
-          settings: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/secret-manager", code: 200 })),
-      ).annotate({ identifier: "ConfigureApplicationSecretManagerRequest" });
-  }
-}
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12233,7 +15830,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetPreviewDeploymentByPullRequestIdRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12243,7 +15840,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetPrivateKeyByUuidRequest" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12263,7 +15860,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PrivateKey" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12273,7 +15870,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12286,7 +15883,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12307,14 +15904,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "GetResourcesByServerUuidResponseBodyItem" });
     case 2:
-      return S.Array(__S(497, __c62, 1));
+      return S.Array(__S(529, __c66, 1));
     case 3:
-      return S.suspend(() => __S(498, __c62, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(530, __c66, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetResourcesByServerUuidResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12324,7 +15921,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetS3StorageRequest" });
   }
 }
-function __c64(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12343,7 +15940,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetS3StorageResponse" });
   }
 }
-function __c65(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12353,7 +15950,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetServerRequest" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12432,12 +16029,12 @@ function __c66(j: number): any {
           validation_logs: S.optional(S.String),
           log_drain_notification_sent: S.optional(S.Boolean),
           swarm_cluster: S.optional(S.String),
-          settings: S.optional(__S(528, __c66, 0)),
+          settings: S.optional(__S(560, __c70, 0)),
         }),
       ).annotate({ identifier: "Server" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12455,7 +16052,20 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetServerCloudflareTunnelResponse" });
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          clone_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/clone", code: 200 })),
+      ).annotate({ identifier: "CloneDatabaseByUuidRequest" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12465,7 +16075,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetServerDockerCleanupRequest" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12480,7 +16090,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetServerDockerCleanupResponse" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12504,7 +16114,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetServerLogDrainsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12514,7 +16124,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetServerProxyRequest" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12530,18 +16140,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetServerProxyResponse" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          script: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/cloud-init-scripts", code: 200 })),
-      ).annotate({ identifier: "CreateCloudInitScriptRequest" });
-  }
-}
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12573,7 +16172,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetServerSentinelResponse" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12583,7 +16182,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetServiceRequest" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12610,7 +16209,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "Service" });
   }
 }
-function __c77(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12623,7 +16222,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12641,7 +16240,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetServiceApplicationLogsByServiceAndAppUuidRequest" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12654,7 +16253,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12672,7 +16271,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetServiceDatabaseImportRequest" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12690,7 +16289,20 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          clone_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/clone", code: 200 })),
+      ).annotate({ identifier: "CloneServiceByUuidRequest" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12703,7 +16315,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetServiceLogsByUuidRequest" });
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12713,7 +16325,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c84(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12727,12 +16339,12 @@ function __c84(j: number): any {
           show_boarding: S.optional(S.Boolean),
           custom_server_limit: S.optional(S.String),
           is_build_server_fallback_enabled: S.optional(S.Boolean),
-          members: S.optional(__S(425, __c53, 1)),
+          members: S.optional(__S(465, __c58, 1)),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c85(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12740,29 +16352,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetTokenTeamRequest" });
   }
 }
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          token: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens", code: 200 })),
-      ).annotate({ identifier: "CreateCloudTokenRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCloudTokenResponse" });
-  }
-}
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12770,7 +16360,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetTokenTeamMembersRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12778,7 +16368,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetVultrOperatingSystemsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12786,7 +16376,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetVultrPlansRequest" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12794,7 +16384,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetVultrRegionsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12802,7 +16392,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetVultrSshKeysRequest" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12810,7 +16400,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "HealthcheckRequest" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12820,7 +16410,19 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListApplicationDestinationsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          integration_token_uuid: S.String,
+          settings: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/secret-manager", code: 200 })),
+      ).annotate({ identifier: "ConfigureApplicationSecretManagerRequest" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12837,17 +16439,17 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "ListApplicationRollbackImagesResponseImagesItem" });
     case 2:
-      return S.Array(__S(761, __c95, 1));
+      return S.Array(__S(793, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current: S.optional(S.NullOr(S.String)),
-          images: S.optional(__S(762, __c95, 2)),
+          images: S.optional(__S(794, __c99, 2)),
         }),
       ).annotate({ identifier: "ListApplicationRollbackImagesResponse" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12857,17 +16459,17 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ListApplicationsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(137, __c17, 1));
     case 1:
-      return S.suspend(() => __S(776, __c97, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(808, __c101, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationsResponse",
       });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12899,12 +16501,12 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "ListAuditEventsResponseDataItem" });
     case 2:
-      return S.Array(__S(785, __c98, 1));
+      return S.Array(__S(817, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          data: S.optional(__S(786, __c98, 2)),
+          data: S.optional(__S(818, __c102, 2)),
           per_page: S.optional(S.Number),
           last_page: S.optional(S.Number),
           total: S.optional(S.Number),
@@ -12912,32 +16514,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ListAuditEventsResponse" });
   }
 }
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          frequency: S.String,
-          enabled: S.optional(S.Boolean),
-          save_s3: S.optional(S.Boolean),
-          s3_storage_uuid: S.optional(S.String),
-          databases_to_backup: S.optional(S.String),
-          dump_all: S.optional(S.Boolean),
-          backup_now: S.optional(S.Boolean),
-          database_backup_retention_amount_locally: S.optional(S.Number),
-          database_backup_retention_days_locally: S.optional(S.Number),
-          database_backup_retention_max_storage_locally: S.optional(S.Number),
-          database_backup_retention_amount_s3: S.optional(S.Number),
-          database_backup_retention_days_s3: S.optional(S.Number),
-          database_backup_retention_max_storage_s3: S.optional(S.Number),
-          timeout: S.optional(S.Number),
-          missing_backup_notification_days: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/backups", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseBackupRequest" });
-  }
-}
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12964,16 +16541,16 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "ListBackupExecutionsResponseExecutionsItem" });
     case 2:
-      return S.Array(__S(801, __c100, 1));
+      return S.Array(__S(825, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          executions: S.optional(__S(802, __c100, 2)),
+          executions: S.optional(__S(826, __c103, 2)),
         }),
       ).annotate({ identifier: "ListBackupExecutionsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12981,7 +16558,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListCloudInitScriptsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13000,42 +16577,42 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "ListCloudTokensResponseBodyItem" });
     case 2:
-      return S.Array(__S(817, __c102, 1));
+      return S.Array(__S(841, __c105, 1));
     case 3:
-      return S.suspend(() => __S(818, __c102, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(842, __c105, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudTokensResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/databases", code: 200 })),
       ).annotate({ identifier: "ListDatabasesRequest" });
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(240, __c30, 0));
     case 2:
-      return S.suspend(() => __S(825, __c103, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(849, __c106, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDatabasesResponse",
       });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/deployments", code: 200 })),
       ).annotate({ identifier: "ListDeploymentsRequest" });
     case 1:
-      return S.Array(__S(272, __c34, 0));
+      return S.Array(__S(296, __c37, 0));
     case 2:
-      return S.suspend(() => __S(833, __c104, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(857, __c107, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeploymentsResponse",
       });
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13047,7 +16624,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListDeploymentsByAppUuidRequest" });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13055,17 +16632,28 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListDestinationsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2256, __c282, 0));
+      return S.Array(__S(2320, __c290, 0));
     case 1:
-      return S.suspend(() => __S(856, __c107, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(880, __c110, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDestinationsResponse",
       });
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          script: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/cloud-init-scripts", code: 200 })),
+      ).annotate({ identifier: "CreateCloudInitScriptRequest" });
+  }
+}
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13082,7 +16670,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListEnvironmentSharedEnvsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13092,7 +16680,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListEnvsByApplicationUuidRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13119,17 +16707,17 @@ function __c110(j: number): any {
       ).annotate({ identifier: "EnvironmentVariable" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(880, __c110, 0));
+      return S.Array(__S(912, __c114, 0));
     case 1:
-      return S.suspend(() => __S(888, __c111, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(920, __c115, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEnvsByApplicationUuidResponse",
       });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13139,50 +16727,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ListEnvsByDatabaseUuidRequest" });
   }
 }
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          clickhouse_admin_user: S.optional(S.String),
-          clickhouse_admin_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/clickhouse", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseClickhouseRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String,
-          internal_db_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          external_db_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "CreateDatabaseClickhouseResponse" });
-  }
-}
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13192,7 +16737,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListEnvsByServiceUuidRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13220,14 +16765,14 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "ListGithubAppsResponseBodyItem" });
     case 2:
-      return S.Array(__S(929, __c116, 1));
+      return S.Array(__S(945, __c118, 1));
     case 3:
-      return S.suspend(() => __S(930, __c116, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(946, __c118, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGithubAppsResponse",
       });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13252,14 +16797,14 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "ListGitlabAppsResponseBodyItem" });
     case 2:
-      return S.Array(__S(937, __c117, 1));
+      return S.Array(__S(953, __c119, 1));
     case 3:
-      return S.suspend(() => __S(938, __c117, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(954, __c119, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGitlabAppsResponse",
       });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13268,42 +16813,42 @@ function __c118(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/previews", code: 200 })),
       ).annotate({ identifier: "ListPreviewDeploymentsByApplicationUuidRequest" });
     case 1:
-      return S.Array(__S(2138, __c267, 2));
+      return S.Array(__S(2202, __c275, 2));
     case 2:
-      return S.suspend(() => __S(945, __c118, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(961, __c120, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPreviewDeploymentsByApplicationUuidResponse",
       });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/security/keys", code: 200 })),
       ).annotate({ identifier: "ListPrivateKeysRequest" });
     case 1:
-      return S.Array(__S(472, __c59, 0));
+      return S.Array(__S(504, __c63, 0));
     case 2:
-      return S.suspend(() => __S(953, __c119, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(969, __c121, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPrivateKeysResponse",
       });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(488, __c61, 0));
+      return S.Array(__S(520, __c65, 0));
     case 2:
-      return S.suspend(() => __S(961, __c120, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(977, __c122, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectsResponse",
       });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13313,7 +16858,29 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListProjectSharedEnvsRequest" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          token: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens", code: 200 })),
+      ).annotate({ identifier: "CreateCloudTokenRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCloudTokenResponse" });
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13321,21 +16888,21 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListResourcesRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/s3-storages", code: 200 })),
       ).annotate({ identifier: "ListS3StoragesRequest" });
     case 1:
-      return S.Array(__S(512, __c64, 0));
+      return S.Array(__S(544, __c68, 0));
     case 2:
-      return S.suspend(() => __S(985, __c123, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1017, __c127, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListS3StoragesResponse",
       });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13352,7 +16919,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListScheduledTaskExecutionsByApplicationUuidRequest" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13369,14 +16936,508 @@ function __c125(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledTaskExecution" });
     case 1:
-      return S.Array(__S(1000, __c125, 0));
+      return S.Array(__S(1032, __c129, 0));
     case 2:
-      return S.suspend(() => __S(1001, __c125, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1033, __c129, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListScheduledTaskExecutionsByApplicationUuidResponse",
       });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          task_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/services/{uuid}/scheduled-tasks/{task_uuid}/executions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListScheduledTaskExecutionsByServiceUuidRequest" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/scheduled-tasks", code: 200 })),
+      ).annotate({ identifier: "ListScheduledTasksByApplicationUuidRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2280, __c285, 0));
+    case 1:
+      return S.suspend(() => __S(1056, __c132, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListScheduledTasksByApplicationUuidResponse",
+      });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/scheduled-tasks", code: 200 })),
+      ).annotate({ identifier: "ListScheduledTasksByServiceUuidRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{server_uuid}/destinations", code: 200 })),
+      ).annotate({ identifier: "ListServerDestinationsRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/servers/{uuid}/docker-cleanup/executions", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListServerDockerCleanupExecutionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          status: S.optional(S.String),
+          message: S.optional(S.NullOr(S.String)),
+          finished_at: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListServerDockerCleanupExecutionsResponseBodyItem" });
+    case 2:
+      return S.Array(__S(1081, __c135, 1));
+    case 3:
+      return S.suspend(() => __S(1082, __c135, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListServerDockerCleanupExecutionsResponse",
+      });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/registries", code: 200 })),
+      ).annotate({ identifier: "ListServerRegistriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          link: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ListServerRegistriesResponseRegistriesItemUsedByItem" });
+    case 2:
+      return S.Array(__S(1089, __c136, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          registry: S.optional(S.String),
+          logged_in: S.optional(S.Boolean),
+          source: S.optional(S.NullOr(S.String)),
+          username: S.optional(S.NullOr(S.String)),
+          used_by: S.optional(__S(1090, __c136, 2)),
+        }),
+      ).annotate({ identifier: "ListServerRegistriesResponseRegistriesItem" });
+    case 4:
+      return S.Array(__S(1091, __c136, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          registries: S.optional(__S(1092, __c136, 4)),
+          error: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ListServerRegistriesResponse" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/servers", code: 200 })),
+      ).annotate({ identifier: "ListServersRequest" });
+    case 1:
+      return S.Array(__S(561, __c70, 1));
+    case 2:
+      return S.suspend(() => __S(1097, __c137, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListServersResponse",
+      });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          resource_name: S.optional(S.String),
+          resource_uuid: S.optional(S.NullOr(S.String)),
+          resource_type: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error409BodyConflictsItem" });
+    case 1:
+      return S.Array(__S(1104, __c138, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          warning: S.optional(S.String),
+          conflicts: S.optional(__S(1105, __c138, 1)),
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          frequency: S.String,
+          enabled: S.optional(S.Boolean),
+          save_s3: S.optional(S.Boolean),
+          s3_storage_uuid: S.optional(S.String),
+          databases_to_backup: S.optional(S.String),
+          dump_all: S.optional(S.Boolean),
+          backup_now: S.optional(S.Boolean),
+          database_backup_retention_amount_locally: S.optional(S.Number),
+          database_backup_retention_days_locally: S.optional(S.Number),
+          database_backup_retention_max_storage_locally: S.optional(S.Number),
+          database_backup_retention_amount_s3: S.optional(S.Number),
+          database_backup_retention_days_s3: S.optional(S.Number),
+          database_backup_retention_max_storage_s3: S.optional(S.Number),
+          timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/backups", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseBackupRequest" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/envs", code: 200 })),
+      ).annotate({ identifier: "ListServerSharedEnvsRequest" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/applications", code: 200 })),
+      ).annotate({ identifier: "ListServiceApplicationsByServiceUuidRequest" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(1144, __c143, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListServiceApplicationsByServiceUuidResponse",
+      });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/databases", code: 200 })),
+      ).annotate({ identifier: "ListServiceDatabasesByServiceUuidRequest" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/services", code: 200 })),
+      ).annotate({ identifier: "ListServicesRequest" });
+    case 1:
+      return S.Array(__S(640, __c80, 0));
+    case 2:
+      return S.suspend(() => __S(1161, __c145, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListServicesResponse",
+      });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/storages", code: 200 })),
+      ).annotate({ identifier: "ListStoragesByApplicationUuidRequest" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          persistent_storages: S.optional(__S(1144, __c143, 0)),
+          file_storages: S.optional(__S(1144, __c143, 0)),
+        }),
+      ).annotate({ identifier: "ListStoragesByApplicationUuidResponse" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/storages", code: 200 })),
+      ).annotate({ identifier: "ListStoragesByDatabaseUuidRequest" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/storages", code: 200 })),
+      ).annotate({ identifier: "ListStoragesByServiceUuidRequest" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsRequest" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsByApplicationUuidRequest" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsByDatabaseUuidRequest" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          clickhouse_admin_user: S.optional(S.String),
+          clickhouse_admin_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/clickhouse", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseClickhouseRequest" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String,
+          internal_db_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          external_db_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateDatabaseClickhouseResponse" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsByServiceUuidRequest" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
+      ).annotate({ identifier: "ListTeamsRequest" });
+    case 1:
+      return S.Array(__S(712, __c89, 0));
+    case 2:
+      return S.suspend(() => __S(1249, __c156, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListTeamsResponse",
+      });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/team/envs", code: 200 })),
+      ).annotate({ identifier: "ListTeamSharedEnvsRequest" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          github_app_id: S.Number.pipe(T.Label()),
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/github-apps/{github_app_id}/repositories/{owner}/{repo}/branches",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "LoadBranchesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          branches: S.optional(__S(1144, __c143, 0)),
+        }),
+      ).annotate({ identifier: "LoadBranchesResponse" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          github_app_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/github-apps/{github_app_id}/repositories", code: 200 }),
+        ),
+      ).annotate({ identifier: "LoadRepositoriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repositories: S.optional(__S(1144, __c143, 0)),
+        }),
+      ).annotate({ identifier: "LoadRepositoriesResponse" });
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          registry: S.String,
+          username: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/registries", code: 200 })),
+      ).annotate({ identifier: "LoginServerRegistryRequest" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          registry: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/servers/{uuid}/registries/{registry}", code: 200 }),
+        ),
+      ).annotate({ identifier: "LogoutServerRegistryRequest" });
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          migrate_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/migrate", code: 200 })),
+      ).annotate({ identifier: "MigrateApplicationByUuidRequest" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          migrate_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/migrate", code: 200 })),
+      ).annotate({ identifier: "MigrateDatabaseByUuidRequest" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          migrate_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/migrate", code: 200 })),
+      ).annotate({ identifier: "MigrateServiceByUuidRequest" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13401,195 +17462,193 @@ function __c126(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/dragonfly", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseDragonflyRequest" });
   }
 }
-function __c127(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          task_uuid: S.String.pipe(T.Label()),
+          environment_uuid: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/move", code: 200 })),
+      ).annotate({ identifier: "MoveApplicationByUuidRequest" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          uuid: S.optional(S.String),
+          project_uuid: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MoveApplicationByUuidResponse" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          environment_uuid: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/move", code: 200 })),
+      ).annotate({ identifier: "MoveDatabaseByUuidRequest" });
+  }
+}
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          environment_uuid: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/move", code: 200 })),
+      ).annotate({ identifier: "MoveServiceByUuidRequest" });
+  }
+}
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          app_uuid: S.String.pipe(T.Label()),
+          force_domain_override: S.optional(S.Boolean.pipe(T.Query())),
+          url: S.optional(S.NullOr(S.String)),
+          noindex_domains: S.optional(S.NullOr(__S(8, __c1, 0))),
+          human_name: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+          image: S.optional(S.NullOr(S.String)),
+          exclude_from_status: S.optional(S.NullOr(S.Boolean)),
+          is_log_drain_enabled: S.optional(S.NullOr(S.Boolean)),
+          is_gzip_enabled: S.optional(S.NullOr(S.Boolean)),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_stripprefix_enabled: S.optional(S.NullOr(S.Boolean)),
+          is_force_https_enabled: S.optional(S.NullOr(S.Boolean)),
+          max_restart_count: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/services/{uuid}/applications/{app_uuid}", code: 200 }),
+        ),
+      ).annotate({ identifier: "PatchServiceApplicationByServiceAndAppUuidRequest" });
+  }
+}
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          database_uuid: S.String.pipe(T.Label()),
+          human_name: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+          image: S.optional(S.String),
+          exclude_from_status: S.optional(S.Boolean),
+          is_log_drain_enabled: S.optional(S.Boolean),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.NullOr(S.Number)),
+          public_port_timeout: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/services/{uuid}/databases/{database_uuid}", code: 200 }),
+        ),
+      ).annotate({ identifier: "PatchServiceDatabaseByServiceAndDatabaseUuidRequest" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          app_uuid: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "/services/{uuid}/scheduled-tasks/{task_uuid}/executions",
+            method: "POST",
+            uri: "/services/{uuid}/applications/{app_uuid}/restart",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListScheduledTaskExecutionsByServiceUuidRequest" });
+      ).annotate({ identifier: "PostRestartServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c128(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/scheduled-tasks", code: 200 })),
-      ).annotate({ identifier: "ListScheduledTasksByApplicationUuidRequest" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2216, __c277, 0));
-    case 1:
-      return S.suspend(() => __S(1032, __c129, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListScheduledTasksByApplicationUuidResponse",
-      });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/scheduled-tasks", code: 200 })),
-      ).annotate({ identifier: "ListScheduledTasksByServiceUuidRequest" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/servers/{server_uuid}/destinations", code: 200 })),
-      ).annotate({ identifier: "ListServerDestinationsRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
+          app_uuid: S.String.pipe(T.Label()),
+          lines: S.optional(S.Unknown.pipe(T.Query())),
         }).pipe(
-          T.Http({ method: "GET", uri: "/servers/{uuid}/docker-cleanup/executions", code: 200 }),
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/applications/{app_uuid}/logs",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "ListServerDockerCleanupExecutionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-          status: S.optional(S.String),
-          message: S.optional(S.NullOr(S.String)),
-          finished_at: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListServerDockerCleanupExecutionsResponseBodyItem" });
-    case 2:
-      return S.Array(__S(1057, __c132, 1));
-    case 3:
-      return S.suspend(() => __S(1058, __c132, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListServerDockerCleanupExecutionsResponse",
-      });
+      ).annotate({ identifier: "PostServiceApplicationLogsByServiceAndAppUuidRequest" });
   }
 }
-function __c133(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/registries", code: 200 })),
-      ).annotate({ identifier: "ListServerRegistriesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          link: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ListServerRegistriesResponseRegistriesItemUsedByItem" });
-    case 2:
-      return S.Array(__S(1065, __c133, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          registry: S.optional(S.String),
-          logged_in: S.optional(S.Boolean),
-          source: S.optional(S.NullOr(S.String)),
-          username: S.optional(S.NullOr(S.String)),
-          used_by: S.optional(__S(1066, __c133, 2)),
-        }),
-      ).annotate({ identifier: "ListServerRegistriesResponseRegistriesItem" });
-    case 4:
-      return S.Array(__S(1067, __c133, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          registries: S.optional(__S(1068, __c133, 4)),
-          error: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ListServerRegistriesResponse" });
+          app_uuid: S.String.pipe(T.Label()),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          latest: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/applications/{app_uuid}/start",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostStartServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/servers", code: 200 })),
-      ).annotate({ identifier: "ListServersRequest" });
-    case 1:
-      return S.Array(__S(529, __c66, 1));
-    case 2:
-      return S.suspend(() => __S(1073, __c134, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListServersResponse",
-      });
-  }
-}
-function __c135(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/envs", code: 200 })),
-      ).annotate({ identifier: "ListServerSharedEnvsRequest" });
+          app_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/applications/{app_uuid}/stop",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostStopServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c136(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/applications", code: 200 })),
-      ).annotate({ identifier: "ListServiceApplicationsByServiceUuidRequest" });
+          destination_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/applications/{uuid}/destinations/{destination_uuid}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveApplicationDestinationRequest" });
   }
 }
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(1104, __c138, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListServiceApplicationsByServiceUuidResponse",
-      });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/databases", code: 200 })),
-      ).annotate({ identifier: "ListServiceDatabasesByServiceUuidRequest" });
-  }
-}
-function __c140(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13600,122 +17659,150 @@ function __c140(j: number): any {
       ).annotate({ identifier: "CreateDatabaseImportRequest" });
   }
 }
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/services", code: 200 })),
-      ).annotate({ identifier: "ListServicesRequest" });
-    case 1:
-      return S.Array(__S(608, __c76, 0));
-    case 2:
-      return S.suspend(() => __S(1129, __c141, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListServicesResponse",
-      });
-  }
-}
-function __c142(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/storages", code: 200 })),
-      ).annotate({ identifier: "ListStoragesByApplicationUuidRequest" });
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/restart", code: 200 })),
+      ).annotate({ identifier: "RestartApplicationByUuidRequest" });
   }
 }
-function __c143(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          persistent_storages: S.optional(__S(1104, __c138, 0)),
-          file_storages: S.optional(__S(1104, __c138, 0)),
+          message: S.optional(S.String),
+          deployment_uuid: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ListStoragesByApplicationUuidResponse" });
+      ).annotate({ identifier: "RestartApplicationByUuidResponse" });
   }
 }
-function __c144(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/storages", code: 200 })),
-      ).annotate({ identifier: "ListStoragesByDatabaseUuidRequest" });
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/restart", code: 200 })),
+      ).annotate({ identifier: "RestartDatabaseByUuidRequest" });
   }
 }
-function __c145(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/storages", code: 200 })),
-      ).annotate({ identifier: "ListStoragesByServiceUuidRequest" });
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/proxy/restart", code: 200 })),
+      ).annotate({ identifier: "RestartServerProxyRequest" });
   }
 }
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsRequest" });
-  }
-}
-function __c147(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsByApplicationUuidRequest" });
+          latest: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/restart", code: 200 })),
+      ).annotate({ identifier: "RestartServiceByUuidRequest" });
   }
 }
-function __c148(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsByDatabaseUuidRequest" });
+          database_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/databases/{database_uuid}/restart",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RestartServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c149(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsByServiceUuidRequest" });
+          commit: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/rollback", code: 200 })),
+      ).annotate({ identifier: "RollbackApplicationByUuidRequest" });
   }
 }
-function __c150(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
-      ).annotate({ identifier: "ListTeamsRequest" });
-    case 1:
-      return S.Array(__S(672, __c84, 0));
-    case 2:
-      return S.suspend(() => __S(1201, __c150, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListTeamsResponse",
-      });
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          storage_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/applications/{uuid}/storages/{storage_uuid}/backups/run",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RunApplicationStorageBackupRequest" });
   }
 }
-function __c151(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/team/envs", code: 200 })),
-      ).annotate({ identifier: "ListTeamSharedEnvsRequest" });
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          storage_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/databases/{uuid}/storages/{storage_uuid}/backups/run",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RunDatabaseStorageBackupRequest" });
   }
 }
-function __c152(j: number): any {
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          delete_unused_volumes: S.optional(S.Boolean),
+          delete_unused_networks: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/docker-cleanup/run", code: 200 })),
+      ).annotate({ identifier: "RunServerDockerCleanupRequest" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          storage_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/storages/{storage_uuid}/backups/run",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RunServiceStorageBackupRequest" });
+  }
+}
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13741,505 +17828,12 @@ function __c152(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/keydb", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseKeydbRequest" });
   }
 }
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          github_app_id: S.Number.pipe(T.Label()),
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/github-apps/{github_app_id}/repositories/{owner}/{repo}/branches",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "LoadBranchesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          branches: S.optional(__S(1104, __c138, 0)),
-        }),
-      ).annotate({ identifier: "LoadBranchesResponse" });
-  }
-}
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          github_app_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/github-apps/{github_app_id}/repositories", code: 200 }),
-        ),
-      ).annotate({ identifier: "LoadRepositoriesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          repositories: S.optional(__S(1104, __c138, 0)),
-        }),
-      ).annotate({ identifier: "LoadRepositoriesResponse" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          registry: S.String,
-          username: S.String,
-          password: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/registries", code: 200 })),
-      ).annotate({ identifier: "LoginServerRegistryRequest" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          registry: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/servers/{uuid}/registries/{registry}", code: 200 }),
-        ),
-      ).annotate({ identifier: "LogoutServerRegistryRequest" });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          migrate_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/migrate", code: 200 })),
-      ).annotate({ identifier: "MigrateApplicationByUuidRequest" });
-  }
-}
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          migrate_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/migrate", code: 200 })),
-      ).annotate({ identifier: "MigrateDatabaseByUuidRequest" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          migrate_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/migrate", code: 200 })),
-      ).annotate({ identifier: "MigrateServiceByUuidRequest" });
-  }
-}
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          environment_uuid: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/move", code: 200 })),
-      ).annotate({ identifier: "MoveApplicationByUuidRequest" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          uuid: S.optional(S.String),
-          project_uuid: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MoveApplicationByUuidResponse" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          environment_uuid: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/move", code: 200 })),
-      ).annotate({ identifier: "MoveDatabaseByUuidRequest" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          environment_uuid: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/move", code: 200 })),
-      ).annotate({ identifier: "MoveServiceByUuidRequest" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          mariadb_conf: S.optional(S.String),
-          mariadb_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mariadb_user: S.optional(S.String),
-          mariadb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mariadb_database: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/mariadb", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseMariadbRequest" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          app_uuid: S.String.pipe(T.Label()),
-          force_domain_override: S.optional(S.Boolean.pipe(T.Query())),
-          url: S.optional(S.NullOr(S.String)),
-          noindex_domains: S.optional(S.NullOr(__S(2440, __c305, 0))),
-          human_name: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          image: S.optional(S.NullOr(S.String)),
-          exclude_from_status: S.optional(S.NullOr(S.Boolean)),
-          is_log_drain_enabled: S.optional(S.NullOr(S.Boolean)),
-          is_gzip_enabled: S.optional(S.NullOr(S.Boolean)),
-          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
-          is_stripprefix_enabled: S.optional(S.NullOr(S.Boolean)),
-          is_force_https_enabled: S.optional(S.NullOr(S.Boolean)),
-          max_restart_count: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/services/{uuid}/applications/{app_uuid}", code: 200 }),
-        ),
-      ).annotate({ identifier: "PatchServiceApplicationByServiceAndAppUuidRequest" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          database_uuid: S.String.pipe(T.Label()),
-          human_name: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          image: S.optional(S.String),
-          exclude_from_status: S.optional(S.Boolean),
-          is_log_drain_enabled: S.optional(S.Boolean),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.NullOr(S.Number)),
-          public_port_timeout: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/services/{uuid}/databases/{database_uuid}", code: 200 }),
-        ),
-      ).annotate({ identifier: "PatchServiceDatabaseByServiceAndDatabaseUuidRequest" });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          app_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/applications/{app_uuid}/restart",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostRestartServiceApplicationByServiceAndAppUuidRequest" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          app_uuid: S.String.pipe(T.Label()),
-          lines: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/applications/{app_uuid}/logs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostServiceApplicationLogsByServiceAndAppUuidRequest" });
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          app_uuid: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          latest: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/applications/{app_uuid}/start",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostStartServiceApplicationByServiceAndAppUuidRequest" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          app_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/applications/{app_uuid}/stop",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostStopServiceApplicationByServiceAndAppUuidRequest" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/applications/{uuid}/destinations/{destination_uuid}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveApplicationDestinationRequest" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/restart", code: 200 })),
-      ).annotate({ identifier: "RestartApplicationByUuidRequest" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          deployment_uuid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestartApplicationByUuidResponse" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/restart", code: 200 })),
-      ).annotate({ identifier: "RestartDatabaseByUuidRequest" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/proxy/restart", code: 200 })),
-      ).annotate({ identifier: "RestartServerProxyRequest" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          mongo_conf: S.optional(S.String),
-          mongo_initdb_root_username: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/mongodb", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseMongodbRequest" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          latest: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/restart", code: 200 })),
-      ).annotate({ identifier: "RestartServiceByUuidRequest" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          database_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/databases/{database_uuid}/restart",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RestartServiceDatabaseByServiceAndDatabaseUuidRequest" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          commit: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/rollback", code: 200 })),
-      ).annotate({ identifier: "RollbackApplicationByUuidRequest" });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          storage_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/applications/{uuid}/storages/{storage_uuid}/backups/run",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RunApplicationStorageBackupRequest" });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          storage_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/databases/{uuid}/storages/{storage_uuid}/backups/run",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RunDatabaseStorageBackupRequest" });
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          delete_unused_volumes: S.optional(S.Boolean),
-          delete_unused_networks: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/docker-cleanup/run", code: 200 })),
-      ).annotate({ identifier: "RunServerDockerCleanupRequest" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          storage_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/storages/{storage_uuid}/backups/run",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RunServiceStorageBackupRequest" });
-  }
-}
-function __c184(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14262,7 +17856,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "SaveServerProxyConfigurationResponse" });
   }
 }
-function __c185(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14293,7 +17887,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "SetApplicationStorageBackupScheduleRequest" });
   }
 }
-function __c186(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14320,7 +17914,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "VolumeBackupScheduleResponse" });
   }
 }
-function __c187(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14351,41 +17945,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "SetDatabaseStorageBackupScheduleRequest" });
   }
 }
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          mysql_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mysql_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mysql_user: S.optional(S.String),
-          mysql_database: S.optional(S.String),
-          mysql_conf: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/mysql", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseMysqlRequest" });
-  }
-}
-function __c189(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14416,7 +17976,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "SetServiceStorageBackupScheduleRequest" });
   }
 }
-function __c190(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14428,7 +17988,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "StartApplicationByUuidRequest" });
   }
 }
-function __c191(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14438,7 +17998,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "StartDatabaseByUuidRequest" });
   }
 }
-function __c192(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14448,7 +18008,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "StartServiceByUuidRequest" });
   }
 }
-function __c193(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14467,7 +18027,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "StartServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c194(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14478,7 +18038,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "StopApplicationByUuidRequest" });
   }
 }
-function __c195(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14489,7 +18049,41 @@ function __c195(j: number): any {
       ).annotate({ identifier: "StopDatabaseByUuidRequest" });
   }
 }
-function __c196(j: number): any {
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          mariadb_conf: S.optional(S.String),
+          mariadb_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mariadb_user: S.optional(S.String),
+          mariadb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mariadb_database: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/mariadb", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseMariadbRequest" });
+  }
+}
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14500,7 +18094,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "StopServiceByUuidRequest" });
   }
 }
-function __c197(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14517,7 +18111,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "StopServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c198(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14531,7 +18125,7 @@ function __c198(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2440, __c305, 0)),
+          noindex_domains: S.optional(__S(8, __c1, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -14582,7 +18176,7 @@ function __c198(j: number): any {
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2153, __c269, 1)),
+          docker_compose_domains: S.optional(__S(2217, __c277, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
@@ -14619,7 +18213,70 @@ function __c198(j: number): any {
       ).annotate({ identifier: "UpdateApplicationByUuidRequest" });
   }
 }
-function __c199(j: number): any {
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          script: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/cloud-init-scripts/{uuid}", code: 200 })),
+      ).annotate({ identifier: "UpdateCloudInitScriptByUuidRequest" });
+  }
+}
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/cloud-tokens/{uuid}", code: 200 })),
+      ).annotate({ identifier: "UpdateCloudTokenByUuidRequest" });
+  }
+}
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/discord", code: 200 })),
+      ).annotate({ identifier: "UpdateCurrentTeamDiscordNotificationsRequest" });
+  }
+}
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/email", code: 200 })),
+      ).annotate({ identifier: "UpdateCurrentTeamEmailNotificationsRequest" });
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/pushover", code: 200 })),
+      ).annotate({ identifier: "UpdateCurrentTeamPushoverNotificationsRequest" });
+  }
+}
+function __c210(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/slack", code: 200 })),
+      ).annotate({ identifier: "UpdateCurrentTeamSlackNotificationsRequest" });
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/telegram", code: 200 })),
+      ).annotate({ identifier: "UpdateCurrentTeamTelegramNotificationsRequest" });
+  }
+}
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14628,13 +18285,9 @@ function __c199(j: number): any {
           project_uuid: S.String,
           environment_name: S.optional(S.String),
           environment_uuid: S.optional(S.String),
-          postgres_user: S.optional(S.String),
-          postgres_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          postgres_db: S.optional(S.String),
-          postgres_initdb_args: S.optional(S.String),
-          postgres_host_auth_method: S.optional(S.String),
-          postgres_conf: S.optional(S.String),
           destination_uuid: S.optional(S.String),
+          mongo_conf: S.optional(S.String),
+          mongo_initdb_root_username: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
           image: S.optional(S.String),
@@ -14649,75 +18302,12 @@ function __c199(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/postgresql", code: 200 })),
-      ).annotate({ identifier: "CreateDatabasePostgresqlRequest" });
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/mongodb", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseMongodbRequest" });
   }
 }
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          script: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/cloud-init-scripts/{uuid}", code: 200 })),
-      ).annotate({ identifier: "UpdateCloudInitScriptByUuidRequest" });
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/cloud-tokens/{uuid}", code: 200 })),
-      ).annotate({ identifier: "UpdateCloudTokenByUuidRequest" });
-  }
-}
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/discord", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentTeamDiscordNotificationsRequest" });
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/email", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentTeamEmailNotificationsRequest" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/pushover", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentTeamPushoverNotificationsRequest" });
-  }
-}
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/slack", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentTeamSlackNotificationsRequest" });
-  }
-}
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/notifications/telegram", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentTeamTelegramNotificationsRequest" });
-  }
-}
-function __c207(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14725,7 +18315,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamWebhookNotificationsRequest" });
   }
 }
-function __c208(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14757,7 +18347,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseBackupRequest" });
   }
 }
-function __c209(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14814,38 +18404,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseByUuidRequest" });
   }
 }
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          redis_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          redis_conf: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/redis", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseRedisRequest" });
-  }
-}
-function __c211(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14856,7 +18415,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "UpdateDestinationByUuidRequest" });
   }
 }
-function __c212(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14872,7 +18431,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "UpdateEnvByApplicationUuidRequest" });
   }
 }
-function __c213(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14887,7 +18446,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "UpdateEnvByDatabaseUuidRequest" });
   }
 }
-function __c214(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14903,7 +18462,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "UpdateEnvByServiceUuidRequest" });
   }
 }
-function __c215(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14922,7 +18481,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentRequest" });
   }
 }
-function __c216(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14934,7 +18493,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentResponse" });
   }
 }
-function __c217(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14952,18 +18511,18 @@ function __c217(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentSharedEnvRequest" });
   }
 }
-function __c218(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          data: __S(1753, __c219, 1),
+          data: __S(1793, __c224, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/envs/bulk", code: 200 })),
       ).annotate({ identifier: "UpdateEnvsByApplicationUuidRequest" });
   }
 }
-function __c219(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14977,10 +18536,44 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvsByApplicationUuidRequestDataItem" });
     case 1:
-      return S.Array(__S(1752, __c219, 0));
+      return S.Array(__S(1792, __c224, 0));
   }
 }
-function __c220(j: number): any {
+function __c225(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          mysql_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mysql_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mysql_user: S.optional(S.String),
+          mysql_database: S.optional(S.String),
+          mysql_conf: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/mysql", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseMysqlRequest" });
+  }
+}
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14993,28 +18586,28 @@ function __c220(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvsByDatabaseUuidRequestDataItem" });
     case 1:
-      return S.Array(__S(1760, __c220, 0));
+      return S.Array(__S(1808, __c226, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          data: __S(1761, __c220, 1),
+          data: __S(1809, __c226, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/databases/{uuid}/envs/bulk", code: 200 })),
       ).annotate({ identifier: "UpdateEnvsByDatabaseUuidRequest" });
   }
 }
-function __c221(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          data: __S(1753, __c219, 1),
+          data: __S(1793, __c224, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}/envs/bulk", code: 200 })),
       ).annotate({ identifier: "UpdateEnvsByServiceUuidRequest" });
   }
 }
-function __c222(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15037,7 +18630,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "UpdateGithubAppRequest" });
   }
 }
-function __c223(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15048,34 +18641,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "UpdateGithubAppResponse" });
   }
 }
-function __c224(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.optional(S.String),
-          environment_uuid: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          sqlite_databases: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/sqlite", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseSqliteRequest" });
-  }
-}
-function __c225(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15096,7 +18662,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "UpdateGitlabAppRequest" });
   }
 }
-function __c226(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15104,7 +18670,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "UpdateInstanceEmailSettingsRequest" });
   }
 }
-function __c227(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15117,14 +18683,14 @@ function __c227(j: number): any {
         identifier: "UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem",
       });
     case 1:
-      return S.Array(__S(1816, __c227, 0));
+      return S.Array(__S(1856, __c232, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           pull_request_id: S.Number.pipe(T.Label()),
           domains: S.optional(S.NullOr(S.String)),
-          docker_compose_domains: S.optional(S.NullOr(__S(1817, __c227, 1))),
+          docker_compose_domains: S.optional(S.NullOr(__S(1857, __c232, 1))),
           force_domain_override: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -15136,7 +18702,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "UpdatePreviewDomainsByPullRequestIdRequest" });
   }
 }
-function __c228(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15149,7 +18715,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "UpdatePrivateKeyRequest" });
   }
 }
-function __c229(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15161,7 +18727,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "UpdateProjectByUuidRequest" });
   }
 }
-function __c230(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15172,7 +18738,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "UpdateProjectSharedEnvRequest" });
   }
 }
-function __c231(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15190,7 +18756,42 @@ function __c231(j: number): any {
       ).annotate({ identifier: "UpdateS3StorageByUuidRequest" });
   }
 }
-function __c232(j: number): any {
+function __c237(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          postgres_user: S.optional(S.String),
+          postgres_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          postgres_db: S.optional(S.String),
+          postgres_initdb_args: S.optional(S.String),
+          postgres_host_auth_method: S.optional(S.String),
+          postgres_conf: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/postgresql", code: 200 })),
+      ).annotate({ identifier: "CreateDatabasePostgresqlRequest" });
+  }
+}
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15213,7 +18814,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "UpdateScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c233(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15236,7 +18837,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "UpdateScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c234(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15263,15 +18864,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "UpdateServerByUuidRequest" });
   }
 }
-function __c235(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/digitalocean", code: 200 })),
-      ).annotate({ identifier: "CreateDigitaloceanServerRequest" });
-  }
-}
-function __c236(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15282,7 +18875,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "UpdateServerCloudflareTunnelRequest" });
   }
 }
-function __c237(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15298,7 +18891,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "UpdateServerDockerCleanupRequest" });
   }
 }
-function __c238(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15317,7 +18910,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "UpdateServerLogDrainsRequest" });
   }
 }
-function __c239(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15332,7 +18925,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "UpdateServerProxyRequest" });
   }
 }
-function __c240(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15357,7 +18950,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "UpdateServerSentinelRequest" });
   }
 }
-function __c241(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15368,7 +18961,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "UpdateServerSharedEnvRequest" });
   }
 }
-function __c242(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15379,14 +18972,45 @@ function __c242(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           connect_to_docker_network: S.optional(S.Boolean),
           docker_compose_raw: S.optional(S.String),
-          urls: S.optional(__S(2281, __c285, 1)),
+          urls: S.optional(__S(2345, __c293, 1)),
           force_domain_override: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}", code: 200 })),
       ).annotate({ identifier: "UpdateServiceByUuidRequest" });
   }
 }
-function __c243(j: number): any {
+function __c248(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          redis_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          redis_conf: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/redis", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseRedisRequest" });
+  }
+}
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15402,7 +19026,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "UpdateStorageByApplicationUuidRequest" });
   }
 }
-function __c244(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15418,7 +19042,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "UpdateStorageByDatabaseUuidRequest" });
   }
 }
-function __c245(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15434,7 +19058,150 @@ function __c245(j: number): any {
       ).annotate({ identifier: "UpdateStorageByServiceUuidRequest" });
   }
 }
-function __c246(j: number): any {
+function __c252(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          name: S.String,
+        }).pipe(T.Http({ method: "PATCH", uri: "/tags/{uuid}", code: 200 })),
+      ).annotate({ identifier: "UpdateTagByUuidRequest" });
+  }
+}
+function __c253(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          env_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PATCH", uri: "/team/envs/{env_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateTeamSharedEnvRequest" });
+  }
+}
+function __c254(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          is_build_server_fallback_enabled: S.Boolean,
+        }).pipe(T.Http({ method: "PATCH", uri: "/team", code: 200 })),
+      ).annotate({ identifier: "UpdateTokenTeamRequest" });
+  }
+}
+function __c255(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports/uploads", code: 200 })),
+      ).annotate({ identifier: "UploadDatabaseImportRequest" });
+  }
+}
+function __c256(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          database_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/databases/{database_uuid}/imports/uploads",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UploadServiceDatabaseImportRequest" });
+  }
+}
+function __c257(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens/{uuid}/validate", code: 200 })),
+      ).annotate({ identifier: "ValidateCloudTokenByUuidRequest" });
+  }
+}
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          valid: S.optional(S.Boolean),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ValidateCloudTokenByUuidResponse" });
+  }
+}
+function __c259(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/s3-storages/{uuid}/validate", code: 200 })),
+      ).annotate({ identifier: "ValidateS3StorageByUuidRequest" });
+  }
+}
+function __c260(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          sqlite_databases: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(8, __c1, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/sqlite", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseSqliteRequest" });
+  }
+}
+function __c261(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          install: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/validate", code: 200 })),
+      ).annotate({ identifier: "ValidateServerByUuidRequest" });
+  }
+}
+function __c262(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/version", code: 200 })),
+      ).annotate({ identifier: "VersionRequest" });
+  }
+}
+function __c263(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/digitalocean", code: 200 })),
+      ).annotate({ identifier: "CreateDigitaloceanServerRequest" });
+  }
+}
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15450,7 +19217,7 @@ function __c246(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2440, __c305, 0)),
+          noindex_domains: S.optional(__S(8, __c1, 0)),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
           ports_mappings: S.optional(S.String),
@@ -15522,120 +19289,12 @@ function __c246(j: number): any {
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/applications/dockerfile", code: 200 })),
       ).annotate({ identifier: "CreateDockerfileApplicationRequest" });
   }
 }
-function __c247(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          name: S.String,
-        }).pipe(T.Http({ method: "PATCH", uri: "/tags/{uuid}", code: 200 })),
-      ).annotate({ identifier: "UpdateTagByUuidRequest" });
-  }
-}
-function __c248(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          env_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "PATCH", uri: "/team/envs/{env_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateTeamSharedEnvRequest" });
-  }
-}
-function __c249(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          is_build_server_fallback_enabled: S.Boolean,
-        }).pipe(T.Http({ method: "PATCH", uri: "/team", code: 200 })),
-      ).annotate({ identifier: "UpdateTokenTeamRequest" });
-  }
-}
-function __c250(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports/uploads", code: 200 })),
-      ).annotate({ identifier: "UploadDatabaseImportRequest" });
-  }
-}
-function __c251(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          database_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/databases/{database_uuid}/imports/uploads",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UploadServiceDatabaseImportRequest" });
-  }
-}
-function __c252(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens/{uuid}/validate", code: 200 })),
-      ).annotate({ identifier: "ValidateCloudTokenByUuidRequest" });
-  }
-}
-function __c253(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          valid: S.optional(S.Boolean),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ValidateCloudTokenByUuidResponse" });
-  }
-}
-function __c254(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/s3-storages/{uuid}/validate", code: 200 })),
-      ).annotate({ identifier: "ValidateS3StorageByUuidRequest" });
-  }
-}
-function __c255(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          install: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/validate", code: 200 })),
-      ).annotate({ identifier: "ValidateServerByUuidRequest" });
-  }
-}
-function __c256(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/version", code: 200 })),
-      ).annotate({ identifier: "VersionRequest" });
-  }
-}
-function __c257(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15651,7 +19310,7 @@ function __c257(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2440, __c305, 0)),
+          noindex_domains: S.optional(__S(8, __c1, 0)),
           ports_mappings: S.optional(S.String),
           health_check_enabled: S.optional(S.Boolean),
           health_check_path: S.optional(S.String),
@@ -15720,12 +19379,12 @@ function __c257(j: number): any {
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/applications/dockerimage", code: 200 })),
       ).annotate({ identifier: "CreateDockerimageApplicationRequest" });
   }
 }
-function __c258(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15741,7 +19400,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "CreateEnvByApplicationUuidRequest" });
   }
 }
-function __c259(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15756,7 +19415,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "CreateEnvByDatabaseUuidRequest" });
   }
 }
-function __c260(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15772,7 +19431,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "CreateEnvByServiceUuidRequest" });
   }
 }
-function __c261(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15783,7 +19442,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c262(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15800,7 +19459,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentSharedEnvRequest" });
   }
 }
-function __c263(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15841,7 +19500,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "CreateGithubAppResponse" });
   }
 }
-function __c264(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15878,7 +19537,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "CreateGitlabAppResponse" });
   }
 }
-function __c265(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -15895,9 +19554,9 @@ function __c265(j: number): any {
           enable_ipv4: S.optional(S.Boolean),
           enable_ipv6: S.optional(S.Boolean),
           enable_backups: S.optional(S.Boolean),
-          hetzner_ssh_key_ids: S.optional(__S(2120, __c265, 0)),
-          hetzner_firewall_ids: S.optional(__S(2120, __c265, 0)),
-          hetzner_network_ids: S.optional(__S(2120, __c265, 0)),
+          hetzner_ssh_key_ids: S.optional(__S(2184, __c273, 0)),
+          hetzner_firewall_ids: S.optional(__S(2184, __c273, 0)),
+          hetzner_network_ids: S.optional(__S(2184, __c273, 0)),
           cloud_init_script: S.optional(S.String),
           instant_validate: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/servers/hetzner", code: 200 })),
@@ -15912,7 +19571,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "CreateHetznerServerResponse" });
   }
 }
-function __c266(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15932,12 +19591,12 @@ function __c266(j: number): any {
         S.Struct({
           message: S.optional(S.String),
           deployment_uuid: S.optional(S.NullOr(S.String)),
-          preview: S.optional(__S(2138, __c267, 2)),
+          preview: S.optional(__S(2202, __c275, 2)),
         }),
       ).annotate({ identifier: "ApplicationPreviewDeployment" });
   }
 }
-function __c267(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15948,7 +19607,7 @@ function __c267(j: number): any {
         }),
       ).annotate({ identifier: "ApplicationPreviewDockerComposeDomainsItem" });
     case 1:
-      return S.Array(__S(2136, __c267, 0));
+      return S.Array(__S(2200, __c275, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15958,7 +19617,7 @@ function __c267(j: number): any {
           git_type: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           domains: S.optional(S.NullOr(S.String)),
-          docker_compose_domains: S.optional(S.NullOr(__S(2137, __c267, 1))),
+          docker_compose_domains: S.optional(S.NullOr(__S(2201, __c275, 1))),
           domain_port_overrides: S.optional(S.NullOr(S.Unknown)),
           docker_registry_image_tag: S.optional(S.NullOr(S.String)),
           last_online_at: S.optional(S.NullOr(S.String)),
@@ -15968,7 +19627,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "ApplicationPreview" });
   }
 }
-function __c268(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15986,7 +19645,7 @@ function __c268(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2440, __c305, 0)),
+          noindex_domains: S.optional(__S(8, __c1, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -16038,7 +19697,7 @@ function __c268(j: number): any {
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2153, __c269, 1)),
+          docker_compose_domains: S.optional(__S(2217, __c277, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
@@ -16074,13 +19733,13 @@ function __c268(j: number): any {
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
           is_preserve_repository_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/private-deploy-key", code: 200 })),
       ).annotate({ identifier: "CreatePrivateDeployKeyApplicationRequest" });
   }
 }
-function __c269(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16093,10 +19752,10 @@ function __c269(j: number): any {
         identifier: "CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsItem",
       });
     case 1:
-      return S.Array(__S(2152, __c269, 0));
+      return S.Array(__S(2216, __c277, 0));
   }
 }
-function __c270(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16114,7 +19773,7 @@ function __c270(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2440, __c305, 0)),
+          noindex_domains: S.optional(__S(8, __c1, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -16166,7 +19825,7 @@ function __c270(j: number): any {
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2153, __c269, 1)),
+          docker_compose_domains: S.optional(__S(2217, __c277, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
@@ -16202,13 +19861,13 @@ function __c270(j: number): any {
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
           is_preserve_repository_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/private-github-app", code: 200 })),
       ).annotate({ identifier: "CreatePrivateGithubAppApplicationRequest" });
   }
 }
-function __c271(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16220,7 +19879,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "CreatePrivateKeyRequest" });
   }
 }
-function __c272(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16231,7 +19890,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c273(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16241,7 +19900,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "CreateProjectSharedEnvRequest" });
   }
 }
-function __c274(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16258,7 +19917,7 @@ function __c274(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2440, __c305, 0)),
+          noindex_domains: S.optional(__S(8, __c1, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -16310,7 +19969,7 @@ function __c274(j: number): any {
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2153, __c269, 1)),
+          docker_compose_domains: S.optional(__S(2217, __c277, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
@@ -16346,13 +20005,13 @@ function __c274(j: number): any {
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
           is_preserve_repository_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/public", code: 200 })),
       ).annotate({ identifier: "CreatePublicApplicationRequest" });
   }
 }
-function __c275(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16369,7 +20028,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "CreateS3StorageRequest" });
   }
 }
-function __c276(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16385,7 +20044,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "CreateScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c277(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16404,7 +20063,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "ScheduledTask" });
   }
 }
-function __c278(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16420,7 +20079,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "CreateScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c279(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16433,7 +20092,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "CreateSecretManagerIntegrationTokenRequest" });
   }
 }
-function __c280(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16452,7 +20111,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "CreateServerRequest" });
   }
 }
-function __c281(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16465,7 +20124,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "CreateServerDestinationRequest" });
   }
 }
-function __c282(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16481,7 +20140,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "Destination" });
   }
 }
-function __c283(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16491,7 +20150,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "CreateServerSharedEnvRequest" });
   }
 }
-function __c284(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16507,15 +20166,15 @@ function __c284(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           docker_compose_raw: S.optional(S.String),
           connect_to_docker_network: S.optional(S.Boolean),
-          urls: S.optional(__S(2281, __c285, 1)),
+          urls: S.optional(__S(2345, __c293, 1)),
           force_domain_override: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2440, __c305, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/services", code: 200 })),
       ).annotate({ identifier: "CreateServiceRequest" });
   }
 }
-function __c285(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16525,17 +20184,17 @@ function __c285(j: number): any {
         }),
       ).annotate({ identifier: "CreateServiceRequestUrlsItem" });
     case 1:
-      return S.Array(__S(2280, __c285, 0));
+      return S.Array(__S(2344, __c293, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
-          domains: S.optional(__S(2440, __c305, 0)),
+          domains: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "CreateServiceResponse" });
   }
 }
-function __c286(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16553,7 +20212,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "CreateServiceDatabaseImportRequest" });
   }
 }
-function __c287(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16569,7 +20228,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "CreateStorageByApplicationUuidRequest" });
   }
 }
-function __c288(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -16577,7 +20236,7 @@ function __c288(j: number): any {
       });
   }
 }
-function __c289(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16593,7 +20252,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "CreateStorageByDatabaseUuidRequest" });
   }
 }
-function __c290(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16610,7 +20269,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "CreateStorageByServiceUuidRequest" });
   }
 }
-function __c291(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16620,7 +20279,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "CreateTagRequest" });
   }
 }
-function __c292(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16633,53 +20292,53 @@ function __c292(j: number): any {
       ).annotate({ identifier: "Tag" });
   }
 }
-function __c293(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           tag_name: S.optional(S.String),
-          tag_names: S.optional(__S(2440, __c305, 0)),
+          tag_names: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/tags", code: 200 })),
       ).annotate({ identifier: "CreateTagByApplicationUuidRequest" });
   }
 }
-function __c294(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2336, __c292, 0));
+      return S.Array(__S(2400, __c300, 0));
     case 1:
-      return S.suspend(() => __S(2352, __c294, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2416, __c302, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateTagByApplicationUuidResponse",
       });
   }
 }
-function __c295(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           tag_name: S.optional(S.String),
-          tag_names: S.optional(__S(2440, __c305, 0)),
+          tag_names: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/tags", code: 200 })),
       ).annotate({ identifier: "CreateTagByDatabaseUuidRequest" });
   }
 }
-function __c296(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           tag_name: S.optional(S.String),
-          tag_names: S.optional(__S(2440, __c305, 0)),
+          tag_names: S.optional(__S(8, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/tags", code: 200 })),
       ).annotate({ identifier: "CreateTagByServiceUuidRequest" });
   }
 }
-function __c297(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16694,7 +20353,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "CreateTeamSharedEnvRequest" });
   }
 }
-function __c298(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16702,7 +20361,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "CreateVultrServerRequest" });
   }
 }
-function __c299(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16716,7 +20375,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c300(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16733,7 +20392,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteApplicationStorageBackupScheduleRequest" });
   }
 }
-function __c301(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16751,7 +20410,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "DeleteBackupConfigurationByUuidRequest" });
   }
 }
-function __c302(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16770,7 +20429,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteBackupExecutionByUuidRequest" });
   }
 }
-function __c303(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16780,7 +20439,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DeleteCloudInitScriptRequest" });
   }
 }
-function __c304(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16790,26 +20449,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DeleteCloudTokenRequest" });
   }
 }
-function __c305(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c306(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(2440, __c305, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          errors: S.optional(__S(2448, __c306, 0)),
-        }),
-      ).annotate({ identifier: "Error422Body" });
-  }
-}
-function __c307(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16823,7 +20463,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c308(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16840,7 +20480,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseStorageBackupScheduleRequest" });
   }
 }
-function __c309(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16850,7 +20490,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c310(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16863,7 +20503,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DeleteEnvByApplicationUuidRequest" });
   }
 }
-function __c311(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16874,7 +20514,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "DeleteEnvByDatabaseUuidRequest" });
   }
 }
-function __c312(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16885,7 +20525,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DeleteEnvByServiceUuidRequest" });
   }
 }
-function __c313(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16902,7 +20542,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c314(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16920,7 +20560,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentSharedEnvRequest" });
   }
 }
-function __c315(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16930,7 +20570,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "DeleteGithubAppRequest" });
   }
 }
-function __c316(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16940,26 +20580,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "DeleteGitlabAppRequest" });
   }
 }
-function __c317(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/destinations", code: 200 })),
-      ).annotate({ identifier: "AddApplicationDestinationRequest" });
-  }
-}
-function __c318(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AddApplicationDestinationResponse",
-      });
-  }
-}
-function __c319(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16976,7 +20597,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "DeletePreviewDeploymentByPullRequestIdRequest" });
   }
 }
-function __c320(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16986,7 +20607,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "DeletePrivateKeyByUuidRequest" });
   }
 }
-function __c321(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16996,7 +20617,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c322(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17007,7 +20628,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DeleteProjectSharedEnvRequest" });
   }
 }
-function __c323(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17017,7 +20638,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "DeleteS3StorageRequest" });
   }
 }
-function __c324(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17034,7 +20655,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "DeleteScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c325(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17051,7 +20672,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "DeleteScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c326(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17063,7 +20684,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "DeleteServerRequest" });
   }
 }
-function __c327(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17074,7 +20695,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "DeleteServerSharedEnvRequest" });
   }
 }
-function __c328(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17089,25 +20710,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c329(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/deployments/{uuid}/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelDeploymentByUuidRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          deployment_uuid: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CancelDeploymentByUuidResponse" });
-  }
-}
-function __c330(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17124,7 +20727,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "DeleteServiceStorageBackupScheduleRequest" });
   }
 }
-function __c331(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17141,7 +20744,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "DeleteStorageByApplicationUuidRequest" });
   }
 }
-function __c332(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17154,7 +20757,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "DeleteStorageByDatabaseUuidRequest" });
   }
 }
-function __c333(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17167,7 +20770,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "DeleteStorageByServiceUuidRequest" });
   }
 }
-function __c334(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17177,7 +20780,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c335(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17190,7 +20793,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "DeleteTagByApplicationUuidRequest" });
   }
 }
-function __c336(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17199,58 +20802,6 @@ function __c336(j: number): any {
           tag_uuid: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}/tags/{tag_uuid}", code: 200 })),
       ).annotate({ identifier: "DeleteTagByDatabaseUuidRequest" });
-  }
-}
-function __c337(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          tag_uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/tags/{tag_uuid}", code: 200 })),
-      ).annotate({ identifier: "DeleteTagByServiceUuidRequest" });
-  }
-}
-function __c338(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          env_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/team/envs/{env_id}", code: 200 })),
-      ).annotate({ identifier: "DeleteTeamSharedEnvRequest" });
-  }
-}
-function __c339(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String.pipe(T.Query())),
-          uuid: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          pr: S.optional(S.Number.pipe(T.Query())),
-          pull_request_id: S.optional(S.Number.pipe(T.Query())),
-          docker_tag: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/deploy", code: 200 })),
-      ).annotate({ identifier: "DeployByTagOrUuidRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          resource_uuid: S.optional(S.String),
-          deployment_uuid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeployByTagOrUuidResponseDeploymentsItem" });
-    case 2:
-      return S.Array(__S(2713, __c339, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          deployments: S.optional(__S(2714, __c339, 2)),
-        }),
-      ).annotate({ identifier: "DeployByTagOrUuidResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

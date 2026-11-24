@@ -1,0 +1,96 @@
+{
+  "description": "Type the two 403s any operation can return. A token whose access is limited to selected projects, environments or resources gets 403 'This API token is limited to selected projects, environments, or resources, so it cannot use this endpoint.' from team-wide endpoints (GET /servers, GET /tags, GET /teams/current). A request the token's role or scope may not perform gets Laravel's policy denial, 403 'You are not authorized to perform this action.' (e.g. POST /projects with a project-scoped token). Both observed live against Coolify v4.7.6 on 2026-11-24 with a token scoped to one project; neither is in the spec. Creating an application or database on the server that runs Coolify with a non-admin token returns 403 'Only an admin can place resources on the server that runs Coolify.' (POST /databases/postgresql, observed the same day).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#TokenScopeForbidden",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API token is limited to selected projects, environments or resources and cannot use this team-wide endpoint.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "limited to selected projects"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#ActionNotAuthorized",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The token may not perform this action (Coolify's policy check), e.g. creating a project with a project-scoped token.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "not authorized to perform this action"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CoolifyHostRequiresAdmin",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Only a team admin may place applications, databases or services on the server that runs Coolify itself.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Only an admin can place resources on the server that runs Coolify"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#Coolify/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.coolify.api#TokenScopeForbidden"
+        },
+        {
+          "target": "com.coolify.api#ActionNotAuthorized"
+        },
+        {
+          "target": "com.coolify.api#CoolifyHostRequiresAdmin"
+        }
+      ]
+    }
+  ]
+}
